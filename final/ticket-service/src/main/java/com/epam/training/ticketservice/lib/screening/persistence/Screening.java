@@ -1,6 +1,10 @@
 package com.epam.training.ticketservice.lib.screening.persistence;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,11 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.UniqueConstraint;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(
-        name = "screening"
-        //TODO how to figure out names? // uniqueConstraints = { @UniqueConstraint(columnNames = "baseScreening") }
-        )
+        name = "screening",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "alternate_pk", columnNames = {"MOVIE_TITLE", "startTime", "ROOM_NAME"})
+        })
 public class Screening {
 
     /**

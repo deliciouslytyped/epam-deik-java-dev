@@ -1,6 +1,9 @@
-package com.epam.training.ticketservice.lib.pricing.persistence;
+package com.epam.training.ticketservice.lib.pricing.persistence.base;
 
+import com.epam.training.ticketservice.lib.pricing.persistence.Surcharge;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class SurchargeMap {

@@ -79,6 +79,9 @@ and normal users have the additional capability as above of creating bookings (b
 #### Tests
 - We dont add jacoco reporting because we can look at the result in intellij?
   - can right click on the tests/java directory and then "run all tests with coverage"
+#### SQL / JPA / Hibernate
+- If you get weird errors make sure you arent using any reserved words as field names. The ORM dialect should really take care of this. -_-
+- Column name processing (for constraints?) is weird, for columns inline and @Embeddable in the class, you have to use the inline column name, but for things like foreign keys that get swapped in for entities, (?) you have to use the database name
 #### Misc
 - Some hibernate back-and-forth https://news.ycombinator.com/item?id=26772550
 - git

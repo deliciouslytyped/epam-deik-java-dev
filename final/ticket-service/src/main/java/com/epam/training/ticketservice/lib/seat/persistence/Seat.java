@@ -1,12 +1,19 @@
 package com.epam.training.ticketservice.lib.seat.persistence;
 
 import com.epam.training.ticketservice.lib.room.persistence.Room;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class Seat implements Serializable {
     /* See Reservation
@@ -15,6 +22,6 @@ public class Seat implements Serializable {
     public static final String[] columnNames = {"row", "col"};
     */
 
-    public Integer row;
-    public Integer col;
+    public Integer rowIdx;
+    public Integer colIdx;
 }

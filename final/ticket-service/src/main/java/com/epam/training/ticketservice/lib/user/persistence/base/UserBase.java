@@ -1,6 +1,8 @@
-package com.epam.training.ticketservice.lib.user.model;
+package com.epam.training.ticketservice.lib.user.persistence.base;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,7 +14,9 @@ import javax.persistence.Column;
 
 //TODO make sure the uid sequence is shared
 @Data
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity //TODO needs this, but creates extraneous parent table?
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class UserBase {
     @Id

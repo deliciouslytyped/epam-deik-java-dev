@@ -3,7 +3,9 @@ package com.epam.training.ticketservice.lib.booking.persistence;
 import com.epam.training.ticketservice.lib.reservation.persistence.Reservation;
 import com.epam.training.ticketservice.lib.screening.persistence.Screening;
 import com.epam.training.ticketservice.lib.seat.persistence.Seat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 import javax.persistence.Entity;
@@ -20,6 +22,8 @@ import java.util.Set;
  * Reservations are handled through the reservations relation.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "booking")
 public class Booking {
@@ -32,5 +36,6 @@ public class Booking {
     public Screening screening;
 
     @Column(nullable = false)
-    public Currency paid;
+    //public Currency paid;
+    public Integer paid;
 }

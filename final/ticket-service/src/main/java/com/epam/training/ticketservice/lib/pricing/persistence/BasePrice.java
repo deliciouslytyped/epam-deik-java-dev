@@ -1,8 +1,10 @@
 package com.epam.training.ticketservice.lib.pricing.persistence;
 
-import com.epam.training.ticketservice.lib.db.SingletonEntity;
+import com.epam.training.ticketservice.lib.db.base.SingletonEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -16,9 +18,16 @@ import java.util.Currency;
 //  https://stackoverflow.com/questions/38572566/warning-equals-hashcode-on-lomboks-data-annotation-with-inheritance
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Entity
+@NoArgsConstructor
+@Entity //TODO does this need the annotation since the parent class is a SINGLE_TABLE?
 @DiscriminatorValue("BasePrice")
 public class BasePrice extends SingletonEntity {
     @Column(nullable = false)
-    public Currency basePrice;
+    //public Currency basePrice;
+    public Integer basePrice;
+
+    public BasePrice(Integer basePrice) {
+        super("BasePrice");
+        this.basePrice = basePrice;
+    }
 }
