@@ -4,6 +4,21 @@
 
 ### ER Diagram
 ![](docs/er.png)
+- the core is the movie-screening-room axis the way I put it together
+- a screening is keyed as movie in a room at a given time(per spec)
+- a movie is keyed by title (per specification), and has genre and duration
+- a room is keyed by name (per spec) and has a seating grid size
+- a booking is keyed by the composite screening key, but i add a derived bijection to the screening which is the screeningId
+  so a booking has a screening, and a set of seats
+thats the basic data i guess
+- next to that, comes the pricing stuff. a booking's price should not change when pricing components are changed, so it has the price stored on it
+- price is calculated (by calculating the price of each seat at the sum of) from the singleton value in BasePrice (modifiable), and by adding the room, screening, and movie price components (surcharges)
+- surcharges are keyed by name (per spec) in Surcharge, and have a value
+- the mapping tables attach surcharges to room, movie, spec respectively using their keys
+- so the big gray box is stuff that is calculated into the permanently stored price (this is more a business logic than a DB thing)
+- users can create bookings, so users have a one to many relationship to bookings
+- the user/admin subset of the diagram is that baseusers have a username and a password, but I want to store admin and users in two separate tables so I diagram the commonality as IsA
+and normal users have the additional capability as above of creating bookings (but admins dont) (per spec) (and this is one of the reasons why I decided to split the table)
 
 ### Notes
 
