@@ -1,12 +1,19 @@
 package com.epam.training.ticketservice.lib.room.persistence;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Data;
 
+import javax.persistence.*;
+
+@Data
 @Entity
-@Table(name = "rooms")
+@Table(name = "room")
 public class Room {
     @Id
-    private Long id;
+    private String roomName;
+
+    @Column(nullable = false)
+    private Integer rowCount;
+
+    @Column(nullable = false)
+    private Integer colCount;
 }

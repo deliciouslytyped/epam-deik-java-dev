@@ -5,22 +5,18 @@ import com.epam.training.ticketservice.lib.room.persistence.Room;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Data
 @Embeddable
-@Entity
-@Table(name = "screening")
-public class BaseScreening {
+public class BaseScreening implements Serializable {
 
-    @ManyToOne
+    @OneToOne
     public Room room;
 
-    @ManyToOne
+    @OneToOne
     public Movie movie;
 
     public Instant startTime;
-
-    @Column(nullable = false)
-    public Long screeningId;
 }

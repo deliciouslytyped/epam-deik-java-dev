@@ -3,7 +3,7 @@
 spring:
   profiles:
     group:
-      default: # TODO is there some way to alias this to prod?
+      default:
         # Default to prod (prod-first / secure by default)
         # Docs say last applied property wins; if another profile is activated,
         #  it overrides the individual db config attributes.
@@ -16,7 +16,7 @@ spring:
         - debug
       ci:
         - integration-tests
-        - postgres #TODO yeah?
+        - h2db-dev # Spec says use in-memory db, so we use it.
       debug:
         - debug-sql
       debug-max:
