@@ -1,0 +1,66 @@
+#TODO test and dump config
+# Note/TODO: This can take properties from maven
+spring:
+  profiles:
+    group:
+      default: # TODO is there some way to alias this to prod?
+        # Default to prod (prod-first / secure by default)
+        # Docs say last applied property wins; if another profile is activated,
+        #  it overrides the individual db config attributes.
+        - prod
+      prod:
+        - postgres
+      dev:
+        # TODO TBH you should be developing as close to prod as possible so this should also be postgres?
+        - h2db-dev
+        - debug
+      ci:
+        - integration-tests
+        - postgres #TODO yeah?
+      debug:
+        - debug-sql
+      debug-max:
+        - verbose-max
+        - debug-sql
+---
+### From here it's profile components that are composed above
+spring:
+  config.activate.on-profile: h2db-dev
+  datasource:
+    # Use a file-backed H2 database so that we can inspect it with the intellij DB tools
+    # TODO the correct way to use a path would be to use a runtime path relative to the JAR or such
+    #   (also, this solution ties it strongly to maven?)
+    # TODO have it log the URL to the console
+    url: jdbc:h2:file:@project.build.directory@/cinema;AUTO_SERVER=TRUE
+  jpa:
+    hibernate.ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    # From: https://github.com/amigoscode/spring-data-jpa-course/blob/main/src/main/resources/application.properties
+    show-sql: true
+    properties.hibernate.format_sql: true #TODO check this works
+  h2.console.enabled: true
+---
+spring:
+  config.activate.on-profile: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:9001/cinema
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate.ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+---
+spring:
+  config.activate.on-profile: integration-tests
+  #TODO why do we set this for integration tests?
+  shell.interactive.enabled: false
+---
+spring:
+  config.activate.on-profile: verbose-max
+logging.level.root: DEBUG
+---
+spring:
+  config.activate.on-profile: debug-sql
+  jpa:
+    show-sql: true
+    properties.hibernate.format_sql: true #TODO check this works
