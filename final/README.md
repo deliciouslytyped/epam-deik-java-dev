@@ -2,6 +2,9 @@
 - [Requirements](docs/README-REQUIREMENTS.md)
 - [Plan](docs/Plan.md)
 
+### ER Diagram
+![](docs/er.png)
+
 ### Notes
 
 #### Infra
@@ -12,6 +15,7 @@
   podman run -it --rm -p 127.0.0.1:9001:5432 -e POSTGRES_USERNAME=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=cinema postgres
   ```
 - run `mvn package -Dmaven.test.skip` against `ticket-service` (make sure), to build jar usable for acceptance tests
+  - `mvn package -pl ticket-service -am -Dmaven.test.skip`
   - TODO: is there no easier way to do this?
 #### Maven
 - Spring Boot starters can be found at https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot-starters
@@ -62,7 +66,9 @@
   - can right click on the tests/java directory and then "run all tests with coverage"
 #### Misc
 - Some hibernate back-and-forth https://news.ycombinator.com/item?id=26772550
-
+- git
+  - `git log -p 23-24-tuesday-group..HEAD -- ':(exclude)final/docs/notes-yaml.md'`
+- `mvn clean verify`
 
 ### Reference
 Ezek nem helyettesítik az anyagot de jók ismétlésnek/kiegészítőnek azt hiszem;

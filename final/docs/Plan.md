@@ -47,11 +47,12 @@
     - added spring-boot-starter-security / spring-security-test to dependencied in ticket-service
     - [ ] TODO do we actually need the test thing? 
 - [ ] Do full ER design
-   - [ ] User, movie, room, screening, booking
-   - [ ] Movie, room, screening price components are aggregated to create the final price; previous bookings are unchanged.
+   - [x] User, movie, room, screening, booking
+   - [x] Movie, room, screening price components are aggregated to create the final price; previous bookings are unchanged.
        - Removing price components is not specified by the specification. This makes the design simpler here
          because we don't need to account for foreign key violations on deletions, though arguably this should
          be designed for.
+   - [ ] constraints (nullability, unique constraints, relationships, data types), normalization (anomalies)
 - [ ] Code organization
     - [ ] The basic admin commands seem to follow the same scheme; create an AdminCRUD class or such
         - Movies, rooms, screenings | create, update, delete, list <>s
