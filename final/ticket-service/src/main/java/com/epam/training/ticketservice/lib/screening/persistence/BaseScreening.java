@@ -4,7 +4,8 @@ import com.epam.training.ticketservice.lib.movie.persistence.Movie;
 import com.epam.training.ticketservice.lib.room.persistence.Room;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.time.Instant;
 

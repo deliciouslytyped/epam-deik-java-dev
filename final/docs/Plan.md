@@ -53,6 +53,7 @@
          because we don't need to account for foreign key violations on deletions, though arguably this should
          be designed for.
    - [ ] constraints (nullability, unique constraints, relationships, data types), normalization (anomalies)
+   - [ ] It would have helped to know how to use the ORM properly https://www.baeldung.com/jpa-many-to-many
 - [ ] Code organization
     - [ ] The basic admin commands seem to follow the same scheme; create an AdminCRUD class or such
         - Movies, rooms, screenings | create, update, delete, list <>s

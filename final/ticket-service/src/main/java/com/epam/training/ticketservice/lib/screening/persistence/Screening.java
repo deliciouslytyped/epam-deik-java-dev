@@ -1,12 +1,19 @@
 package com.epam.training.ticketservice.lib.screening.persistence;
 
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(
-        name = "screening",
-        uniqueConstraints = { @UniqueConstraint(columnNames = "baseScreening") })
+        name = "screening"
+        //TODO how to figure out names? // uniqueConstraints = { @UniqueConstraint(columnNames = "baseScreening") }
+        )
 public class Screening {
 
     /**
@@ -18,6 +25,6 @@ public class Screening {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long screeningId;
 
-    @Column(name ="baseScreening", nullable = false)
+    @Column(nullable = false)
     public BaseScreening screening;
 }

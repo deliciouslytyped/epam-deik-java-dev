@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.user.model;
+package com.epam.training.ticketservice.lib.pricing.persistence;
 
 import lombok.Data;
 
@@ -7,21 +7,19 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToOne;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 
-//TODO make sure the uid sequence is shared
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class UserBase {
+public class SurchargeMap {
+    // TODO https://stackoverflow.com/questions/1032486/what-is-the-proper-jpa-mapping-for-id-in-parent-and-unique-sequence-in-base-cla
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    public Long uid;
+    public Long id;
 
-    @Column(nullable = false)
-    public String username;
-
-    @Column(nullable = false)
-    public String password;
+    @ManyToOne
+    public Surcharge surcharge;
 }

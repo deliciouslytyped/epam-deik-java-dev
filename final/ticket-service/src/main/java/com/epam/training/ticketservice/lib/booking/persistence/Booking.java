@@ -5,7 +5,14 @@ import com.epam.training.ticketservice.lib.screening.persistence.Screening;
 import com.epam.training.ticketservice.lib.seat.persistence.Seat;
 import lombok.Data;
 
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToOne;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
 import java.util.Currency;
 import java.util.Set;
 
@@ -22,7 +29,6 @@ public class Booking {
     public Long ticketId;
 
     @ManyToOne
-    @Column(nullable = false)
     public Screening screening;
 
     @Column(nullable = false)

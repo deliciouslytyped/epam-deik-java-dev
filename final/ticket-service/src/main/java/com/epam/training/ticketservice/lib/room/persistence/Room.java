@@ -2,7 +2,10 @@ package com.epam.training.ticketservice.lib.room.persistence;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
 
 @Data
 @Entity
