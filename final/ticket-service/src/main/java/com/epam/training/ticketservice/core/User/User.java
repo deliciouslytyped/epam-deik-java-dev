@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.core;
+package com.epam.training.ticketservice.core.User;
 
 import lombok.Data;
 import lombok.Generated;

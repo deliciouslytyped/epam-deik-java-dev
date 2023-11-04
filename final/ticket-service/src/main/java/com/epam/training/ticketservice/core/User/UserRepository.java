@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.core;
+package com.epam.training.ticketservice.core.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

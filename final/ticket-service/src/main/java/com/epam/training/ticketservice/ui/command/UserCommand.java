@@ -12,8 +12,7 @@ public class UserCommand {
 
 
     @ShellMethod(key = "sign in privileged", value = "Sign in")
-    public String signIn(String username, String password){
-        return username;
+    public String signIn(String username, String password){return username;
     }
 
     @ShellMethod(key = "sign out", value = "Sign out")

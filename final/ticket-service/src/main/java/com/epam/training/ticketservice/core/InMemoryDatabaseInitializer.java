@@ -1,5 +1,7 @@
 package com.epam.training.ticketservice.core;
 
+import com.epam.training.ticketservice.core.User.User;
+import com.epam.training.ticketservice.core.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
