@@ -12,13 +12,13 @@ public class RoomCommand {
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create room", value = "Create a new room.")
-    public String createRoom(String name, int rows, int columns){
+    public String createRoom(String name, int rows, int cols){
         return null;
     }
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "update room", value = "Update a room.")
-    public String updateRoom(String name, int rows, int columns){
+    public String updateRoom(String name, int rows, int cols){
         return null;
     }
 
