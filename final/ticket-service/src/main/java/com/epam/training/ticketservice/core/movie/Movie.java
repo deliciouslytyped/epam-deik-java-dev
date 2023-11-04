@@ -15,12 +15,12 @@ public class Movie {
     @Id
     @GeneratedValue
     private Integer id;
-    private String movieName;
+    private String title;
     private String genre;
     private int length;
 
-    public Movie(String movieName, String genre, int length) {
-        this.movieName = movieName;
+    public Movie(String title, String genre, int length) {
+        this.title = title;
         this.genre = genre;
         this.length = length;
     }

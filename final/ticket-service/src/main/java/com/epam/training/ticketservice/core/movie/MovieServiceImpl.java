@@ -1,6 +1,7 @@
 package com.epam.training.ticketservice.core.movie;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
+
 
     private final MovieRepository movieRepository;
 
@@ -18,7 +20,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void updateMovie(String title, String genre, int length) {
-        Movie movie = movieRepository.findByName(title).get();
+        Movie movie = movieRepository.findByTitle(title).get();
         movie.setGenre(genre);
         movie.setLength(length);
         movieRepository.save(movie);
@@ -26,7 +28,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void deleteMovie(String title) {
-        movieRepository.deleteByName(title);
+        movieRepository.deleteByTitle(title);
     }
 
     @Override

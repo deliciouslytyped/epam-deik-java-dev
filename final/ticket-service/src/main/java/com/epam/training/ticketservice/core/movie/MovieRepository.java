@@ -8,7 +8,7 @@ import java.util.Optional;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Integer> {
 
-    Optional<Movie> findByName(String name);
+    Optional<Movie> findByTitle(String title);
 
-    Long deleteByName(String name);
+    Long deleteByTitle(String title);
 }

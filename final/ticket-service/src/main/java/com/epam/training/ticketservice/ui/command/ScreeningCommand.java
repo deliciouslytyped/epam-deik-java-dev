@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
+import java.util.Date;
 import java.util.List;
 
 @ShellComponent
@@ -17,7 +18,7 @@ public class ScreeningCommand {
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create screening", value = "Create a new screening.")
-    public String createScreening(String movieName, String roomName, String date) {
+    public String createScreening(String movieName, String roomName, Date date) {
         screeningService.createScreening(movieName, roomName, date);
         return movieName + " " + roomName + " " + date + " screening has been created!";
         //if movie and room exists
@@ -27,7 +28,7 @@ public class ScreeningCommand {
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete screening", value = "Delete a screening.")
-    public String deleteScreening(String movieName, String roomName, String date) {
+    public String deleteScreening(String movieName, String roomName, Date date) {
         screeningService.deleteScreening(movieName, roomName, date);
         return movieName + " " + roomName + " " + date + " screening has been updated!";
     }

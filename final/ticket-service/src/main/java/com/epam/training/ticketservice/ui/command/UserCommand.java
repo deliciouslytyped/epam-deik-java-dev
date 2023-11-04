@@ -16,10 +16,22 @@ public class UserCommand {
     private final UserService userService;
 
     @ShellMethod(key = "sign in privileged", value = "Sign in")
-    public String signIn(String username, String password) {
-        return userService.signin(username,password)
+    public String signInPriviliged(String username, String password) {
+        return userService.signInPriviliged(username,password)
                 .map(user -> user + " is signed in!")
                 .orElse("Wrong username or password!");
+    }
+
+    @ShellMethod(key = "sign up", value = "Sign up!")
+    public String signUp(String username, String password){
+        userService.signUp(username,password);
+        return username + " account has been created!";
+    }
+
+    @ShellMethod(key = "sign in", value = "Signing in!")
+    public String signIn(String username,String password){
+        userService.signIn(username,password);
+        return username + " has been signed in!";
     }
 
     @ShellMethod(key = "sign out", value = "Sign out")
