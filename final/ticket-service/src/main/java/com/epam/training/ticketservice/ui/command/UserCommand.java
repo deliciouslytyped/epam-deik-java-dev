@@ -1,10 +1,13 @@
 package com.epam.training.ticketservice.ui.command;
 
 
+import com.epam.training.ticketservice.core.user.User;
 import com.epam.training.ticketservice.core.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+
+import java.util.Optional;
 
 @ShellComponent
 @AllArgsConstructor
@@ -28,8 +31,7 @@ public class UserCommand {
     }
 
     @ShellMethod(key = "describe account", value = "Get account information")
-    public String describe() {
-        //return userService.describe();
-        return null;
+    public Optional<User> describe() {
+        return userService.describe();
     }
 }
