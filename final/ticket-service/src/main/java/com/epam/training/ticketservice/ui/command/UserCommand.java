@@ -25,4 +25,10 @@ public class UserCommand {
     public String describe(){
         return null;
     }
+
+    @ShellMethod(key = "exit", value = "Exit.")
+    public String exit(){
+        return null;
+    }
+
 }
