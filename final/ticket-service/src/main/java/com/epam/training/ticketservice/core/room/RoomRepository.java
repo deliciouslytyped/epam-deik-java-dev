@@ -7,6 +7,8 @@ import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room,Integer> {
+
     Optional<Room> findByName(String name);
+
     Long deleteByName(String name);
 }

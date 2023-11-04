@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface ScreeningRepository extends JpaRepository<Screening,Integer> {
 
     Optional<Screening> findByMovieNameAndRoomNameAndDate(String movieName,String roomName,String date);
-    Long deleteByMovieNameAndRoomNameAndDate(String movieName,String roomName,String Date);
 
+    Long deleteByMovieNameAndRoomNameAndDate(String movieName,String roomName,String date);
 }

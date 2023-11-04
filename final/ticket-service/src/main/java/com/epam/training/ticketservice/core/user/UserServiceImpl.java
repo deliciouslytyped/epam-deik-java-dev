@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private User signedInUser = null;
@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<User> signin(String username, String password) {
         Optional<User> user = userRepository.findByUsernameAndPassword(username,password);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return Optional.empty();
         }
         signedInUser = new User(username,password);

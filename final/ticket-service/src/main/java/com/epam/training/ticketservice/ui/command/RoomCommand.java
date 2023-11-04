@@ -12,31 +12,31 @@ public class RoomCommand {
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create room", value = "Create a new room.")
-    public String createRoom(String name, int rows, int cols){
+    public String createRoom(String name, int rows, int cols) {
         return null;
     }
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "update room", value = "Update a room.")
-    public String updateRoom(String name, int rows, int cols){
+    public String updateRoom(String name, int rows, int cols) {
         return null;
     }
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete room", value = "Delete a room.")
-    public String deleteRoom(String name){
+    public String deleteRoom(String name) {
         return null;
     }
 
     @ShellMethod(key = "list rooms", value = "List the rooms.")
-    public String listRoom(){
+    public String listRoom() {
         return null;
     }
 
 
 
 
-    private Availability isAvailable(){
+    private Availability isAvailable() {
         return isAdmin()
                 ? Availability.available()
                 : Availability.unavailable("You are not an admin!");

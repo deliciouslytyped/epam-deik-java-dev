@@ -7,10 +7,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoomServiceImpl implements RoomService{
+public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
-
 
     @Override
     public void createRoom(String name, int rows, int cols) {

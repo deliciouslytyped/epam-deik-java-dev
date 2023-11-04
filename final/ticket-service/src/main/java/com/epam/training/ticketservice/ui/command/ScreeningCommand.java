@@ -12,7 +12,7 @@ public class ScreeningCommand {
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create screening", value = "Create a new screening.")
-    public String createScreening(String movieName, String roomName, String date){
+    public String createScreening(String movieName, String roomName, String date) {
         //if movie and room exists
         //not createable if there is an overlap screening
         return null;
@@ -20,13 +20,13 @@ public class ScreeningCommand {
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete screening", value = "Delete a screening.")
-    public String deleteScreening(String movieName, String roomName, String date){
+    public String deleteScreening(String movieName, String roomName, String date) {
         return null;
     }
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "list screenings", value = "List the screenings.")
-    public String listScreening(){
+    public String listScreening() {
         return null;
     }
 }
