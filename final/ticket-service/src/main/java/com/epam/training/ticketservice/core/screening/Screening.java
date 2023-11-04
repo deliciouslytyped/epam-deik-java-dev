@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.core;
+package com.epam.training.ticketservice.core.screening;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
