@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.core;
+package com.epam.training.ticketservice.core.movie;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-public class Movies {
+public class Movie {
 
     @Id
     @GeneratedValue
@@ -19,7 +19,7 @@ public class Movies {
     private String genre;
     private int length;
 
-    public Movies(String movieName, String genre, int length) {
+    public Movie(String movieName, String genre, int length) {
         this.movieName = movieName;
         this.genre = genre;
         this.length = length;
