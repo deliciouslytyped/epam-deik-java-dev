@@ -17,8 +17,8 @@ public class ScreeningServiceImpl implements ScreeningService{
     }
 
     @Override
-    public void deleteScreening() {
-
+    public void deleteScreening(String movieName, String roomName,String date) {
+        screeningRepository.deleteByMovieNameAndRoomNameAndDate(movieName,roomName,date);
     }
 
     @Override
