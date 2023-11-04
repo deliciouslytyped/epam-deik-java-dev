@@ -43,7 +43,7 @@ public class MovieCommand {
     }
 
     private Availability isAvailable() {
-        return isAdmin()
+        return isAdmin()//TODO
                 ? Availability.available()
                 : Availability.unavailable("You are not an admin!");
     }
