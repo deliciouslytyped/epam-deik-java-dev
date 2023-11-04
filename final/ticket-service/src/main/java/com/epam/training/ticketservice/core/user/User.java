@@ -1,10 +1,13 @@
-package com.epam.training.ticketservice.core.User;
+package com.epam.training.ticketservice.core.user;
 
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "Users")
@@ -19,7 +22,7 @@ public class User {
     private String username;
     private String password;
 
-    public User(String username,String password){
+    public User(String username,String password) {
         this.username = username;
         this.password = password;
     }
