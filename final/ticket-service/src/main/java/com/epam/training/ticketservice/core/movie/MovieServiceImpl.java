@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +25,8 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public Optional<Movie> deleteMovie(String title) {
-        return Optional.empty();
+    public void deleteMovie(String title) {
+        movieRepository.deleteByName(title);
     }
 
     @Override
