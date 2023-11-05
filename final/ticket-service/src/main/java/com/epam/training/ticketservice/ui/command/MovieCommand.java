@@ -5,6 +5,7 @@ import com.epam.training.ticketservice.core.movie.Movie;
 import com.epam.training.ticketservice.core.movie.MovieService;
 import com.epam.training.ticketservice.core.user.Role;
 import com.epam.training.ticketservice.core.user.User;
+import com.epam.training.ticketservice.core.user.UserDto;
 import com.epam.training.ticketservice.core.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
@@ -53,8 +54,8 @@ public class MovieCommand {
     }
 
     private Availability isAvailable() {
-        Optional<User> user = userService.describe();
-        return user.isPresent() && user.get().getRole() == Role.USER
+        Optional<UserDto> user = userService.describe();
+        return user.isPresent() && user.get().role() == Role.ADMIN
                 ? Availability.available()
                 : Availability.unavailable("You are not an admin!");
     }

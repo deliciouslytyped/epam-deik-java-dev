@@ -1,11 +1,14 @@
 package com.epam.training.ticketservice.ui.command;
 
 
+import com.epam.training.ticketservice.core.user.Role;
 import com.epam.training.ticketservice.core.user.User;
+import com.epam.training.ticketservice.core.user.UserDto;
 import com.epam.training.ticketservice.core.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.util.Optional;
 
@@ -15,10 +18,11 @@ public class UserCommand {
 
     private final UserService userService;
 
+    @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "sign in privileged", value = "Sign in for admins.")
     public String signInPrivileged(String username, String password) {
         return userService.signInPrivileged(username,password)
-                .map(user -> user + " is signed in!")
+                .map(userDto -> userDto + " is signed in!")
                 .orElse("Login failed due to incorrect credentials!");
     }
 
@@ -28,21 +32,32 @@ public class UserCommand {
         return username + " account has been created!";
     }
 
-    @ShellMethod(key = "sign in", value = "Signing in for users.")
+    @ShellMethod(key = "sign in", value = "Sign in for users.")
     public String signIn(String username,String password){
-        userService.signIn(username,password);
-        return username + " has been signed in!";
+        return userService.signIn(username,password)
+                .map(userDto -> userDto + " is signed in!")
+                .orElse("Login failed due to incorrect credentials");
     }
 
     @ShellMethod(key = "sign out", value = "Sign out.")
     public String signOut() {
         return userService.signout()
-                .map(user -> user + " is signed out!")
-                .orElse("You need to login first!");
+                .map(userDto -> userDto + " is signed out!")
+                .orElse("You need to login firstffffffffffff!");
     }
 
     @ShellMethod(key = "describe account", value = "Get account information.")
-    public Optional<User> describe() {
-        return userService.describe();
+    public String describe() {
+        Optional<UserDto> user = userService.describe();
+        if(user.isPresent()){
+            if (user.get().role() == Role.ADMIN) return "Signed in with privileged account " + user.get().username();
+                else if (megNemFoglaltJegyet()) return "Signed in with account " + user.get().username() + "/n" + "You have not booked any tickets yet";
+        }
+        else return "TODO";
+        return null;
+    }
+
+    private boolean megNemFoglaltJegyet() {
+        return true;
     }
 }

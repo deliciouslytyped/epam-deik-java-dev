@@ -4,13 +4,13 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> signInPrivileged(String username, String password);
+    Optional<UserDto> signInPrivileged(String username, String password);
 
-    Optional<User> signIn(String username, String password);
+    Optional<UserDto> signIn(String username, String password);
 
-    Optional<User> signout();
+    Optional<UserDto> signout();
 
-    Optional<User> describe();
+    Optional<UserDto> describe();
 
     void signUp(String username, String password);
 }

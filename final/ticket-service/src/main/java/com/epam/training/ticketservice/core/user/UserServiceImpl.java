@@ -11,37 +11,38 @@ public class UserServiceImpl implements UserService {
 
 
     private final UserRepository userRepository;
-    private User signedInUser = null;
+    private UserDto signedInUser = null;
 
     @Override
-    public Optional<User> signInPrivileged(String username, String password) {
+    public Optional<UserDto> signInPrivileged(String username, String password) {
         Optional<User> user = userRepository.findByUsernameAndPassword(username,password);
         if (user.isEmpty()) {
             return Optional.empty();
         }
-        signedInUser = new User(username,password,Role.ADMIN);
+        signedInUser = new UserDto(username,Role.ADMIN);
         return describe();
     }
 
     @Override
-    public Optional<User> signIn(String username, String password) {
+    public Optional<UserDto> signIn(String username, String password) {
         Optional<User> user = userRepository.findByUsernameAndPassword(username,password);
         if (user.isEmpty()) {
             return Optional.empty();
         }
-        signedInUser = new User(username,password,Role.USER);
+        signedInUser = new UserDto(user.get().getUsername(),user.get().getRole());
+        System.out.println("SIGNIN BE VAGYUNK");
         return describe();
     }
 
     @Override
-    public Optional<User> signout() {
-        Optional<User> prevSignedInUser = describe();
+    public Optional<UserDto> signout() {
+        Optional<UserDto> prevSignedInUser = describe();
         signedInUser = null;
         return prevSignedInUser;
     }
 
     @Override
-    public Optional<User> describe() {
+    public Optional<UserDto> describe() {
         return Optional.ofNullable(signedInUser);
     }
 
