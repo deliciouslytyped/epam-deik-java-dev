@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core;
 
+import com.epam.training.ticketservice.core.user.Role;
 import com.epam.training.ticketservice.core.user.User;
 import com.epam.training.ticketservice.core.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class InMemoryDatabaseInitializer {
 
     @PostConstruct
     public void init() {
-        User admin = new User("admin","admin");
+        User admin = new User("admin","admin", Role.ADMIN);
         userRepository.save(admin);
     }
 }

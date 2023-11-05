@@ -24,4 +24,13 @@ public class Movie {
         this.genre = genre;
         this.length = length;
     }
+
+    @Override
+    public String toString() {
+        return title + " " +
+                "(" + genre +
+                ", " + length +
+                " minutes)";
+
+    }
 }

@@ -43,14 +43,4 @@ public class RoomCommand {
         return roomService.listRoom();
     }
 
-
-    private Availability isAvailable() {
-        return isAdmin()//TODO
-                ? Availability.available()
-                : Availability.unavailable("You are not an admin!");
-    }
-
-    private boolean isAdmin() {
-        return true;
-    }
 }

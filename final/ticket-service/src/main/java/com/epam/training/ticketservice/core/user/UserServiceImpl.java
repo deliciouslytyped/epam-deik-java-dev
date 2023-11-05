@@ -14,12 +14,12 @@ public class UserServiceImpl implements UserService {
     private User signedInUser = null;
 
     @Override
-    public Optional<User> signInPriviliged(String username, String password) {
+    public Optional<User> signInPrivileged(String username, String password) {
         Optional<User> user = userRepository.findByUsernameAndPassword(username,password);
         if (user.isEmpty()) {
             return Optional.empty();
         }
-        signedInUser = new User(username,password);
+        signedInUser = new User(username,password,Role.ADMIN);
         return describe();
     }
 
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         if (user.isEmpty()) {
             return Optional.empty();
         }
-        signedInUser = new User(username,password);
+        signedInUser = new User(username,password,Role.USER);
         return describe();
     }
 
@@ -47,12 +47,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUp(String username, String password) {
-        userRepository.save(new User(username,password));
+        userRepository.save(new User(username,password,Role.USER));
     }
 
-    @Override
-    public void registerUser(String username, String password) {
-        User user = new User(username,password);
-        userRepository.save(user);
-    }
+
 }

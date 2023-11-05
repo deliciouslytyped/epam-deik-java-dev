@@ -3,6 +3,9 @@ package com.epam.training.ticketservice.ui.command;
 
 import com.epam.training.ticketservice.core.movie.Movie;
 import com.epam.training.ticketservice.core.movie.MovieService;
+import com.epam.training.ticketservice.core.user.Role;
+import com.epam.training.ticketservice.core.user.User;
+import com.epam.training.ticketservice.core.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
@@ -10,12 +13,14 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.util.List;
+import java.util.Optional;
 
 @ShellComponent
 @AllArgsConstructor
 public class MovieCommand {
 
     private final MovieService movieService;
+    private final UserService userService;
     //TODO conditions
 
     @ShellMethodAvailability("isAvailable")
@@ -25,12 +30,14 @@ public class MovieCommand {
         return title + " has been created!";
     }
 
+    @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "update movie", value = "Update an existing movie.")
     public String updateMovie(String title, String genre, int length) {
         movieService.updateMovie(title,genre,length);
         return title + "film has been updated!";
     }
 
+    @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete movie", value = "Delete a movie.")
     public String deleteMovie(String title) {
         movieService.deleteMovie(title);
@@ -38,18 +45,18 @@ public class MovieCommand {
     }
 
     @ShellMethod(key = "list movies", value = "List the movies.")
-    public List<Movie> listMovies() {
-        return movieService.listMovies();
+    public String listMovies() {
+        if (movieService.listMovies().isEmpty()) {
+            return "There are no movies at the moment!";
+        }
+        else return movieService.listMovies().stream().toString();
     }
 
     private Availability isAvailable() {
-        return isAdmin()//TODO
+        Optional<User> user = userService.describe();
+        return user.isPresent() && user.get().getRole() == Role.USER
                 ? Availability.available()
                 : Availability.unavailable("You are not an admin!");
-    }
-
-    private boolean isAdmin() {
-        return true;
     }
 
 }
