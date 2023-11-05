@@ -2,6 +2,9 @@ package com.epam.training.ticketservice.ui.command;
 
 import com.epam.training.ticketservice.core.room.Room;
 import com.epam.training.ticketservice.core.room.RoomService;
+import com.epam.training.ticketservice.core.user.Role;
+import com.epam.training.ticketservice.core.user.UserDto;
+import com.epam.training.ticketservice.core.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
@@ -9,6 +12,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.util.List;
+import java.util.Optional;
 
 @ShellComponent
 @AllArgsConstructor
@@ -16,6 +20,7 @@ public class RoomCommand {
     //TODO conditions
 
     private final RoomService roomService;
+    private final UserService userService;
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create room", value = "Create a new room.")
@@ -43,4 +48,11 @@ public class RoomCommand {
         return roomService.listRoom();
     }
 
+
+    private Availability isAvailable() {
+        Optional<UserDto> user = userService.describe();
+        return user.isPresent() && user.get().role() == Role.ADMIN
+                ? Availability.available()
+                : Availability.unavailable("You are not an admin!");
+    }
 }

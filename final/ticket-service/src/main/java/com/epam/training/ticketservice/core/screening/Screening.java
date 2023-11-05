@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 
 @Entity
@@ -18,11 +21,13 @@ public class Screening {
     private Integer id;
     private String movieName;
     private String roomName;
-    private Date date;
+    private LocalDateTime date;
 
-    public Screening(String movieName, String roomName, Date date) {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    public Screening(String movieName, String roomName, String dateTimeString) {
         this.movieName = movieName;
         this.roomName = roomName;
-        this.date = date;
+        this.date = LocalDateTime.parse(dateTimeString,formatter);
     }
 }

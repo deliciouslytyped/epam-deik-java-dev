@@ -1,9 +1,9 @@
 package com.epam.training.ticketservice.core.screening;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,12 +14,12 @@ public class ScreeningServiceImpl implements ScreeningService {
     private final ScreeningRepository screeningRepository;
 
     @Override
-    public void createScreening(String movieName, String roomName, Date date) {
+    public void createScreening(String movieName, String roomName, String date) {
         screeningRepository.save(new Screening(movieName,roomName,date));
     }
 
     @Override
-    public void deleteScreening(String movieName, String roomName,Date date) {
+    public void deleteScreening(String movieName, String roomName,String date) {
         screeningRepository.deleteByMovieNameAndRoomNameAndDate(movieName,roomName,date);
     }
 
