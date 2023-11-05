@@ -31,7 +31,6 @@ public class ScreeningCommand {
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create screening", value = "Create a new screening.")
     public String createScreening(String movieName, String roomName, String date) {
-        System.out.println("megtudta csinálni");
         Screening createScreening = new Screening(movieName,roomName,date);
 
         List<Screening> overlaps = new ArrayList<>();

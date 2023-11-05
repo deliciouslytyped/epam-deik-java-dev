@@ -43,7 +43,7 @@ public class UserCommand {
     public String signOut() {
         return userService.signout()
                 .map(userDto -> userDto + " is signed out!")
-                .orElse("You need to login firstffffffffffff!");
+                .orElse("You need to login first!");
     }
 
     @ShellMethod(key = "describe account", value = "Get account information.")
@@ -51,7 +51,7 @@ public class UserCommand {
         Optional<UserDto> user = userService.describe();
         if(user.isPresent()){
             if (user.get().role() == Role.ADMIN) return "Signed in with privileged account " + user.get().username();
-                else if (megNemFoglaltJegyet()) return "Signed in with account " + user.get().username() + "/n" + "You have not booked any tickets yet";
+                else if (megNemFoglaltJegyet()) return "Signed in with account " + user.get().username() + "\n" + "You have not booked any tickets yet";
         }
         else return "TODO";
         return null;
