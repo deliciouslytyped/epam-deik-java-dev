@@ -3,6 +3,7 @@ package com.epam.training.ticketservice.core.room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public void deleteRoom(String name) {
         roomRepository.deleteByName(name);
     }

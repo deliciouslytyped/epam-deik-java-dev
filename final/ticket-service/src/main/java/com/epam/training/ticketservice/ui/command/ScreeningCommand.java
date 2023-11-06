@@ -35,7 +35,7 @@ public class ScreeningCommand {
 
         List<Screening> overlaps = new ArrayList<>();
         if (movieRepository.findByTitle(movieName).isPresent() && roomRepository.findByName(roomName).isPresent())
-            listScreening()
+            listScreening() //TODO ha üres az kérdéses hogy lefut-e
                     .forEach(screening -> {
                         LocalDateTime screeningStart = screening.getDate();
                         LocalDateTime screeningEnd = screening.getDate().plusMinutes(movieRepository.findByTitle(screening.getMovieName()).get().getLength() + 10);

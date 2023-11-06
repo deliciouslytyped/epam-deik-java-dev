@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
             return Optional.empty();
         }
         signedInUser = new UserDto(user.get().getUsername(),user.get().getRole());
-        System.out.println("SIGNIN BE VAGYUNK");
         return describe();
     }
 

@@ -2,7 +2,6 @@ package com.epam.training.ticketservice.ui.command;
 
 
 import com.epam.training.ticketservice.core.user.Role;
-import com.epam.training.ticketservice.core.user.User;
 import com.epam.training.ticketservice.core.user.UserDto;
 import com.epam.training.ticketservice.core.user.UserService;
 import lombok.AllArgsConstructor;
@@ -22,7 +21,7 @@ public class UserCommand {
     @ShellMethod(key = "sign in privileged", value = "Sign in for admins.")
     public String signInPrivileged(String username, String password) {
         return userService.signInPrivileged(username,password)
-                .map(userDto -> userDto + " is signed in!")
+                .map(userDto -> userDto.username() + " is signed in!")
                 .orElse("Login failed due to incorrect credentials!");
     }
 
@@ -35,14 +34,14 @@ public class UserCommand {
     @ShellMethod(key = "sign in", value = "Sign in for users.")
     public String signIn(String username,String password){
         return userService.signIn(username,password)
-                .map(userDto -> userDto + " is signed in!")
+                .map(userDto -> userDto.username() + " is signed in!")
                 .orElse("Login failed due to incorrect credentials");
     }
 
     @ShellMethod(key = "sign out", value = "Sign out.")
     public String signOut() {
         return userService.signout()
-                .map(userDto -> userDto + " is signed out!")
+                .map(userDto -> userDto.username() + " is signed out!")
                 .orElse("You need to login first!");
     }
 
@@ -53,7 +52,7 @@ public class UserCommand {
             if (user.get().role() == Role.ADMIN) return "Signed in with privileged account " + user.get().username();
                 else if (megNemFoglaltJegyet()) return "Signed in with account " + user.get().username() + "\n" + "You have not booked any tickets yet";
         }
-        else return "TODO";
+        else return "You are not signed in";
         return null;
     }
 
