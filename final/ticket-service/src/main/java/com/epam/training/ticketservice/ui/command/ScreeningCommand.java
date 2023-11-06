@@ -42,8 +42,8 @@ public class ScreeningCommand {
                         LocalDateTime createScreeningStart = createScreening.getDate();
                         LocalDateTime createScreeningEnd = createScreeningStart.plusMinutes(movieRepository.findByTitle(screening.getMovieName()).get().getLength() + 10);
                         if (screening.getRoomName().equals(roomName) &&
-                                (createScreeningStart.isAfter(screeningStart) && (createScreeningStart.isAfter(screeningEnd) || createScreeningStart.isEqual(screeningEnd))) ||
-                                ((createScreeningEnd.isBefore(screeningStart) || createScreeningEnd.isEqual(screeningStart)) && createScreeningEnd.isBefore(screeningEnd)))
+                                !((createScreeningStart.isAfter(screeningStart) && (createScreeningStart.isAfter(screeningEnd) || createScreeningStart.isEqual(screeningEnd))) ||
+                                ((createScreeningEnd.isBefore(screeningStart) || createScreeningEnd.isEqual(screeningStart)) && createScreeningEnd.isBefore(screeningEnd))))
                             overlaps.add(screening);
                     });
         if (!overlaps.isEmpty()) return "There is an overlapping screening";

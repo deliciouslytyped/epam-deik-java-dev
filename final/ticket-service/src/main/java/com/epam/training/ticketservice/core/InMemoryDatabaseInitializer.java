@@ -4,6 +4,8 @@ import com.epam.training.ticketservice.core.movie.Movie;
 import com.epam.training.ticketservice.core.movie.MovieRepository;
 import com.epam.training.ticketservice.core.room.Room;
 import com.epam.training.ticketservice.core.room.RoomRepository;
+import com.epam.training.ticketservice.core.screening.Screening;
+import com.epam.training.ticketservice.core.screening.ScreeningRepository;
 import com.epam.training.ticketservice.core.user.Role;
 import com.epam.training.ticketservice.core.user.User;
 import com.epam.training.ticketservice.core.user.UserRepository;
@@ -20,6 +22,7 @@ public class InMemoryDatabaseInitializer {
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
     private final RoomRepository roomRepository;
+    private final ScreeningRepository screeningRepository;
 
 
     @PostConstruct
@@ -30,5 +33,7 @@ public class InMemoryDatabaseInitializer {
         movieRepository.save(cars);
         Room szoba = new Room("szoba",10,10);
         roomRepository.save(szoba);
+        Screening screening = new Screening("Cars","szoba","2003-01-29 16:00");
+        screeningRepository.save(screening);
     }
 }
