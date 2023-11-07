@@ -1,6 +1,7 @@
 package com.epam.training.ticketservice.ui.command;
 
 import com.epam.training.ticketservice.core.movie.MovieRepository;
+import com.epam.training.ticketservice.core.movie.MovieService;
 import com.epam.training.ticketservice.core.room.RoomRepository;
 import com.epam.training.ticketservice.core.screening.Screening;
 import com.epam.training.ticketservice.core.screening.ScreeningService;
@@ -26,6 +27,7 @@ public class ScreeningCommand {
     private final ScreeningService screeningService;
     private final UserService userService;
     private final MovieRepository movieRepository;
+    private final MovieService movieService;
     private final RoomRepository roomRepository;
 
     @ShellMethodAvailability("isAvailable")
@@ -63,7 +65,11 @@ public class ScreeningCommand {
 
     @ShellMethod(key = "list screenings", value = "List the screenings.")
     public List<Screening> listScreening() {
-        return screeningService.listScreening();
+        if (screeningService.listScreening().isEmpty()) {
+            System.out.println("There are no screenings at the moment");
+        }
+        else return screeningService.listScreening();
+        return null;
     }
 
     private Availability isAvailable() {

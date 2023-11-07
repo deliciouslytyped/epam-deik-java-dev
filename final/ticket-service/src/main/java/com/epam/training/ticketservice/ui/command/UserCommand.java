@@ -22,7 +22,7 @@ public class UserCommand {
     public String signInPrivileged(String username, String password) {
         return userService.signInPrivileged(username,password)
                 .map(userDto -> userDto.username() + " is signed in!")
-                .orElse("Login failed due to incorrect credentials!");
+                .orElse("Login failed due to incorrect credentials");
     }
 
     @ShellMethod(key = "sign up", value = "Sign up.")
@@ -51,9 +51,9 @@ public class UserCommand {
         if(user.isPresent()){
             if (user.get().role() == Role.ADMIN) return "Signed in with privileged account " + user.get().username();
                 else if (megNemFoglaltJegyet()) return "Signed in with account " + user.get().username() + "\n" + "You have not booked any tickets yet";
+                    else return "Signed in with account " + user.get().username() + "\n" + "Your previous bookings are";//TODO KILISTÁZNI A USER BOOKINGJAIT
         }
         else return "You are not signed in";
-        return null;
     }
 
     private boolean megNemFoglaltJegyet() {

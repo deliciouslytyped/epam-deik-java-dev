@@ -45,7 +45,11 @@ public class RoomCommand {
 
     @ShellMethod(key = "list rooms", value = "List the rooms.")
     public List<Room> listRoom() {
-        return roomService.listRoom();
+        if (roomService.listRoom().isEmpty()) {
+            System.out.println("There are no rooms at the moment");
+        }
+        else return roomService.listRoom();
+        return null;
     }
 
 

@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core.screening;
 
+import com.epam.training.ticketservice.core.movie.MovieService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Date;
 
 @Entity
 @Data
@@ -29,5 +28,14 @@ public class Screening {
         this.movieName = movieName;
         this.roomName = roomName;
         this.date = LocalDateTime.parse(dateTimeString,formatter);
+    }
+
+    @Override
+    public String toString() {
+        return "\nScreening{" +
+                "movieName='" + movieName + '\'' +
+                ", roomName='" + roomName + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

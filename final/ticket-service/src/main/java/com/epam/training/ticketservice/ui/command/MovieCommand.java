@@ -28,29 +28,30 @@ public class MovieCommand {
     @ShellMethod(key = "create movie", value = "Create a new movie.")
     public String createMovie(String title, String genre, int length) {
         movieService.createMovie(title, genre, length);
-        return title + " has been created!";
+        return title + " movie has been created!";
     }
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "update movie", value = "Update an existing movie.")
     public String updateMovie(String title, String genre, int length) {
         movieService.updateMovie(title,genre,length);
-        return title + "film has been updated!";
+        return title + " movie has been updated!";
     }
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete movie", value = "Delete a movie.")
     public String deleteMovie(String title) {
         movieService.deleteMovie(title);
-        return title + " has been deleted!";
+        return title + " movie has been deleted!";
     }
 
     @ShellMethod(key = "list movies", value = "List the movies.")
-    public String listMovies() {
+    public List<Movie> listMovies() {
         if (movieService.listMovies().isEmpty()) {
-            return "There are no movies at the moment!";
+            System.out.println("There are no movies at the moment");
         }
-        else return movieService.listMovies().stream().toString();
+        else return movieService.listMovies();
+        return null;
     }
 
     private Availability isAvailable() {

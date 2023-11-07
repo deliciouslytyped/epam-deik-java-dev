@@ -1,6 +1,7 @@
 package com.epam.training.ticketservice.core.movie;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieService {
 
@@ -11,4 +12,6 @@ public interface MovieService {
     void deleteMovie(String title);
 
     List<Movie> listMovies();
+
+    Optional<Movie> findMovie(String title);
 }
