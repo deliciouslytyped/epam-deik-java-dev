@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,11 @@ public class RoomServiceImpl implements RoomService {
     @Transactional
     public void deleteRoom(String name) {
         roomRepository.deleteByName(name);
+    }
+
+    @Override
+    public Optional<Room> findRoom(String name) {
+        return roomRepository.findByName(name);
     }
 
     @Override

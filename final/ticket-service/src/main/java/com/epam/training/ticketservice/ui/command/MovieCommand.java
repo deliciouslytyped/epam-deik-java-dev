@@ -15,6 +15,7 @@ import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ShellComponent
 @AllArgsConstructor
@@ -46,11 +47,18 @@ public class MovieCommand {
     }
 
     @ShellMethod(key = "list movies", value = "List the movies.")
-    public List<Movie> listMovies() {
+    public String listMovies() {
         if (movieService.listMovies().isEmpty()) {
             System.out.println("There are no movies at the moment");
         }
-        else return movieService.listMovies();
+        else {
+            String result = movieService.listMovies().stream().map(movie ->
+                            movie.getTitle() + " (" + movie.getGenre() +
+                            ", " + movie.getLength() + " minutes)")
+                    .collect(Collectors.joining("\n"));
+
+            return result;
+        }
         return null;
     }
 

@@ -29,13 +29,4 @@ public class Screening {
         this.roomName = roomName;
         this.date = LocalDateTime.parse(dateTimeString,formatter);
     }
-
-    @Override
-    public String toString() {
-        return "\nScreening{" +
-                "movieName='" + movieName + '\'' +
-                ", roomName='" + roomName + '\'' +
-                ", date=" + date +
-                '}';
-    }
 }

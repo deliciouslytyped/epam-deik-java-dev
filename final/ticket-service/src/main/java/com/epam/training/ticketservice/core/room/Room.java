@@ -24,13 +24,4 @@ public class Room {
         this.rows = rows;
         this.cols = cols;
     }
-
-    @Override
-    public String toString() {
-        return "Room " + name +
-                " with " + rows * cols +
-                " seats, " + rows +
-                " rows and " +
-                cols + " columns";
-    }
 }

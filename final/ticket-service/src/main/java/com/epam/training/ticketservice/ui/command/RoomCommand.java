@@ -13,6 +13,7 @@ import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ShellComponent
 @AllArgsConstructor
@@ -44,11 +45,21 @@ public class RoomCommand {
     }
 
     @ShellMethod(key = "list rooms", value = "List the rooms.")
-    public List<Room> listRoom() {
+    public String listRoom() {
         if (roomService.listRoom().isEmpty()) {
             System.out.println("There are no rooms at the moment");
         }
-        else return roomService.listRoom();
+        else {
+            String result = roomService.listRoom().stream().map(room ->
+                    "Room " + room.getName() + " with " +
+                    room.getCols() * room.getRows() +
+                    " seats, " + room.getRows() +
+                    " rows and " + room.getCols() + " columns"
+                    )
+                    .collect(Collectors.joining("\n"));
+
+            return result;
+        }
         return null;
     }
 

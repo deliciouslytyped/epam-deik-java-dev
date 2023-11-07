@@ -3,14 +3,16 @@ package com.epam.training.ticketservice.core.room;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RoomService {
 
-    public void createRoom(String name, int rows, int cols);
+    void createRoom(String name, int rows, int cols);
 
-    public void updateRoom(String name, int rows, int cols);
+    void updateRoom(String name, int rows, int cols);
 
-    public void deleteRoom(String name);
+    void deleteRoom(String name);
+    Optional<Room> findRoom(String name);
 
-    public List<Room> listRoom();
+    List<Room> listRoom();
 }

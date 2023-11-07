@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +23,11 @@ public class ScreeningServiceImpl implements ScreeningService {
     public void deleteScreening(String movieName, String roomName,String date) {
         Screening screening = new Screening(movieName,roomName,date);
         screeningRepository.deleteByMovieNameAndRoomNameAndDate(movieName,roomName,screening.getDate());
+    }
+
+    @Override
+    public Optional<Screening> findScreening(String movieName, String roomName, String date) {
+        return screeningRepository.findByMovieNameAndRoomNameAndDate(movieName, roomName, date);
     }
 
     @Override

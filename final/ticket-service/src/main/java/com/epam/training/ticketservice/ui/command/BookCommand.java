@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.ui.command;
 
+import com.epam.training.ticketservice.core.book.Book;
 import com.epam.training.ticketservice.core.book.BookService;
 
 import com.epam.training.ticketservice.core.user.Role;
@@ -26,8 +27,13 @@ public class BookCommand {
     @ShellMethod(key = "book", value = "Book a screening.")
     public String book(String movieName, String roomName, String date, List<Integer> seats){
         bookService.createBook(movieName,roomName,date,seats);
-        int price = seats.size() * 1500;
-        return "Seats booked: " + seats + "; the price for this booking is " + price + " HUF";
+        return "Seats booked: " + seats + "; the price for this booking is " + seats.size() * bookService.getBasePrice() + " HUF";
+    }
+
+    @ShellMethod(key = "update base price",value = "Updates the base price")
+    public String updateBasePrice(int price){
+        bookService.updateBasePrice(price);
+        return "Base price updated to " + price;
     }
 
     private Availability isAdmin() {
