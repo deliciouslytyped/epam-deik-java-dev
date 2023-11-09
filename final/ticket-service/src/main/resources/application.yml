@@ -13,4 +13,4 @@ spring:
       history:
         enabled: false
       stacktrace:
-        enabled: false
+        enabled: true
