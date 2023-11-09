@@ -4,12 +4,12 @@ import com.epam.training.ticketservice.model.Movie;
 import lombok.Getter;
 
 @Getter
-public class MovieDTO {
+public class MovieDto {
     private final String title;
     private final String category;
     private final int length;
 
-    public MovieDTO(Movie dao) {
+    public MovieDto(Movie dao) {
         this.title = dao.getTitle();
         this.category = dao.getCategory();
         this.length = dao.getLength();

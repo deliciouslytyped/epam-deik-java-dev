@@ -7,7 +7,7 @@ import java.util.function.Function;
 /**
  * Rust inspired Results.<br>
  *
- * Contains either the result of an operation, or the occurred error during the operation.
+ * <p>Contains either the result of an operation, or the occurred error during the operation.</p>
  *
  * @param <T> result type
  * @param <E> error type
@@ -28,16 +28,24 @@ public sealed interface Result<T, E extends Exception> permits Result.Ok, Result
     E error();
 
     /**
+     * Determines if the result is {@link Ok}.
+     *
      * @return {@code true} if this {@link Result} indicates a success
      */
     boolean isOk();
 
     /**
+     * Determines if the result is {@link Err}.
+     *
      * @return {@code true} if this {@link Result} indicates an error
      */
     boolean isErr();
 
     /**
+     * Retrieves the state of this result.
+     *
+     * <p>The main purpose of this is to allow switching on the {@link Result}.</p>
+     *
      * @return the State of the result
      */
     State state();
@@ -50,14 +58,22 @@ public sealed interface Result<T, E extends Exception> permits Result.Ok, Result
      * Creates a {@link Result} indicating a success, containing the resulting object.
      *
      * @param result The object
+     * @param <T> result type
+     * @param <E> error type
      * @return A successful result.
-     * @param <T>
-     * @param <E>
      */
     static <T, E extends Exception> Result<T, E> ok(T result) {
         return new Ok<>(result);
     }
 
+    /**
+     * Creates a {@link Result} indicating a failure, containing the source exception.
+     *
+     * @param exception The error
+     * @param <T> result type
+     * @param <E> error type
+     * @return A failed result.
+     */
     static <T, E extends Exception> Result<T, E> err(E exception) {
         return new Err<>(exception);
     }

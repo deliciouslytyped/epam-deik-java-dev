@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service.impl;
 
-import com.epam.training.ticketservice.dto.ScreeningDTO;
+import com.epam.training.ticketservice.dto.ScreeningDto;
 import com.epam.training.ticketservice.exception.AlreadyExistsException;
 import com.epam.training.ticketservice.exception.NotFoundException;
 import com.epam.training.ticketservice.exception.OperationException;
@@ -24,18 +24,22 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     @Override
     public Result<?, OperationException> createScreening(String movie, String room, LocalDateTime start) {
-        if (repository.existsByMovieTitleAndRoomNameAndStartTime(movie, room, start)) return Result.err(new AlreadyExistsException("Screening"));
+        if (repository.existsByMovieTitleAndRoomNameAndStartTime(movie, room, start)) {
+            return Result.err(new AlreadyExistsException("Screening"));
+        }
         return Result.ok(null);
     }
 
     @Override
     public Result<?, OperationException> deleteScreening(String movie, String room, LocalDateTime start) {
-        if (!repository.existsByMovieTitleAndRoomNameAndStartTime(movie, room, start)) return Result.err(new NotFoundException("Screening"));
+        if (!repository.existsByMovieTitleAndRoomNameAndStartTime(movie, room, start)) {
+            return Result.err(new NotFoundException("Screening"));
+        }
         return Result.ok(null);
     }
 
     @Override
-    public Result<List<ScreeningDTO>, OperationException> listScreenings() {
-        return Result.ok(repository.findAll().stream().map(ScreeningDTO::new).toList());
+    public Result<List<ScreeningDto>, OperationException> listScreenings() {
+        return Result.ok(repository.findAll().stream().map(ScreeningDto::new).toList());
     }
 }

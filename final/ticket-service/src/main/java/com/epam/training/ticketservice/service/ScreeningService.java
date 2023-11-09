@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.dto.ScreeningDTO;
+import com.epam.training.ticketservice.dto.ScreeningDto;
 import com.epam.training.ticketservice.exception.OperationException;
 import com.epam.training.ticketservice.util.Result;
 
@@ -13,5 +13,5 @@ public interface ScreeningService {
 
     Result<?, OperationException> deleteScreening(String movie, String room, LocalDateTime start);
 
-    Result<List<ScreeningDTO>, OperationException> listScreenings();
+    Result<List<ScreeningDto>, OperationException> listScreenings();
 }

@@ -4,12 +4,12 @@ import com.epam.training.ticketservice.model.Room;
 import lombok.Getter;
 
 @Getter
-public class RoomDTO {
+public class RoomDto {
     private final String name;
     private final int rows;
     private final int columns;
 
-    public RoomDTO(Room dao) {
+    public RoomDto(Room dao) {
         this.name = dao.getName();
         this.rows = dao.getRows();
         this.columns = dao.getColumns();

@@ -28,7 +28,8 @@ public class PricingCommands extends PrivilegedCommands {
         return "";
     }
 
-    @ShellMethod(key = "attach price component to screening", value = "Usage: <component name> <movie title> <room name> <start time>")
+    @ShellMethod(key = "attach price component to screening",
+            value = "Usage: <component name> <movie title> <room name> <start time>")
     public String attachToScreening(String name, String screening) {
         return "";
     }

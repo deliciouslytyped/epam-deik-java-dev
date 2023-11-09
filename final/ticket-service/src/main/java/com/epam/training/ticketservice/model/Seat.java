@@ -9,7 +9,9 @@ public record Seat(int row, int column) {
         var result = new ArrayList<Seat>();
         var seats = source.split("\\s+");
         for (var seat : seats) {
-            if (seat.isBlank()) continue;
+            if (seat.isBlank()) {
+                continue;
+            }
             var data = seat.split(":");
             result.add(new Seat(Integer.parseInt(data[0]), Integer.parseInt(data[1])));
         }

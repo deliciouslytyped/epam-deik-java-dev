@@ -30,8 +30,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             var result = authManager.authenticate(auth);
             var hasAdmin = result.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-            if (privileged && !hasAdmin || !privileged && hasAdmin)
+            if (privileged && !hasAdmin || !privileged && hasAdmin) {
                 throw new BadCredentialsException("huhh?!");
+            }
             SecurityContextHolder.getContext().setAuthentication(result);
             return Result.ok(null);
         } catch (AuthenticationException e) {

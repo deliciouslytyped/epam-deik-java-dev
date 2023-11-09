@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class BookingDTO {
-    private final UserDTO user;
+public class BookingDto {
+    private final UserDto user;
     private final List<Seat> seats;
 }
