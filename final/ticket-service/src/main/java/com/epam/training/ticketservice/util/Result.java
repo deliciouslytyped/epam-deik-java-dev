@@ -2,6 +2,8 @@ package com.epam.training.ticketservice.util;
 
 import org.jetbrains.annotations.UnknownNullability;
 
+import java.util.function.Function;
+
 /**
  * Rust inspired Results.<br>
  *
@@ -39,6 +41,10 @@ public sealed interface Result<T, E extends Exception> permits Result.Ok, Result
      * @return the State of the result
      */
     State state();
+
+    <N> Result<N, E> mapResult(Function<T, N> mapper);
+
+    <N extends Exception> Result<T, N> mapError(Function<E, N> mapper);
 
     /**
      * Creates a {@link Result} indicating a success, containing the resulting object.
@@ -81,6 +87,16 @@ public sealed interface Result<T, E extends Exception> permits Result.Ok, Result
         public State state() {
             return State.OK;
         }
+
+        @Override
+        public <N> Result<N, E> mapResult(Function<T, N> mapper) {
+            return new Ok<>(mapper.apply(result));
+        }
+
+        @Override
+        public <N extends Exception> Result<T, N> mapError(Function<E, N> mapper) {
+            throw new IllegalStateException("Tried to map error value on OK result");
+        }
     }
 
     record Err<T, E extends Exception>(E error) implements Result<T, E> {
@@ -103,6 +119,16 @@ public sealed interface Result<T, E extends Exception> permits Result.Ok, Result
         @Override
         public State state() {
             return State.ERROR;
+        }
+
+        @Override
+        public <N> Result<N, E> mapResult(Function<T, N> mapper) {
+            throw new IllegalStateException("Tried to map result value on ERR result");
+        }
+
+        @Override
+        public <N extends Exception> Result<T, N> mapError(Function<E, N> mapper) {
+            return new Err<>(mapper.apply(error));
         }
     }
 }

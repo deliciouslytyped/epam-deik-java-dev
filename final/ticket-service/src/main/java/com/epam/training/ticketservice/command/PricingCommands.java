@@ -6,7 +6,7 @@ import org.springframework.shell.standard.ShellMethod;
 import java.time.LocalDateTime;
 
 @ShellComponent
-public class PricingCommands {
+public class PricingCommands extends PrivilegedCommands {
 
     @ShellMethod(key = "update base price", value = "Usage: <base price>")
     public String updateBasePrice(int price) {

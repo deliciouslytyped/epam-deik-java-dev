@@ -5,12 +5,14 @@ import com.epam.training.ticketservice.util.OutputUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class RoomCommands {
+public class RoomCommands extends PrivilegedCommands {
     private final RoomService service;
 
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "create room", value = "Usage: <name> <number of rows> <number of columns>")
     public String createRoom(String name, int rows, int columns) {
         var res = service.createRoom(name, rows, columns);
@@ -20,6 +22,7 @@ public class RoomCommands {
         };
     }
 
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "update room", value = "Usage: <name> <number of rows> <number of columns>")
     public String updateRoom(String name, int rows, int columns) {
         var res = service.updateRoom(name, rows, columns);
@@ -29,6 +32,7 @@ public class RoomCommands {
         };
     }
 
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "delete room", value = "Usage: <name>")
     public String deleteRoom(String name) {
         var res = service.deleteRoom(name);

@@ -5,14 +5,16 @@ import com.epam.training.ticketservice.util.OutputUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.io.File;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class MovieCommands {
+public class MovieCommands extends PrivilegedCommands {
     private final MovieService service;
 
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "create movie", value = "Usage: <title> <category> <length in minutes>")
     public String createMovie(String title, String category, int length) {
         var res = service.createMovie(title, category, length);
@@ -22,6 +24,7 @@ public class MovieCommands {
         };
     }
 
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "update movie", value = "Usage: <title> <category> <length in minutes>")
     public String updateMovie(String title, String category, int length) {
         var res = service.updateMovie(title, category, length);
@@ -31,6 +34,7 @@ public class MovieCommands {
         };
     }
 
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "delete movie", value = "Usage: <title>")
     public String deleteMovie(String title) {
         var res = service.deleteMovie(title);
