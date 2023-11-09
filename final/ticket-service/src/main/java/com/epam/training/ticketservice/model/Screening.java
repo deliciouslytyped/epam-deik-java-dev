@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
@@ -12,6 +13,8 @@ import java.util.List;
 @Table(name = "screenings")
 @NoArgsConstructor
 public class Screening {
+    public static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
