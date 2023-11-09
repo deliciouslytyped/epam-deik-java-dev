@@ -1,6 +1,7 @@
 package com.epam.training.ticketservice.command;
 
 import com.epam.training.ticketservice.service.MovieService;
+import com.epam.training.ticketservice.util.OutputUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -43,14 +44,7 @@ public class MovieCommands {
     public String listMovies() {
         var res = service.listMovies();
         if (res.isOk()) {
-            var sb = new StringBuilder();
-            if (res.result().isEmpty()) {
-                sb.append("There are no movies at the moment");
-            } else {
-                res.result().forEach(m -> sb.append(m).append("\n"));
-            }
-            sb.setLength(sb.length() - "\n".length());
-            return sb.toString();
+            return OutputUtils.toString(res.result(), "There are no movies at the moment");
         } else {
             return "An error occurred: " + res.error().getMessage();
         }

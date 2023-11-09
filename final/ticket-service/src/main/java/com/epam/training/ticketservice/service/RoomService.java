@@ -1,10 +1,18 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.dto.RoomDTO;
+import com.epam.training.ticketservice.exception.OperationException;
+import com.epam.training.ticketservice.util.Result;
+
+import java.util.List;
+
 public interface RoomService {
 
-    void createRoom(String name, int rows, int columns);
+    Result<?, OperationException> createRoom(String name, int rows, int columns);
 
-    void updateRoom(String name, int rows, int columns);
+    Result<?, OperationException> updateRoom(String name, int rows, int columns);
 
-    void deleteRoom(String name);
+    Result<?, OperationException> deleteRoom(String name);
+
+    Result<List<RoomDTO>, OperationException> listRooms();
 }
