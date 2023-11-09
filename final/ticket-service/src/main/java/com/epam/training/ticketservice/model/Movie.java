@@ -14,6 +14,7 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(unique = true)
     private String title;
     private String category;
     private int length;

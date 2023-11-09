@@ -1,10 +1,23 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.dto.MovieDTO;
+import com.epam.training.ticketservice.exception.OperationException;
+import com.epam.training.ticketservice.util.Result;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
 public interface MovieService {
 
-    void createMovie(String title, String category, int length);
+    @NotNull
+    Result<?, OperationException> createMovie(String title, String category, int length);
 
-    void updateMovie(String title, String category, int length);
+    @NotNull
+    Result<?, OperationException> updateMovie(String title, String category, int length);
 
-    void deleteMovie(String title);
+    @NotNull
+    Result<?, OperationException> deleteMovie(String title);
+
+    @NotNull
+    Result<List<MovieDTO>, OperationException> listMovies();
 }
