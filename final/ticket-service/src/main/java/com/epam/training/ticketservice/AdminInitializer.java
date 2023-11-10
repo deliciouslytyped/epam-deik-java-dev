@@ -15,6 +15,9 @@ public class AdminInitializer {
 
     @PostConstruct
     private void createAdmin() {
-        repository.save(new User("admin", "admin", UserRole.ADMIN));
+        var admin = repository.findByUsername("admin");
+        if (admin.isEmpty()) {
+            repository.save(new User("admin", "admin", UserRole.ADMIN));
+        }
     }
 }
