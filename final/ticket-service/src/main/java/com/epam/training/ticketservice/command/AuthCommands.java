@@ -19,7 +19,7 @@ public class AuthCommands extends PrivilegedCommands {
         var res = service.login(username, password, false);
         return switch (res.state()) {
             case OK -> "Sign in successful";
-            case ERROR -> "Failed to sign in: " + res.error().getMessage();
+            case ERROR -> "Login failed due to incorrect credentials";
         };
     }
 
@@ -29,7 +29,7 @@ public class AuthCommands extends PrivilegedCommands {
         var res = service.login(username, password, true);
         return switch (res.state()) {
             case OK -> "Sign in successful";
-            case ERROR -> "Failed to sign in: " + res.error().getMessage();
+            case ERROR -> "Login failed due to incorrect credentials";
         };
     }
 
