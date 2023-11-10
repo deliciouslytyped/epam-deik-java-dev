@@ -18,6 +18,6 @@ public class ScreeningDto {
     @Override
     public String toString() {
         return movie.getTitle() + " (" + movie.getCategory() + ", " + movie.getLength()
-                + " minutes), screened in room" + roomName + ", at " + startTime;
+                + " minutes), screened in room " + roomName + ", at " + startTime;
     }
 }

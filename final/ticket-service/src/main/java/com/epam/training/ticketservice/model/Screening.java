@@ -21,7 +21,7 @@ import java.util.List;
 @Table(name = "screenings")
 @NoArgsConstructor
 public class Screening {
-    public static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
+    public static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface ScreeningService {
 
-    Result<?, OperationException> createScreening(String movie, String room, LocalDateTime start);
+    Result<?, OperationException> createScreening(String movie, String room, String start);
 
-    Result<?, OperationException> deleteScreening(String movie, String room, LocalDateTime start);
+    Result<?, OperationException> deleteScreening(String movie, String room, String start);
 
     Result<List<ScreeningDto>, OperationException> listScreenings();
 }

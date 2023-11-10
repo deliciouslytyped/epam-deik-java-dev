@@ -16,7 +16,7 @@ public class ScreeningCommands extends PrivilegedCommands {
 
     @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "create screening", value = "Usage: <movie title> <room name> <start time>")
-    public String createScreening(String movie, String room, LocalDateTime start) {
+    public String createScreening(String movie, String room, String start) {
         var res = service.createScreening(movie, room, start);
         return switch (res.state()) {
             case OK -> "Successfully created screening";
@@ -26,7 +26,7 @@ public class ScreeningCommands extends PrivilegedCommands {
 
     @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "delete screening", value = "Usage: <movie title> <room name> <start time>")
-    public String deleteScreening(String movie, String room, LocalDateTime start) {
+    public String deleteScreening(String movie, String room, String start) {
         var res = service.deleteScreening(movie, room, start);
         return switch (res.state()) {
             case OK -> "Successfully deleted screening";
