@@ -39,7 +39,7 @@ public class Screening {
     @OneToMany(mappedBy = "screening")
     private List<Booking> bookings;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "component_id", referencedColumnName = "id")
     private PriceComponent priceComponent;
 

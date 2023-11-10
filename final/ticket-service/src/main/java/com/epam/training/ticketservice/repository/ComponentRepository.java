@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface ComponentRepository extends JpaRepository<PriceComponent, Long> {
 
-    public Optional<PriceComponent> findByName(String name);
+    Optional<PriceComponent> findByName(String name);
+
+    boolean existsByName(String name);
 }
