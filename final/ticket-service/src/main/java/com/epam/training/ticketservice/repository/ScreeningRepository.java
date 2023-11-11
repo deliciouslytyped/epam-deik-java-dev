@@ -14,4 +14,6 @@ public interface ScreeningRepository extends JpaRepository<Screening, Long> {
     Optional<Screening> findByMovieTitleAndRoomNameAndStartTime(String title, String room, LocalDateTime start);
 
     boolean existsByMovieTitleAndRoomNameAndStartTime(String title, String room, LocalDateTime start);
+
+    List<Screening> findAllByRoomName(String roomName);
 }

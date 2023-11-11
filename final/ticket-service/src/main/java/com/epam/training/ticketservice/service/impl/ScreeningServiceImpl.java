@@ -29,15 +29,31 @@ public class ScreeningServiceImpl implements ScreeningService {
         if (screeningRepository.existsByMovieTitleAndRoomNameAndStartTime(movieTitle, roomName, startDate)) {
             return Result.err(new AlreadyExistsException("Screening"));
         }
-        var movie = movieRepository.findByTitle(movieTitle);
-        if (movie.isEmpty()) {
+        var movieOpt = movieRepository.findByTitle(movieTitle);
+        if (movieOpt.isEmpty()) {
             return Result.err(new NotFoundException("Movie"));
         }
-        var room = roomRepository.findByName(roomName);
-        if (room.isEmpty()) {
+        var roomOpt = roomRepository.findByName(roomName);
+        if (roomOpt.isEmpty()) {
             return Result.err(new NotFoundException("Room"));
         }
-        screeningRepository.save(new Screening(movie.get(), room.get(), startDate));
+        var screening = new Screening(movieOpt.get(), roomOpt.get(), startDate);
+
+        var inRoom = screeningRepository.findAllByRoomName(roomName);
+        if (!inRoom.isEmpty()) {
+            for (var other : inRoom) {
+                if (screening.isOverlapping(other, 10)) {
+                    if (screening.isOverlapping(other, 0)) {
+                        return Result.err(new OperationException("There is an overlapping screening"));
+                    } else {
+                        return Result.err(new OperationException(
+                                "This would start in the break period after another screening in this room"));
+                    }
+                }
+            }
+        }
+
+        screeningRepository.save(screening);
         return Result.ok(null);
     }
 

@@ -5,13 +5,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +38,7 @@ public class Screening {
     @Column(nullable = false)
     private LocalDateTime startTime;
 
-    @OneToMany(mappedBy = "screening")
+    @OneToMany(mappedBy = "screening", fetch = FetchType.EAGER)
     private List<Booking> bookings;
 
     @ManyToOne
@@ -49,5 +49,15 @@ public class Screening {
         this.movie = movie;
         this.room = room;
         this.startTime = startTime;
+    }
+
+    public boolean isOverlapping(Screening other, int breakTime) {
+        var start = getStartTime();
+        var end = start.plusMinutes(movie.getLength() + breakTime);
+        var otherStart = other.getStartTime();
+        var otherEnd = otherStart.plusMinutes(other.getMovie().getLength() + breakTime);
+
+        return start.isBefore(otherStart) && end.isAfter(otherStart)
+                || start.isAfter(otherStart) && end.isBefore(otherEnd);
     }
 }

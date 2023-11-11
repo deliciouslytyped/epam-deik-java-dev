@@ -20,7 +20,7 @@ public class ScreeningCommands extends PrivilegedCommands {
         var res = service.createScreening(movie, room, start);
         return switch (res.state()) {
             case OK -> "Successfully created screening";
-            case ERROR -> "Failed to create screening: " + res.error().getMessage();
+            case ERROR -> res.error().getMessage();
         };
     }
 
