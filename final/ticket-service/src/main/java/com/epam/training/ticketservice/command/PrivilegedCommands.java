@@ -10,7 +10,7 @@ public abstract class PrivilegedCommands {
     protected Availability isAdmin() {
         var auth = getAuth();
         if (!(auth instanceof UsernamePasswordAuthenticationToken)) {
-            return Availability.unavailable("You ");
+            return Availability.unavailable("You are not signed in");
         }
         if (auth.getAuthorities().stream().noneMatch(x -> x.getAuthority().equals("ROLE_ADMIN"))) {
             return Availability.unavailable("L bozo");

@@ -34,4 +34,11 @@ public class Booking {
 
     @Column(nullable = false)
     private int price;
+
+    public Booking(User user, Screening screening, String seats, int price) {
+        this.user = user;
+        this.screening = screening;
+        this.seats = seats;
+        this.price = price;
+    }
 }

@@ -15,13 +15,13 @@ public class SeatTests {
 
     @Test
     void testParseInvalidString() {
-        var source = "12:a2";
+        var source = "12,a2";
         assertThatThrownBy(() -> Seat.fromString(source)).isInstanceOf(NumberFormatException.class);
     }
 
     @Test
     void testParseSingleSeat() {
-        var source = "12:32";
+        var source = "12,32";
         var result = Seat.fromString(source);
         assertThat(result).hasSize(1);
         assertThat(result).containsExactly(new Seat(12, 32));

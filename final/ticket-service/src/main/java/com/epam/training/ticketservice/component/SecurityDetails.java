@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.service.impl;
+package com.epam.training.ticketservice.component;
 
 import com.epam.training.ticketservice.model.UserRole;
 import com.epam.training.ticketservice.repository.UserRepository;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class SecurityService implements UserDetailsService {
+public class SecurityDetails implements UserDetailsService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
 

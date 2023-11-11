@@ -12,9 +12,18 @@ public record Seat(int row, int column) {
             if (seat.isBlank()) {
                 continue;
             }
-            var data = seat.split(":");
+            var data = seat.split(",");
             result.add(new Seat(Integer.parseInt(data[0]), Integer.parseInt(data[1])));
         }
         return result;
+    }
+
+    public boolean inBounds(int rows, int cols) {
+        return row > 0 && row <= rows && column > 0 && column <= cols;
+    }
+
+    @Override
+    public String toString() {
+        return "("  + row + "," + column + ")";
     }
 }

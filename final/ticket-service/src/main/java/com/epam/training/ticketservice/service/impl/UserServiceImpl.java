@@ -10,6 +10,7 @@ import com.epam.training.ticketservice.repository.UserRepository;
 import com.epam.training.ticketservice.service.UserService;
 import com.epam.training.ticketservice.util.Result;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +19,11 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
     @Override
-    public Result<UserDto, OperationException> getUser(String username) {
-        var user = repository.findByUsername(username);
+    public Result<UserDto, OperationException> getUser(Authentication auth) {
+        if (auth == null) {
+            return Result.err(new NotFoundException("User"));
+        }
+        var user = repository.findByUsername(auth.getName());
         return user.<Result<UserDto, OperationException>>map(value -> Result.ok(new UserDto(value)))
                 .orElseGet(() -> Result.err(new NotFoundException("User")));
     }
