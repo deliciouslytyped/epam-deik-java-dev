@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface MovieService {
 
-    void createMovie(String title, String genre, int length);
+    void createMovie(Movie movie);
 
     void updateMovie(String title, String genre, int length);
 

@@ -9,6 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book,Integer> {
-    Optional<Book> findByMovieNameAndRoomNameAndDateAndSeatsIn(String movieName, String roomName, String date, List<Integer> seats);
+    Optional<Book> findByMovieNameAndRoomNameAndDateAndSeatsIn(String movieName,
+                                                               String roomName,
+                                                               String date,
+                                                               List<Integer> seats);
 
 }

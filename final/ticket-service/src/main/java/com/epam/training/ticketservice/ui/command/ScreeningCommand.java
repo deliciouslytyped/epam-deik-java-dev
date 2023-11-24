@@ -10,12 +10,14 @@ import com.epam.training.ticketservice.core.user.Role;
 import com.epam.training.ticketservice.core.user.UserDto;
 import com.epam.training.ticketservice.core.user.UserService;
 import lombok.AllArgsConstructor;
+import org.jline.utils.Log;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,24 +40,45 @@ public class ScreeningCommand {
 
         List<Screening> overlaps = new ArrayList<>();
         List<Screening> breaks = new ArrayList<>();
-        if (movieService.findMovie(movieName).isPresent() && roomService.findRoom(roomName).isPresent())
-            screeningService.listScreening() //TODO ha üres az kérdéses hogy lefut-e !!!!!!!!!!!!!!!!!!!!!!! ezt ahol kinlódok a új sorba minden listát
+        if (movieService.findMovie(movieName).isPresent() && roomService.findRoom(roomName).isPresent()) {
+            screeningService.listScreening() //TODO ha üres az kérdéses hogy lefut-e
                     .forEach(screening -> {
                         LocalDateTime screeningStart = screening.getDate();
-                        LocalDateTime screeningEnd = screening.getDate().plusMinutes(movieService.findMovie(screening.getMovieName()).get().getLength());
+                        LocalDateTime screeningEnd = screening.getDate()
+                                .plusMinutes(movieService.findMovie(screening.getMovieName())
+                                        .get()
+                                        .getLength());
                         LocalDateTime createScreeningStart = createScreening.getDate();
-                        LocalDateTime createScreeningEnd = createScreeningStart.plusMinutes(movieService.findMovie(screening.getMovieName()).get().getLength());
-                        if (screening.getRoomName().equals(roomName) &&
-                                !((createScreeningStart.isAfter(screeningStart) && (createScreeningStart.isAfter(screeningEnd) || createScreeningStart.isEqual(screeningEnd))) ||
-                                ((createScreeningEnd.isBefore(screeningStart) || createScreeningEnd.isEqual(screeningStart)) && createScreeningEnd.isBefore(screeningEnd))))
+                        LocalDateTime createScreeningEnd = createScreeningStart
+                                .plusMinutes(movieService.findMovie(screening.getMovieName())
+                                        .get()
+                                        .getLength());
+                        if (screening.getRoomName().equals(roomName)
+                                && !((createScreeningStart.isAfter(screeningStart)
+                                && (createScreeningStart.isAfter(screeningEnd)
+                                        || createScreeningStart.isEqual(screeningEnd)))
+                                || ((createScreeningEnd.isBefore(screeningStart)
+                                                || createScreeningEnd.isEqual(screeningStart))
+                                                && createScreeningEnd.isBefore(screeningEnd)))) {
                             overlaps.add(screening);
-                        if (screening.getRoomName().equals(roomName) &&
-                                !((createScreeningStart.isAfter(screeningStart) && (createScreeningStart.isAfter(screeningEnd.plusMinutes(10)) || createScreeningStart.isEqual(screeningEnd.plusMinutes(10)))) ||
-                                        ((createScreeningEnd.plusMinutes(10).isBefore(screeningStart) || createScreeningEnd.plusMinutes(10).isEqual(screeningStart)) && createScreeningEnd.isBefore(screeningEnd))))
+                        }
+                        if (screening.getRoomName().equals(roomName)
+                                && !((createScreeningStart.isAfter(screeningStart)
+                                        && (createScreeningStart.isAfter(screeningEnd.plusMinutes(10))
+                                        || createScreeningStart.isEqual(screeningEnd.plusMinutes(10))))
+                                        || ((createScreeningEnd.plusMinutes(10).isBefore(screeningStart)
+                                        || createScreeningEnd.plusMinutes(10).isEqual(screeningStart))
+                                        && createScreeningEnd.isBefore(screeningEnd)))) {
                             breaks.add(screening);
+                        }
                     });
-        if (!overlaps.isEmpty()) return "There is an overlapping screening";
-        if (!breaks.isEmpty()) return "This would start on the break period after another screening in this room";
+        }
+            if (!overlaps.isEmpty()) {
+            return "There is an overlapping screening";
+        }
+        if (!breaks.isEmpty()) {
+            return "This would start on the break period after another screening in this room";
+        }
         screeningService.createScreening(movieName, roomName, date);
         return movieName + " " + roomName + " " + date + " screening has been created!";
     }
@@ -73,12 +96,11 @@ public class ScreeningCommand {
             System.out.println("There are no screenings at the moment");
         } else {
             String result = screeningService.listScreening().stream().map(screening ->
-                    screening.getMovieName() + "(" +
-                    movieService.findMovie(screening.getMovieName()).get().getGenre() +
-                    ", " + movieService.findMovie(screening.getMovieName()).get().getLength() +
-                    " minutes), screened in room " + screening.getRoomName() + ", at " + screening.getDate())
+                    screening.getMovieName() + "("
+                            + movieService.findMovie(screening.getMovieName()).get().getGenre()
+                            + ", " + movieService.findMovie(screening.getMovieName()).get().getLength()
+                            + " minutes), screened in room " + screening.getRoomName() + ", at " + screening.getFormattedDate())
                     .collect(Collectors.joining("\n"));
-
             return result;
         }
         return null;

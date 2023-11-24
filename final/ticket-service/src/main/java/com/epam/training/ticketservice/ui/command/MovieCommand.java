@@ -25,21 +25,21 @@ public class MovieCommand {
     private final UserService userService;
     //TODO conditions
 
-    @ShellMethodAvailability("isAvailable")
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "create movie", value = "Create a new movie.")
     public String createMovie(String title, String genre, int length) {
-        movieService.createMovie(title, genre, length);
+        movieService.createMovie(new Movie(title,genre,length));
         return title + " movie has been created!";
     }
 
-    @ShellMethodAvailability("isAvailable")
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "update movie", value = "Update an existing movie.")
     public String updateMovie(String title, String genre, int length) {
         movieService.updateMovie(title,genre,length);
         return title + " movie has been updated!";
     }
 
-    @ShellMethodAvailability("isAvailable")
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "delete movie", value = "Delete a movie.")
     public String deleteMovie(String title) {
         movieService.deleteMovie(title);
@@ -50,11 +50,10 @@ public class MovieCommand {
     public String listMovies() {
         if (movieService.listMovies().isEmpty()) {
             System.out.println("There are no movies at the moment");
-        }
-        else {
+        } else {
             String result = movieService.listMovies().stream().map(movie ->
-                            movie.getTitle() + " (" + movie.getGenre() +
-                            ", " + movie.getLength() + " minutes)")
+                            movie.getTitle() + " (" + movie.getGenre()
+                            + ", " + movie.getLength() + " minutes)")
                     .collect(Collectors.joining("\n"));
 
             return result;
@@ -62,7 +61,7 @@ public class MovieCommand {
         return null;
     }
 
-    private Availability isAvailable() {
+    private Availability isAdmin() {
         Optional<UserDto> user = userService.describe();
         return user.isPresent() && user.get().role() == Role.ADMIN
                 ? Availability.available()

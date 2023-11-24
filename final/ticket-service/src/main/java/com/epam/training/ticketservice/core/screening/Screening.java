@@ -2,6 +2,7 @@ package com.epam.training.ticketservice.core.screening;
 
 import com.epam.training.ticketservice.core.movie.MovieService;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -18,7 +19,9 @@ public class Screening {
     @Id
     @GeneratedValue
     private Integer id;
+    @Getter
     private String movieName;
+    @Getter
     private String roomName;
     private LocalDateTime date;
 
@@ -28,5 +31,9 @@ public class Screening {
         this.movieName = movieName;
         this.roomName = roomName;
         this.date = LocalDateTime.parse(dateTimeString,formatter);
+    }
+
+    public String getFormattedDate() {
+        return date.format(formatter);
     }
 }

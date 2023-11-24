@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.ui.command;
 
-import com.epam.training.ticketservice.core.book.Book;
 import com.epam.training.ticketservice.core.book.BookService;
 
 import com.epam.training.ticketservice.core.user.Role;
@@ -12,8 +11,10 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ShellComponent
 @AllArgsConstructor
@@ -25,13 +26,22 @@ public class BookCommand {
 
     @ShellMethodAvailability("isUser")
     @ShellMethod(key = "book", value = "Book a screening.")
-    public String book(String movieName, String roomName, String date, List<Integer> seats){
+    public String book(String movieName, String roomName, String date, String seats_input) {
+
+        List<String> seats = Arrays.asList(seats_input.split(" "));
         bookService.createBook(movieName,roomName,date,seats);
-        return "Seats booked: " + seats + "; the price for this booking is " + seats.size() * bookService.getBasePrice() + " HUF";
+
+        String result = seats.stream().map(seat ->
+                "(" + seat + ")"
+        ).collect(Collectors.joining(", "));
+
+        return "Seats booked: " + result + "; the price for this booking is "
+                + seats.size() * bookService.getBasePrice() + " HUF";
     }
 
+    @ShellMethodAvailability("isAdmin")
     @ShellMethod(key = "update base price",value = "Updates the base price")
-    public String updateBasePrice(int price){
+    public String updateBasePrice(int price) {
         bookService.updateBasePrice(price);
         return "Base price updated to " + price;
     }

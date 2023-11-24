@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.core;
+package com.epam.training.ticketservice.core.configuration;
 
 import com.epam.training.ticketservice.core.movie.Movie;
 import com.epam.training.ticketservice.core.movie.MovieRepository;

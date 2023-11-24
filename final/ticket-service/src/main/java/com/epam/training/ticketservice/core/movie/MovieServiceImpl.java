@@ -15,8 +15,8 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
 
     @Override
-    public void createMovie(String title, String genre, int length) {
-        movieRepository.save(new Movie(title,genre,length));
+    public void createMovie(Movie movie) {
+        movieRepository.save(movie);
     }
 
     @Override

@@ -12,6 +12,7 @@ public interface RoomService {
     void updateRoom(String name, int rows, int cols);
 
     void deleteRoom(String name);
+    
     Optional<Room> findRoom(String name);
 
     List<Room> listRoom();

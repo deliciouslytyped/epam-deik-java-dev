@@ -1,7 +1,6 @@
 package com.epam.training.ticketservice.core.room;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
 
     @Override
-    public void createRoom(String name, int rows, int cols) {
+    public void createRoom(String name, int rows, int cols) {//TODO Room argument
         roomRepository.save(new Room(name,rows,cols));
     }
 

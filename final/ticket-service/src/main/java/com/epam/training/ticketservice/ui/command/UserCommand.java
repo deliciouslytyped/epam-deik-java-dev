@@ -26,13 +26,13 @@ public class UserCommand {
     }
 
     @ShellMethod(key = "sign up", value = "Sign up.")
-    public String signUp(String username, String password){
+    public String signUp(String username, String password) {
         userService.signUp(username,password);
         return username + " account has been created!";
     }
 
     @ShellMethod(key = "sign in", value = "Sign in for users.")
-    public String signIn(String username,String password){
+    public String signIn(String username,String password) {
         return userService.signIn(username,password)
                 .map(userDto -> userDto.username() + " is signed in!")
                 .orElse("Login failed due to incorrect credentials");
@@ -48,12 +48,23 @@ public class UserCommand {
     @ShellMethod(key = "describe account", value = "Get account information.")
     public String describe() {
         Optional<UserDto> user = userService.describe();
-        if(user.isPresent()){
-            if (user.get().role() == Role.ADMIN) return "Signed in with privileged account " + user.get().username();
-                else if (megNemFoglaltJegyet()) return "Signed in with account " + user.get().username() + "\n" + "You have not booked any tickets yet";
-                    else return "Signed in with account " + user.get().username() + "\n" + "Your previous bookings are";//TODO KILISTÁZNI A USER BOOKINGJAIT
+        if(user.isPresent()) {
+            if (user.get().role() == Role.ADMIN) {
+                return "Signed in with privileged account " + user.get().username();
+            } else {
+                if (megNemFoglaltJegyet()) {
+                    return "Signed in with account "
+                            + user.get().username()
+                            + "\n" + "You have not booked any tickets yet";
+                } else {
+                    return "Signed in with account "
+                            + user.get().username()
+                            + "\n" + "Your previous bookings are";//TODO KILISTÁZNI A USER BOOKINGJAIT
+                }
+            }
+        } else {
+            return "You are not signed in";
         }
-        else return "You are not signed in";
     }
 
     private boolean megNemFoglaltJegyet() {
