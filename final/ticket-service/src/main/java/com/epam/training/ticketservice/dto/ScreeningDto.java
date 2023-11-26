@@ -1,9 +1,11 @@
 package com.epam.training.ticketservice.dto;
 
 import com.epam.training.ticketservice.model.Screening;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 public class ScreeningDto {
     private final MovieDto movie;
     private final String roomName;

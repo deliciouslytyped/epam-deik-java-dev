@@ -77,6 +77,7 @@ public class RoomServiceTests {
         var result = roomService.deleteRoom(room.getName());
         assertThat(result.isOk()).isFalse();
         assertThat(result.error()).isInstanceOf(NotFoundException.class);
+        verify(roomRepository, never()).deleteByName(any());
     }
 
     @Test
@@ -98,5 +99,6 @@ public class RoomServiceTests {
         var result = roomService.updateRoom(room.getName(), room.getRows(), room.getColumns());
         assertThat(result.isOk()).isFalse();
         assertThat(result.error()).isInstanceOf(NotFoundException.class);
+        verify(roomRepository, never()).deleteByName(any());
     }
 }
