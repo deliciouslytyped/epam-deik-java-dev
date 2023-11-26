@@ -1,9 +1,11 @@
 package com.epam.training.ticketservice.dto;
 
 import com.epam.training.ticketservice.model.Movie;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 public class MovieDto {
     private final String title;
     private final String category;
