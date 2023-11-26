@@ -1,17 +1,18 @@
 package com.epam.training.ticketservice.test.command;
 
 import com.epam.training.ticketservice.component.BasePriceHolder;
-import com.epam.training.ticketservice.model.PriceComponent;
 import com.epam.training.ticketservice.model.Screening;
 import com.epam.training.ticketservice.repository.ComponentRepository;
 import com.epam.training.ticketservice.repository.MovieRepository;
 import com.epam.training.ticketservice.repository.RoomRepository;
 import com.epam.training.ticketservice.repository.ScreeningRepository;
-import org.junit.jupiter.api.Disabled;
+import com.epam.training.ticketservice.test.In;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.shell.Shell;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@DirtiesContext
 @ActiveProfiles("ci")
 public class PricingCommandTests {
     @Autowired
@@ -34,6 +36,20 @@ public class PricingCommandTests {
     @Autowired
     private ScreeningRepository screeningRepository;
 
+    @BeforeEach
+    void setup() {
+        shell.evaluate(() -> "sign in privileged admin admin");
+        shell.evaluate(() -> "create room Pedersoli 20 10");
+        shell.evaluate(() -> "create room Girotti 10 10");
+        shell.evaluate(() -> "create movie Sátántangó drama 450");
+        shell.evaluate(() -> "create movie movie1 aminmation 125");
+        shell.evaluate(() -> "create movie movie2 drama 154");
+        shell.evaluate((In)() -> "create screening Sátántangó Pedersoli \"2021-03-15 10:45\"");
+        shell.evaluate((In)() -> "create screening movie1 Pedersoli \"2021-03-14 16:00\"");
+        shell.evaluate((In)() -> "create screening movie2 Girotti \"2021-03-14 16:00\"");
+        shell.evaluate(() -> "sign out");
+    }
+
     @Test
     void testUpdateBasePrice() {
         int newPrice = 1000;
@@ -45,74 +61,44 @@ public class PricingCommandTests {
     }
 
     @Test
-    void testCreateComponent() {
-        String componentName = "test";
-        int componentPrice = 1000;
-
+    void testAssignPriceComponentToMovie() {
         shell.evaluate(() -> "sign in privileged admin admin");
-        shell.evaluate(() -> "create price component " + componentName + " " + componentPrice);
+        shell.evaluate(() -> "create price component additionalFeeForSatantango 100");
+        shell.evaluate(() -> "attach price component to movie additionalFeeForSatantango Sátántangó");
+        shell.evaluate(() -> "attach price component to movie nemletezik Sátántangó");
+        shell.evaluate((In)() -> "show price for Sátántangó Pedersoli \"2021-03-15 10:45\" 10,5");
 
-        assertThat(componentRepository.findByName(componentName)).isPresent();
+        var movie = movieRepository.findByTitle("Sátántangó").get();
+        assertThat(movie.getPriceComponent()).isNotNull();
+        assertThat(movie.getPriceComponent().getName()).isEqualTo("additionalFeeForSatantango");
+        assertThat(movie.getPriceComponent().getAmount()).isEqualTo(100);
     }
 
     @Test
-    void testAttachComponentToMovie() {
-        String componentName = "test";
-        int componentPrice = 1000;
-        String movieTitle = "test";
-        String movieGenre = "test";
-        int movieLength = 100;
-
+    void testAssignPriceComponentToRoom() {
         shell.evaluate(() -> "sign in privileged admin admin");
-        shell.evaluate(() -> "create price component " + componentName + " " + componentPrice);
-        shell.evaluate(() -> "create movie " + movieTitle + " " + movieGenre + " " + movieLength);
-        shell.evaluate(() -> "attach price component to movie " + componentName + " " + movieTitle);
+        shell.evaluate(() -> "create price component additionalFeeForPedersoli 100");
+        shell.evaluate(() -> "attach price component to room additionalFeeForPedersoli Pedersoli");
+        shell.evaluate(() -> "attach price component to room nemletezik Pedersoli");
+        shell.evaluate((In)() -> "show price for movie2 Girotti \"2021-03-14 16:00\" 5,5");
 
-        var movie = movieRepository.findByTitle(movieTitle);
-        assertThat(movie).isNotEmpty();
-        assertThat(movie.get().getPriceComponent()).isNotNull();
+        var room = roomRepository.findByName("Pedersoli").get();
+        assertThat(room.getPriceComponent()).isNotNull();
+        assertThat(room.getPriceComponent().getName()).isEqualTo("additionalFeeForPedersoli");
+        assertThat(room.getPriceComponent().getAmount()).isEqualTo(100);
     }
 
     @Test
-    void testAttachComponentToRoom() {
-        String componentName = "test";
-        int componentPrice = 1000;
-        String roomName = "test";
-        int roomRows = 10;
-        int roomColumns = 10;
-
+    void testAssignPriceComponentToScreening() {
         shell.evaluate(() -> "sign in privileged admin admin");
-        shell.evaluate(() -> "create price component " + componentName + " " + componentPrice);
-        shell.evaluate(() -> "create room " + roomName + " " + roomRows + " " + roomColumns);
-        shell.evaluate(() -> "attach price component to room " + componentName + " " + roomName);
+        shell.evaluate(() -> "create price component additionalFeeForPulpFictionScreening 100");
+        shell.evaluate((In)() -> "attach price component to screening additionalFeeForPulpFictionScreening movie2 Girotti \"2021-03-14 16:00\"");
+        shell.evaluate((In)() -> "attach price component to screening nemletezik movie2 Girotti \"2021-03-14 16:00\"");
 
-        var room = roomRepository.findByName(roomName);
-        assertThat(room).isNotEmpty();
-        assertThat(room.get().getPriceComponent()).isNotNull();
-    }
-
-    @Disabled
-    @Test
-    void testAttachComponentToScreening() {
-        String componentName = "test";
-        int componentPrice = 1000;
-        String movieTitle = "test";
-        String movieGenre = "test";
-        int movieLength = 100;
-        String roomName = "test";
-        int roomRows = 10;
-        int roomColumns = 10;
-        String screeningStart = "2021-04-01 10:00";
-
-        shell.evaluate(() -> "sign in privileged admin admin");
-        shell.evaluate(() -> "create price component " + componentName + " " + componentPrice);
-        shell.evaluate(() -> "create movie " + movieTitle + " " + movieGenre + " " + movieLength);
-        shell.evaluate(() -> "create room " + roomName + " " + roomRows + " " + roomColumns);
-        shell.evaluate(() -> "create screening " + movieTitle + " " + roomName + " \"" + screeningStart + "\"");
-        shell.evaluate(() -> "attach price component to screening " + componentName + " " + movieTitle + " " + roomName + " \"" + screeningStart + "\"");
-
-        var screening = screeningRepository.findByMovieTitleAndRoomNameAndStartTime(movieTitle, roomName, LocalDateTime.parse(screeningStart, Screening.TIME_FORMAT));
-        assertThat(screening).isNotEmpty();
-        assertThat(screening.get().getPriceComponent()).isNotNull();
+        var time = LocalDateTime.parse("2021-03-14 16:00", Screening.TIME_FORMAT);
+        var screening = screeningRepository.findByMovieTitleAndRoomNameAndStartTime("movie2", "Girotti", time).get();
+        assertThat(screening.getPriceComponent()).isNotNull();
+        assertThat(screening.getPriceComponent().getName()).isEqualTo("additionalFeeForPulpFictionScreening");
+        assertThat(screening.getPriceComponent().getAmount()).isEqualTo(100);
     }
 }
