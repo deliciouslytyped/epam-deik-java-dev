@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service.impl;
 
+import com.epam.training.ticketservice.component.AuthenticationHolder;
 import com.epam.training.ticketservice.exception.OperationException;
 import com.epam.training.ticketservice.service.AuthenticationService;
 import com.epam.training.ticketservice.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
+    private final AuthenticationHolder authHolder;
     private final AuthenticationManager authManager;
     private final UserService userService;
 
@@ -33,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             if (privileged && !hasAdmin || !privileged && hasAdmin) {
                 throw new BadCredentialsException("huhh?!");
             }
-            SecurityContextHolder.getContext().setAuthentication(result);
+            authHolder.getContext().setAuthentication(result);
             return Result.ok(null);
         } catch (AuthenticationException e) {
             return Result.err(e);
@@ -43,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Result<?, AuthenticationException> logout() {
         try {
-            SecurityContextHolder.getContext().setAuthentication(null);
+            authHolder.getContext().setAuthentication(null);
             return Result.ok(null);
         } catch (AuthenticationException e) {
             return Result.err(e);

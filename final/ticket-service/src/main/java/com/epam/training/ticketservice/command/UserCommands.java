@@ -1,21 +1,21 @@
 package com.epam.training.ticketservice.command;
 
+import com.epam.training.ticketservice.component.AuthenticationHolder;
 import com.epam.training.ticketservice.model.UserRole;
 import com.epam.training.ticketservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellMethodAvailability;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class UserCommands extends PrivilegedCommands {
+    private final AuthenticationHolder authHolder;
     private final UserService service;
 
     @ShellMethod(key = "describe account", value = "blah blah")
     public String describe() {
-        var res = service.getUser(SecurityContextHolder.getContext().getAuthentication());
+        var res = service.getUser(authHolder.getAuthentication());
         if (res.isOk()) {
             var dto = res.result();
             var sb = new StringBuilder();

@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service.impl;
 
+import com.epam.training.ticketservice.component.AuthenticationHolder;
 import com.epam.training.ticketservice.component.BasePriceHolder;
 import com.epam.training.ticketservice.component.PriceCalculator;
 import com.epam.training.ticketservice.dto.BookingDto;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+    private final AuthenticationHolder authHolder;
     private final MovieRepository movieRepository;
     private final RoomRepository roomRepository;
     private final ScreeningRepository screeningRepository;
@@ -63,7 +65,7 @@ public class BookingServiceImpl implements BookingService {
             return Result.err(new OperationException("Seat " + takenSeat.get() + " is already taken"));
         }
 
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        var username = authHolder.getAuthentication().getName();
         var booking = new Booking(userRepository.findByUsername(username).get(), screening.get(), seatsRaw,
                 calculator.calculate(screening.get(), basePriceHolder.getBasePrice(), seats.size()));
         bookingRepository.save(booking);
