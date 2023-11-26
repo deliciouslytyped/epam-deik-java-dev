@@ -71,7 +71,8 @@ public class ScreeningServiceTests {
 
         var result = screeningService.createScreening(movie.getTitle(), room.getName(), format(screening.getStartTime()));
         assertThat(result.isOk()).isTrue();
-        verify(screeningRepository).save(screening);}
+        verify(screeningRepository).save(screening);
+    }
 
     @Test
     void testScreeningCreationFailsWhenScreeningAlreadyExists() {

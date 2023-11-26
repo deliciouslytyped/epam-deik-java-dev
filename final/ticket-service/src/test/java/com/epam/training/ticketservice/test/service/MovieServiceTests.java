@@ -52,7 +52,7 @@ public class MovieServiceTests {
     }
 
     @Test
-    void testCreationFailsWhenMovieAlreadyExists() {
+    void testMovieCreationFailsWhenMovieAlreadyExists() {
         when(movieRepository.existsByTitleIgnoreCase(movie.getTitle())).thenReturn(true);
 
         var result = movieService.createMovie(movie.getTitle(), movie.getCategory(), movie.getLength());
@@ -61,7 +61,7 @@ public class MovieServiceTests {
     }
 
     @Test
-    void testDeletion() {
+    void testMovieDeletion() {
         when(movieRepository.existsByTitleIgnoreCase(movie.getTitle())).thenReturn(true);
 
         var result = movieService.deleteMovie(movie.getTitle());
@@ -70,7 +70,7 @@ public class MovieServiceTests {
     }
 
     @Test
-    void testDeletionFailsWhenMovieDoesNotExist() {
+    void testMovieDeletionFailsWhenMovieDoesNotExist() {
         when(movieRepository.existsByTitleIgnoreCase(movie.getTitle())).thenReturn(false);
 
         var result = movieService.deleteMovie(movie.getTitle());
@@ -79,7 +79,7 @@ public class MovieServiceTests {
     }
 
     @Test
-    void testUpdate() {
+    void testMovieUpdate() {
         var movie = spy(this.movie);
         when(movieRepository.findByTitle(movie.getTitle())).thenReturn(java.util.Optional.of(movie));
 
@@ -91,7 +91,7 @@ public class MovieServiceTests {
     }
 
     @Test
-    void testUpdateFailsWhenMovieDoesNotExist() {
+    void testMovieUpdateFailsWhenMovieDoesNotExist() {
         when(movieRepository.findByTitle(movie.getTitle())).thenReturn(java.util.Optional.empty());
 
         var result = movieService.updateMovie(movie.getTitle(), movie.getCategory(), movie.getLength());
