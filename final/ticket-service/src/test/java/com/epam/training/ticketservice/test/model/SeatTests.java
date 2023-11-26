@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.test;
+package com.epam.training.ticketservice.test.model;
 
 import com.epam.training.ticketservice.model.Seat;
 import org.junit.jupiter.api.Test;
@@ -25,5 +25,20 @@ public class SeatTests {
         var result = Seat.fromString(source);
         assertThat(result).hasSize(1);
         assertThat(result).containsExactly(new Seat(12, 32));
+    }
+
+    @Test
+    void testBoundCheck() {
+        var seat = new Seat(1, 1);
+        assertThat(seat.inBounds(1, 1)).isTrue();
+        assertThat(seat.inBounds(1, 2)).isTrue();
+        assertThat(seat.inBounds(2, 1)).isTrue();
+        assertThat(seat.inBounds(2, 2)).isTrue();
+        assertThat(seat.inBounds(0, 1)).isFalse();
+        assertThat(seat.inBounds(1, 0)).isFalse();
+        assertThat(seat.inBounds(0, 0)).isFalse();
+        assertThat(seat.inBounds(-1, 1)).isFalse();
+        assertThat(seat.inBounds(1, -1)).isFalse();
+        assertThat(seat.inBounds(-1, -1)).isFalse();
     }
 }
