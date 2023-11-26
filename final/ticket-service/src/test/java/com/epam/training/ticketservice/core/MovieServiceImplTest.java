@@ -1,9 +1,8 @@
 package com.epam.training.ticketservice.core;
 
-import com.epam.training.ticketservice.core.movie.Movie;
-import com.epam.training.ticketservice.core.movie.MovieRepository;
-import com.epam.training.ticketservice.core.movie.MovieServiceImpl;
-import com.epam.training.ticketservice.core.room.Room;
+import com.epam.training.ticketservice.core.movie.persistence.Movie;
+import com.epam.training.ticketservice.core.movie.persistence.MovieRepository;
+import com.epam.training.ticketservice.core.movie.service.MovieServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,5 +1,7 @@
-package com.epam.training.ticketservice.core.movie;
+package com.epam.training.ticketservice.core.movie.service;
 
+import com.epam.training.ticketservice.core.movie.persistence.Movie;
+import com.epam.training.ticketservice.core.movie.persistence.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

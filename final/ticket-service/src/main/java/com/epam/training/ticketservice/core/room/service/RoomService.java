@@ -1,6 +1,6 @@
-package com.epam.training.ticketservice.core.room;
+package com.epam.training.ticketservice.core.room.service;
 
-import org.springframework.stereotype.Service;
+import com.epam.training.ticketservice.core.room.persistence.Room;
 
 import java.util.List;
 import java.util.Optional;

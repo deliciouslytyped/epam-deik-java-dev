@@ -1,17 +1,15 @@
 package com.epam.training.ticketservice.ui.command;
 
-import com.epam.training.ticketservice.core.room.Room;
-import com.epam.training.ticketservice.core.room.RoomService;
-import com.epam.training.ticketservice.core.user.Role;
-import com.epam.training.ticketservice.core.user.UserDto;
-import com.epam.training.ticketservice.core.user.UserService;
+import com.epam.training.ticketservice.core.room.service.RoomService;
+import com.epam.training.ticketservice.core.user.persistence.Role;
+import com.epam.training.ticketservice.core.user.model.UserDto;
+import com.epam.training.ticketservice.core.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,15 +47,13 @@ public class RoomCommand {
         if (roomService.listRoom().isEmpty()) {
             System.out.println("There are no rooms at the moment");
         } else {
-            String result = roomService.listRoom().stream().map(room ->
+            return roomService.listRoom().stream().map(room ->
                     "Room " + room.getName()
                             + " with " + room.getCols() * room.getRows()
                             + " seats, " + room.getRows() + " rows and "
                             + room.getCols() + " columns"
                     )
                     .collect(Collectors.joining("\n"));
-
-            return result;
         }
         return null;
     }

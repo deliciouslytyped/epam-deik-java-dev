@@ -1,9 +1,9 @@
 package com.epam.training.ticketservice.ui.command;
 
 
-import com.epam.training.ticketservice.core.user.Role;
-import com.epam.training.ticketservice.core.user.UserDto;
-import com.epam.training.ticketservice.core.user.UserService;
+import com.epam.training.ticketservice.core.user.persistence.Role;
+import com.epam.training.ticketservice.core.user.model.UserDto;
+import com.epam.training.ticketservice.core.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -48,7 +48,7 @@ public class UserCommand {
     @ShellMethod(key = "describe account", value = "Get account information.")
     public String describe() {
         Optional<UserDto> user = userService.describe();
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             if (user.get().role() == Role.ADMIN) {
                 return "Signed in with privileged account " + user.get().username();
             } else {

@@ -1,5 +1,9 @@
-package com.epam.training.ticketservice.core.user;
+package com.epam.training.ticketservice.core.user.service;
 
+import com.epam.training.ticketservice.core.user.model.UserDto;
+import com.epam.training.ticketservice.core.user.persistence.Role;
+import com.epam.training.ticketservice.core.user.persistence.User;
+import com.epam.training.ticketservice.core.user.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package com.epam.training.ticketservice.core;
 
-import com.epam.training.ticketservice.core.room.Room;
-import com.epam.training.ticketservice.core.room.RoomRepository;
-import com.epam.training.ticketservice.core.room.RoomServiceImpl;
+import com.epam.training.ticketservice.core.room.persistence.Room;
+import com.epam.training.ticketservice.core.room.persistence.RoomRepository;
+import com.epam.training.ticketservice.core.room.service.RoomServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

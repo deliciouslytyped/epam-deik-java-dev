@@ -1,4 +1,6 @@
-package com.epam.training.ticketservice.core.movie;
+package com.epam.training.ticketservice.core.movie.service;
+
+import com.epam.training.ticketservice.core.movie.persistence.Movie;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,19 +1,17 @@
 package com.epam.training.ticketservice.ui.command;
 
 
-import com.epam.training.ticketservice.core.movie.Movie;
-import com.epam.training.ticketservice.core.movie.MovieService;
-import com.epam.training.ticketservice.core.user.Role;
-import com.epam.training.ticketservice.core.user.User;
-import com.epam.training.ticketservice.core.user.UserDto;
-import com.epam.training.ticketservice.core.user.UserService;
+import com.epam.training.ticketservice.core.movie.persistence.Movie;
+import com.epam.training.ticketservice.core.movie.service.MovieService;
+import com.epam.training.ticketservice.core.user.persistence.Role;
+import com.epam.training.ticketservice.core.user.model.UserDto;
+import com.epam.training.ticketservice.core.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,16 +47,13 @@ public class MovieCommand {
     @ShellMethod(key = "list movies", value = "List the movies.")
     public String listMovies() {
         if (movieService.listMovies().isEmpty()) {
-            System.out.println("There are no movies at the moment");
+            return "There are no movies at the moment";
         } else {
-            String result = movieService.listMovies().stream().map(movie ->
+            return movieService.listMovies().stream().map(movie ->
                             movie.getTitle() + " (" + movie.getGenre()
                             + ", " + movie.getLength() + " minutes)")
                     .collect(Collectors.joining("\n"));
-
-            return result;
         }
-        return null;
     }
 
     private Availability isAdmin() {

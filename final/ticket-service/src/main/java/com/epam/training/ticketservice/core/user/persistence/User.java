@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.core.user;
+package com.epam.training.ticketservice.core.user.persistence;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

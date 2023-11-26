@@ -1,5 +1,7 @@
-package com.epam.training.ticketservice.core.room;
+package com.epam.training.ticketservice.core.room.service;
 
+import com.epam.training.ticketservice.core.room.persistence.Room;
+import com.epam.training.ticketservice.core.room.persistence.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

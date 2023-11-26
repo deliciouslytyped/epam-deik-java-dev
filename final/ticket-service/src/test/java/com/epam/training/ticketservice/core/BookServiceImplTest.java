@@ -1,26 +1,29 @@
 package com.epam.training.ticketservice.core;
 
-import com.epam.training.ticketservice.core.book.Book;
-import com.epam.training.ticketservice.core.book.BookRepository;
-import com.epam.training.ticketservice.core.book.BookService;
-import com.epam.training.ticketservice.core.book.BookServiceImpl;
-import com.epam.training.ticketservice.core.user.*;
-import org.junit.jupiter.api.Test;
+import com.epam.training.ticketservice.core.book.persistence.Booking;
+import com.epam.training.ticketservice.core.book.persistence.BookingRepository;
+import com.epam.training.ticketservice.core.book.persistence.Seat;
+import com.epam.training.ticketservice.core.book.service.BookingServiceImpl;
+import com.epam.training.ticketservice.core.screening.persistence.Screening;
+import com.epam.training.ticketservice.core.screening.persistence.ScreeningRepository;
+import com.epam.training.ticketservice.core.user.persistence.Role;
+import com.epam.training.ticketservice.core.user.persistence.User;
+import com.epam.training.ticketservice.core.user.persistence.UserRepository;
+import com.epam.training.ticketservice.core.user.service.UserServiceImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
 public class BookServiceImplTest {
 
-    private static final Book ENTITY = new Book(new User("root","root", Role.USER),"Something","room1","2004-01-21 12:00", List.of("5,6","6,3"));
-
+    private static final Booking ENTITY = null;
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final UserServiceImpl userService = new UserServiceImpl(userRepository);
-    private final BookRepository bookRepository = mock(BookRepository.class);
-    private final BookServiceImpl underTest = new BookServiceImpl(bookRepository,userService,userRepository);
+    private final BookingRepository bookingRepository = mock(BookingRepository.class);
+    private final ScreeningRepository screeningRepository = mock(ScreeningRepository.class);
+    private final BookingServiceImpl underTest = new BookingServiceImpl(bookingRepository,userRepository,screeningRepository);
 
     /*
     @Test

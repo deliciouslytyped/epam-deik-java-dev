@@ -1,6 +1,5 @@
-package com.epam.training.ticketservice.core.screening;
+package com.epam.training.ticketservice.core.screening.persistence;
 
-import com.epam.training.ticketservice.core.movie.MovieService;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

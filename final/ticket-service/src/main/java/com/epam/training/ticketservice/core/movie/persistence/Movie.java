@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.core.movie;
+package com.epam.training.ticketservice.core.movie.persistence;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
