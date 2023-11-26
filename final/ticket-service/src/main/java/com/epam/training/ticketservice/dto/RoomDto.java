@@ -1,9 +1,11 @@
 package com.epam.training.ticketservice.dto;
 
 import com.epam.training.ticketservice.model.Room;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 public class RoomDto {
     private final String name;
     private final int rows;
