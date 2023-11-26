@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core.movie.service;
 
+import com.epam.training.ticketservice.core.movie.model.MovieDto;
 import com.epam.training.ticketservice.core.movie.persistence.Movie;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface MovieService {
 
     void deleteMovie(String title);
 
-    List<Movie> listMovies();
+    List<MovieDto> listMovies();
 
-    Optional<Movie> findMovie(String title);
+    Optional<MovieDto> findMovie(String title);
 }

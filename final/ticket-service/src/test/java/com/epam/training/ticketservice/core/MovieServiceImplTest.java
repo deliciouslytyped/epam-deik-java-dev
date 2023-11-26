@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core;
 
+import com.epam.training.ticketservice.core.movie.model.MovieDto;
 import com.epam.training.ticketservice.core.movie.persistence.Movie;
 import com.epam.training.ticketservice.core.movie.persistence.MovieRepository;
 import com.epam.training.ticketservice.core.movie.service.MovieServiceImpl;
@@ -20,12 +21,12 @@ public class MovieServiceImplTest {
     private final MovieServiceImpl underTest = new MovieServiceImpl(movieRepository);
 
     @Test
-    void testFindMovieShouldReturnItWhenInputProductNameIsIt() {
+    void testFindMovieShouldReturnMovieWhenInputProductNameIsValidAndStored() {
         //Given
         when(movieRepository.findByTitle("It")).thenReturn(Optional.of(ENTITY));
-        Optional<Movie> expected = Optional.of(ENTITY);
+        Optional<MovieDto> expected = Optional.of(new MovieDto(ENTITY.getTitle(),ENTITY.getGenre(),ENTITY.getLength()));
         //When
-        Optional<Movie> actual = underTest.findMovie("It");
+        Optional<MovieDto> actual = underTest.findMovie("It");
 
         //Then
         assertEquals(expected,actual);
@@ -36,10 +37,10 @@ public class MovieServiceImplTest {
     void testFindMovieShouldReturnOptionalEmptyWhenInputMovieNameDoesNotExist() {
         // Given
         when(movieRepository.findByTitle("dummy")).thenReturn(Optional.empty());
-        Optional<Movie> expected = Optional.empty();
+        Optional<MovieDto> expected = Optional.empty();
 
         // When
-        Optional<Movie> actual = underTest.findMovie("dummy");
+        Optional<MovieDto> actual = underTest.findMovie("dummy");
 
         // Then
         assertTrue(actual.isEmpty());
@@ -51,10 +52,10 @@ public class MovieServiceImplTest {
     void testFindMovieShouldReturnOptionalEmptyWhenInputMovieNameIsNull() {
         // Given
         when(movieRepository.findByTitle(null)).thenReturn(Optional.empty());
-        Optional<Movie> expected = Optional.empty();
+        Optional<MovieDto> expected = Optional.empty();
 
         // When
-        Optional<Movie> actual = underTest.findMovie(null);
+        Optional<MovieDto> actual = underTest.findMovie(null);
 
         // Then
         assertTrue(actual.isEmpty());
@@ -80,7 +81,7 @@ public class MovieServiceImplTest {
         when(movieRepository.findAll()).thenReturn(List.of(ENTITY));
 
         // When
-        List<Movie> actual = underTest.listMovies();
+        List<MovieDto> actual = underTest.listMovies();
 
         // Then
         verify(movieRepository).findAll();
@@ -105,8 +106,6 @@ public class MovieServiceImplTest {
         //Given
         when(movieRepository.findByTitle(ENTITY.getTitle())).thenReturn(Optional.of(ENTITY));
 
-
-        Optional<Movie> expected = Optional.of(ENTITY);
         //When
         underTest.updateMovie(ENTITY.getTitle(), "krimi", 123);
         //Then

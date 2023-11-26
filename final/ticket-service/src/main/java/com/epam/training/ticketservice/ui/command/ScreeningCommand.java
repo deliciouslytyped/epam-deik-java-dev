@@ -28,7 +28,6 @@ public class ScreeningCommand {
     private final ScreeningService screeningService;
     private final UserService userService;
     private final MovieService movieService;
-    private final RoomService roomService;
 
 
     @ShellMethodAvailability("isAvailable")
@@ -43,19 +42,23 @@ public class ScreeningCommand {
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete screening", value = "Delete a screening.")
     public String deleteScreening(String movieName, String roomName, String date) {
-        screeningService.deleteScreening(movieName, roomName, date);
-        return movieName + " " + roomName + " " + date + " screening has been deleted!";
+        if (!screeningService.listScreening().isEmpty()) {
+            screeningService.deleteScreening(movieName, roomName, date);
+            return movieName + " " + roomName + " " + date + " screening has been deleted!";
+        }
+        return "There are no screenings";
+
     }
 
     @ShellMethod(key = "list screenings", value = "List the screenings.")
     public String listScreening() {
         if (screeningService.listScreening().isEmpty()) {
-            return "There are no screenings at the moment";
+            return "There are no screenings"; //at the moment
         } else {
             return screeningService.listScreening().stream().map(screening ->
-                    screening.getMovieName() + "("
-                            + movieService.findMovie(screening.getMovieName()).get().getGenre()
-                            + ", " + movieService.findMovie(screening.getMovieName()).get().getLength()
+                    screening.getMovieName() + " ("
+                            + movieService.findMovie(screening.getMovieName()).get().genre()
+                            + ", " + movieService.findMovie(screening.getMovieName()).get().length()
                             + " minutes), screened in room " + screening.getRoomName()
                             + ", at " + screening.getFormattedDate())
                     .collect(Collectors.joining("\n"));

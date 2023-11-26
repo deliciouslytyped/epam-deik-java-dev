@@ -50,8 +50,8 @@ public class MovieCommand {
             return "There are no movies at the moment";
         } else {
             return movieService.listMovies().stream().map(movie ->
-                            movie.getTitle() + " (" + movie.getGenre()
-                            + ", " + movie.getLength() + " minutes)")
+                            movie.title() + " (" + movie.genre()
+                            + ", " + movie.length() + " minutes)")
                     .collect(Collectors.joining("\n"));
         }
     }

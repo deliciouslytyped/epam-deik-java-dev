@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface ScreeningRepository extends JpaRepository<Screening,Integer> {
 
-    Optional<Screening> findByMovieNameAndRoomNameAndDate(String movieName, String roomName, String date);
+    Optional<Screening> findByMovieNameAndRoomNameAndDate(String movieName, String roomName, LocalDateTime date);
 
     Long deleteByMovieNameAndRoomNameAndDate(String movieName, String roomName, LocalDateTime date);
 }

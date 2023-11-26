@@ -15,6 +15,8 @@ import org.springframework.shell.standard.ShellMethodAvailability;
 
 import java.sql.SQLOutput;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -32,15 +34,15 @@ public class BookCommand {
 
     @ShellMethodAvailability("isUser")
     @ShellMethod(key = "book", value = "Book a screening.")
-    public String book(String movieName, String roomName, LocalDateTime date, String seatsInput) {
-
+    public String book(String movieName, String roomName, String date, String seatsInput) {
+        System.out.println(date);
         List<SeatDto> seats = Arrays.stream(seatsInput.split(" "))
                 .map(seatString -> seatString.split(","))
                 .map(seatString -> new SeatDto(parseInt(seatString[0]), parseInt(seatString[1])))
                 .toList();
         System.out.println("createbooking eljutunk");
         bookingService.createBook(userService.describe().get().username(),
-                movieName,roomName,date.toString(),seats);//TODO
+                movieName,roomName,date,seats);
         System.out.println("idáig nem");
         String result = seats.stream().map(seat ->
                 "(" + seat.row() + "," + seat.col() + ")"

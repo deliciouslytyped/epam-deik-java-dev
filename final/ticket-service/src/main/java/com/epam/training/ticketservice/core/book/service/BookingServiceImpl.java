@@ -23,12 +23,14 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
     private final ScreeningRepository screeningRepository;
-    private int BASE_PRICE = 1500;
+    private int basePrice = 1500;
 
 
     @Override
     public BookingDto createBook(String username, String movieName, String roomName, String date, List<SeatDto> seats) {
-        Screening screening = screeningRepository.findByMovieNameAndRoomNameAndDate(movieName, roomName, date).get();
+        Screening screening = new Screening(movieName,roomName,date);
+        screeningRepository.findByMovieNameAndRoomNameAndDate(screening.getMovieName(),
+                screening.getRoomName(),screening.getDate());
         bookingRepository.findAllByScreening(screening).stream()
                 .map(booking -> booking.getSeats().stream().map(SeatDto::new).toList())
                 .flatMap(Collection::stream)
@@ -42,7 +44,7 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("Invalid user!"); //TODO
         }
 
-        int sumPrice = seats.size() * BASE_PRICE;
+        int sumPrice = seats.size() * basePrice;
 
         Booking booking = new Booking(user.get(),screening,seats.stream().map(Seat::new).toList(),sumPrice);
         bookingRepository.save(booking);
@@ -61,11 +63,11 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void updateBasePrice(int newBasePrice) {
-        this.BASE_PRICE = newBasePrice;
+        this.basePrice = newBasePrice;
     }
 
     @Override
     public int getBasePrice() {
-        return BASE_PRICE;
+        return basePrice;
     }
 }

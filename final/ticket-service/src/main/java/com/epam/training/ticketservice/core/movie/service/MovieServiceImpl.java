@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core.movie.service;
 
+import com.epam.training.ticketservice.core.movie.model.MovieDto;
 import com.epam.training.ticketservice.core.movie.persistence.Movie;
 import com.epam.training.ticketservice.core.movie.persistence.MovieRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +37,16 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> listMovies() {
-        return movieRepository.findAll();
+    public List<MovieDto> listMovies() {
+        return movieRepository.findAll().stream()
+                .map(movie -> new MovieDto(movie.getTitle(),movie.getGenre(),movie.getLength()))
+                .toList();
     }
 
     @Override
-    public Optional<Movie> findMovie(String title) {
-        return movieRepository.findByTitle(title);
+    public Optional<MovieDto> findMovie(String title) {
+        Optional<Movie> movie = movieRepository.findByTitle(title);
+        return movie.map(value -> new MovieDto(value.getTitle(), value.getGenre(), value.getLength()));
     }
 
 }

@@ -31,16 +31,14 @@ public class ScreeningServiceImpl implements ScreeningService {
         List<Screening> breaks = new ArrayList<>();
         if (movieRepository.findByTitle(movieName).isPresent()) {
             if (roomRepository.findByName(roomName).isPresent()) {
-                listScreening() //TODO ha üres az kérdéses hogy lefut-e
+                listScreening()
                         .forEach(screening -> {
 
                             if (screening.getRoomName().equals(roomName)) {
                                 if (isOverlap(screening, createScreening)) {
-                                    System.out.println("isOverlap true");
                                     overlaps.add(screening);
                                 }
                                 if (isOnBreak(screening, createScreening)) {
-                                    System.out.println("isOnbreak true");
                                     breaks.add(screening);
                                 }
                             }
@@ -53,17 +51,19 @@ public class ScreeningServiceImpl implements ScreeningService {
         }
 
         if (!overlaps.isEmpty()) {
-                return "There is an overlapping screening";
-            }
-            if (!breaks.isEmpty()) {
-                return "This would start on the break period after another screening in this room";
-            }
-            screeningRepository.save(createScreening);
-            return movieName + " " + roomName + " " + date + " screening has been created!";
+            return "There is an overlapping screening";
         }
+        if (!breaks.isEmpty()) {
+            return "This would start in the break period "
+                 + "after another screening in this room";
+        }
+        screeningRepository.save(createScreening);
+        return movieName + " " + roomName + " "
+                    + date + " screening has been created!";
+    }
 
 
-    public LocalDateTime convertEndOfScreening(Screening screening){
+    public LocalDateTime convertEndOfScreening(Screening screening) {
         return screening.getDate()
                 .plusMinutes(movieRepository
                         .findByTitle(screening
@@ -85,7 +85,7 @@ public class ScreeningServiceImpl implements ScreeningService {
                 || ((createScreeningEnd.isBefore(screeningStart))
                 && createScreeningEnd.isBefore(screeningEnd)));
 
-    } //TODO MINDENT KITÖRÖL HA VAN HA NINCS
+    }
 
     public boolean isOnBreak(Screening screening,Screening createScreening) {
         LocalDateTime screeningStart = screening.getDate();
@@ -93,7 +93,8 @@ public class ScreeningServiceImpl implements ScreeningService {
 
         LocalDateTime createScreeningStart = createScreening.getDate();
         LocalDateTime createScreeningEnd = convertEndOfScreening(createScreening).plusMinutes(10);
-         return !((createScreeningStart.isAfter(screeningEnd)
+
+        return !((createScreeningStart.isAfter(screeningEnd)
                 || createScreeningStart.isEqual(screeningEnd))
                 || ((createScreeningEnd.isBefore(screeningStart)
                 || createScreeningEnd.isEqual(screeningStart))));
@@ -104,12 +105,20 @@ public class ScreeningServiceImpl implements ScreeningService {
     @Transactional
     public void deleteScreening(String movieName, String roomName,String date) {
         Screening screening = new Screening(movieName,roomName,date);
-        screeningRepository.deleteByMovieNameAndRoomNameAndDate(movieName,roomName,screening.getDate());
+        if (screeningRepository.findByMovieNameAndRoomNameAndDate(screening.getMovieName(),
+                screening.getRoomName(),screening.getDate()).isPresent()) {
+            screeningRepository.deleteByMovieNameAndRoomNameAndDate(screening.getMovieName(),
+                    screening.getRoomName(),screening.getDate());
+        } else {
+            throw new IllegalArgumentException("There is no movie to be deleted in that name!");
+        }
     }
 
     @Override
     public Optional<Screening> findScreening(String movieName, String roomName, String date) {
-        return screeningRepository.findByMovieNameAndRoomNameAndDate(movieName, roomName, date);
+        Screening screening = new Screening(movieName,roomName,date);
+        return screeningRepository.findByMovieNameAndRoomNameAndDate(screening.getMovieName(),
+                screening.getRoomName(),screening.getDate());
     }
 
     @Override

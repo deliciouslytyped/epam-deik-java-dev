@@ -16,7 +16,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
 
     @Override
-    public void createRoom(String name, int rows, int cols) {//TODO Room argument
+    public void createRoom(String name, int rows, int cols) { //TODO Room argument
         roomRepository.save(new Room(name,rows,cols));
     }
 

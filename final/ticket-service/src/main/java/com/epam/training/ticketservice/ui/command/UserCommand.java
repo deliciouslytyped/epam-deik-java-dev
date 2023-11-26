@@ -50,24 +50,14 @@ public class UserCommand {
         Optional<UserDto> user = userService.describe();
         if (user.isPresent()) {
             if (user.get().role() == Role.ADMIN) {
-                return "Signed in with privileged account " + user.get().username();
+                return "Signed in with privileged account "
+                        + "'" + user.get().username() + "'";
             } else {
-                if (megNemFoglaltJegyet()) {
-                    return "Signed in with account "
-                            + user.get().username()
-                            + "\n" + "You have not booked any tickets yet";
-                } else {
-                    return "Signed in with account "
-                            + user.get().username()
-                            + "\n" + "Your previous bookings are";//TODO KILISTÁZNI A USER BOOKINGJAIT
-                }
+                return "Signed in with account "
+                        + "'" + user.get().username() + "'";
             }
         } else {
             return "You are not signed in";
         }
-    }
-
-    private boolean megNemFoglaltJegyet() {
-        return true;
     }
 }

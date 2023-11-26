@@ -44,7 +44,10 @@ public class RoomCommandTest {
 
     @Test
     void testListRoomShouldReturnAllRoomsThatOurDatabaseHas() {
-        assertEquals("Room szoba with 100 seats, 10 rows and 10 columns",
+        shell.evaluate(() -> "sign in privileged admin admin");
+        shell.evaluate(() -> "create room Room 10 10");
+
+        assertEquals("Room Room with 100 seats, 10 rows and 10 columns",
                 shell.evaluate(() -> "list rooms"));
     }
 

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -57,44 +59,46 @@ public class ScreeningServiceImplTest {
     @Test
     void testFindScreeningShouldReturnMovieNameRoomNameAndDateWhenInputScreeningIsEntity() {
         //Given
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It", "szoba", "2001-01-12 16:00")).thenReturn(Optional.of(ENTITY));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It", "szoba", LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))).thenReturn(Optional.of(ENTITY));
         Optional<Screening> expected = Optional.of(ENTITY);
         //When
-        Optional<Screening> actual = underTest.findScreening("It", "szoba", "2001-01-12 16:00");
+        Optional<Screening> actual = underTest.findScreening("It", "szoba", "2001-01-01 10:00");
 
         //Then
         assertEquals(expected, actual);
-        verify(screeningRepository).findByMovieNameAndRoomNameAndDate("It", "szoba", "2001-01-12 16:00");
+        verify(screeningRepository).findByMovieNameAndRoomNameAndDate("It", "szoba", LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
     @Test
     void testFindScreeningShouldReturnOptionalEmptyWhenInputScreeningDoesNotExist() {
         // Given
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("dummy", "dummy", "dummy")).thenReturn(Optional.empty());
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("dummy", "dummy", LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.empty());
         Optional<Screening> expected = Optional.empty();
 
         // When
-        Optional<Screening> actual = underTest.findScreening("dummy", "dummy", "dummy");
+        Optional<Screening> actual = underTest.findScreening("dummy", "dummy", "2001-01-01 10:00");
 
         // Then
         assertTrue(actual.isEmpty());
         assertEquals(expected, actual);
-        verify(screeningRepository).findByMovieNameAndRoomNameAndDate("dummy", "dummy", "dummy");
+        verify(screeningRepository).findByMovieNameAndRoomNameAndDate("dummy", "dummy", LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
     @Test
-    void testFindScreeningShouldReturnOptionalEmptyWhenInputScreeningArgumentsAreNull() {
+    void testFindScreeningShouldReturnOptionalEmptyWhenInputMovieNameAndRoomNameAreNull() {
         // Given
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate(null, null, null)).thenReturn(Optional.empty());
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate(null, null, LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.empty());
         Optional<Screening> expected = Optional.empty();
 
         // When
-        Optional<Screening> actual = underTest.findScreening(null, null, null);
+        Optional<Screening> actual = underTest.findScreening(null, null, "2001-01-01 10:00");
 
         // Then
         assertTrue(actual.isEmpty());
         assertEquals(expected, actual);
-        verify(screeningRepository).findByMovieNameAndRoomNameAndDate(null, null, null);
+        verify(screeningRepository).findByMovieNameAndRoomNameAndDate(null, null, LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
 
@@ -114,7 +118,10 @@ public class ScreeningServiceImplTest {
     @Test
     void testDeleteScreeningShouldDeleteTheChosenScreening() {
         // Given
-        when(screeningRepository.deleteByMovieNameAndRoomNameAndDate(ENTITY.getMovieName(), ENTITY.getRoomName(), ENTITY.getDate())).thenReturn(1L);
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate(ENTITY.getMovieName(), ENTITY.getRoomName(), ENTITY.getDate()))
+                .thenReturn(Optional.of(ENTITY));
+        when(screeningRepository.deleteByMovieNameAndRoomNameAndDate(ENTITY.getMovieName(), ENTITY.getRoomName(), ENTITY.getDate()))
+                .thenReturn(1L);
 
         // When
         underTest.deleteScreening(ENTITY.getMovieName(), ENTITY.getRoomName(), ENTITY.getFormattedDate());
@@ -126,8 +133,8 @@ public class ScreeningServiceImplTest {
 
     @Test
     void testIsOnBreakShouldReturnTrueIfOneOfTheScreeningsIsInTheOthersBreak() {
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room","2000-01-01 10:00"))
-                .thenReturn(Optional.of(new Screening("It","room","2000-01-01 10:00")));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room",LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.of(new Screening("It","room","2001-01-01 10:00")));
         when(movieRepository.findByTitle("It"))
                 .thenReturn(Optional.of(new Movie("It","horror",30)));
         when(roomRepository.findByName("room"))
@@ -139,8 +146,8 @@ public class ScreeningServiceImplTest {
 
     @Test
     void testIsOnBreakShouldReturnFalseIfNoneOfTheScreeningsAreInEachOthersBreak() {
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room","2000-01-01 10:00"))
-                .thenReturn(Optional.of(new Screening("It","room","2000-01-01 10:00")));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room",LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.of(new Screening("It","room","2001-01-01 10:00")));
         when(movieRepository.findByTitle("It"))
                 .thenReturn(Optional.of(new Movie("It","horror",30)));
         when(roomRepository.findByName("room"))
@@ -152,8 +159,8 @@ public class ScreeningServiceImplTest {
 
     @Test
     void testIsOverlapShouldReturnTrueIfOneOfTheScreeningsOverlapEachOther() {
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room","2000-01-01 10:00"))
-                .thenReturn(Optional.of(new Screening("It","room","2000-01-01 10:00")));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room",LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.of(new Screening("It","room","2001-01-01 10:00")));
         when(movieRepository.findByTitle("It"))
                 .thenReturn(Optional.of(new Movie("It","horror",30)));
         when(roomRepository.findByName("room"))
@@ -165,8 +172,8 @@ public class ScreeningServiceImplTest {
 
     @Test
     void testIsOverlapShouldReturnFalseIfOneOfTheScreeningsIsNotInTheOtherOnesBreak() {
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room","2000-01-01 10:00"))
-                .thenReturn(Optional.of(new Screening("It","room","2000-01-01 10:00")));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room",LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.of(new Screening("It","room","2001-01-01 10:00")));
         when(movieRepository.findByTitle("It"))
                 .thenReturn(Optional.of(new Movie("It","horror",30)));
         when(roomRepository.findByName("room"))
@@ -196,43 +203,43 @@ public class ScreeningServiceImplTest {
 
     @Test
     void testCreateScreeningShouldNotCreateTheScreeningIfTheInputScreeningOverLapsAnother() {
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room","2000-01-01 10:00"))
-                .thenReturn(Optional.of(new Screening("It","room","2000-01-01 10:00")));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room",LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.of(new Screening("It","room","2001-01-01 10:00")));
         when(movieRepository.findByTitle("It"))
                 .thenReturn(Optional.of(new Movie("It","horror",30)));
         when(roomRepository.findByName("room"))
                 .thenReturn(Optional.of(new Room("room",10,10)));
-        when(screeningRepository.findAll()).thenReturn(List.of(new Screening("It","room","2000-01-01 10:00")));
-        String result = underTest.createScreening("It","room","2000-01-01 10:10");
+        when(screeningRepository.findAll()).thenReturn(List.of(new Screening("It","room","2001-01-01 10:00")));
+        String result = underTest.createScreening("It","room","2001-01-01 10:10");
         assertEquals("There is an overlapping screening",result);
 
     }
 
     @Test
     void testCreateScreeningShouldNotCreateTheScreeningIfTheInputScreeningIsInAnotherOnesBreak() {
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room","2000-01-01 10:00"))
-                .thenReturn(Optional.of(new Screening("It","room","2000-01-01 10:00")));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room",LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.of(new Screening("It","room","2001-01-01 10:00")));
         when(movieRepository.findByTitle("It"))
                 .thenReturn(Optional.of(new Movie("It","horror",30)));
         when(roomRepository.findByName("room"))
                 .thenReturn(Optional.of(new Room("room",10,10)));
-        when(screeningRepository.findAll()).thenReturn(List.of(new Screening("It","room","2000-01-01 10:00")));
-        String result = underTest.createScreening("It","room","2000-01-01 10:35");
-        assertEquals("This would start on the break period after another screening in this room",result);
+        when(screeningRepository.findAll()).thenReturn(List.of(new Screening("It","room","2001-01-01 10:00")));
+        String result = underTest.createScreening("It","room","2001-01-01 10:35");
+        assertEquals("This would start in the break period after another screening in this room",result);
 
     }
 
     @Test
     void testCreateScreeningShouldCreateTheScreeningIfTheInputScreeningIsValid() {
-        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room","2000-01-01 10:00"))
-                .thenReturn(Optional.of(new Screening("It","room","2000-01-01 10:00")));
+        when(screeningRepository.findByMovieNameAndRoomNameAndDate("It","room",LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .thenReturn(Optional.of(new Screening("It","room","2001-01-01 10:00")));
         when(movieRepository.findByTitle("It"))
                 .thenReturn(Optional.of(new Movie("It","horror",30)));
         when(roomRepository.findByName("room"))
                 .thenReturn(Optional.of(new Room("room",10,10)));
-        when(screeningRepository.findAll()).thenReturn(List.of(new Screening("It","room","2000-01-01 10:00")));
-        String result = underTest.createScreening("It","room","2000-01-01 12:00");
-        assertEquals("It room 2000-01-01 12:00 screening has been created!",result);
+        when(screeningRepository.findAll()).thenReturn(List.of(new Screening("It","room","2001-01-01 10:00")));
+        String result = underTest.createScreening("It","room","2001-01-01 12:00");
+        assertEquals("It room 2001-01-01 12:00 screening has been created!",result);
 
     }
 
