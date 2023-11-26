@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core.screening.service;
 
+import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.core.screening.persistence.Screening;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface ScreeningService {
 
     public void deleteScreening(String movieName, String roomName,String date);
 
-    public Optional<Screening> findScreening(String movieName, String roomName, String date);
+    public Optional<ScreeningDto> findScreening(String movieName, String roomName, String date);
 
-    public List<Screening> listScreening();
+    public List<ScreeningDto> listScreening();
 }

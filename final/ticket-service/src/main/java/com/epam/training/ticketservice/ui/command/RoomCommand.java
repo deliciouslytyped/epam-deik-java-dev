@@ -48,10 +48,10 @@ public class RoomCommand {
             System.out.println("There are no rooms at the moment");
         } else {
             return roomService.listRoom().stream().map(room ->
-                    "Room " + room.getName()
-                            + " with " + room.getCols() * room.getRows()
-                            + " seats, " + room.getRows() + " rows and "
-                            + room.getCols() + " columns"
+                    "Room " + room.name()
+                            + " with " + room.col() * room.row()
+                            + " seats, " + room.row() + " rows and "
+                            + room.col() + " columns"
                     )
                     .collect(Collectors.joining("\n"));
         }

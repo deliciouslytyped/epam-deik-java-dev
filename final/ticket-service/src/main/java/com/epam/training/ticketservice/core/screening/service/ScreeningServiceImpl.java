@@ -1,9 +1,11 @@
 package com.epam.training.ticketservice.core.screening.service;
 
+import com.epam.training.ticketservice.core.movie.model.MovieDto;
 import com.epam.training.ticketservice.core.movie.persistence.Movie;
 import com.epam.training.ticketservice.core.movie.persistence.MovieRepository;
 import com.epam.training.ticketservice.core.room.persistence.Room;
 import com.epam.training.ticketservice.core.room.persistence.RoomRepository;
+import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.core.screening.persistence.Screening;
 import com.epam.training.ticketservice.core.screening.persistence.ScreeningRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +35,9 @@ public class ScreeningServiceImpl implements ScreeningService {
         if (movieRepository.findByTitle(movieName).isPresent()) {
             if (roomRepository.findByName(roomName).isPresent()) {
                 listScreening()
-                        .forEach(screening -> {
+                        .forEach(screenings -> {
+                            Screening screening = new Screening(screenings.movieName(),
+                                    screenings.roomName(),screenings.date());
 
                             if (screening.getRoomName().equals(roomName)) {
                                 if (isOverlap(screening, createScreening)) {
@@ -115,14 +120,17 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
-    public Optional<Screening> findScreening(String movieName, String roomName, String date) {
-        Screening screening = new Screening(movieName,roomName,date);
-        return screeningRepository.findByMovieNameAndRoomNameAndDate(screening.getMovieName(),
-                screening.getRoomName(),screening.getDate());
+    public Optional<ScreeningDto> findScreening(String movieName, String roomName, String date) {
+        Optional<Screening> screening = screeningRepository.findByMovieNameAndRoomNameAndDate(movieName,roomName,
+                LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        return screening.map(ScreeningDto::new);
     }
 
     @Override
-    public List<Screening> listScreening() {
-        return screeningRepository.findAll();
+    public List<ScreeningDto> listScreening() {
+        return screeningRepository.findAll().stream()
+                .map(screening -> new ScreeningDto(screening.getMovieName(),screening.getRoomName(),
+                        screening.getFormattedDate()))
+                .toList();
     }
 }

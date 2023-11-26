@@ -6,14 +6,12 @@ import com.epam.training.ticketservice.core.room.model.RoomDto;
 import com.epam.training.ticketservice.core.room.persistence.RoomRepository;
 import com.epam.training.ticketservice.core.screening.persistence.Screening;
 
-public record ScreeningDto(MovieDto movie, RoomDto room, String date) {
+public record ScreeningDto(String movieName, String roomName, String date) {
 
     private static RoomRepository roomRepository;
     private static MovieRepository movieRepository;
 
     public ScreeningDto(Screening screening) {
-        this(new MovieDto(movieRepository.findByTitle(screening.getMovieName()).get()),
-                new RoomDto(roomRepository.findByName(screening.getRoomName()).get()),
-                screening.getFormattedDate());
+        this(screening.getMovieName(), screening.getRoomName(),screening.getFormattedDate());
     }
 }

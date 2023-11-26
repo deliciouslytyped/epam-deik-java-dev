@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.core;
 
+import com.epam.training.ticketservice.core.room.model.RoomDto;
 import com.epam.training.ticketservice.core.room.persistence.Room;
 import com.epam.training.ticketservice.core.room.persistence.RoomRepository;
 import com.epam.training.ticketservice.core.room.service.RoomServiceImpl;
@@ -22,10 +23,10 @@ public class RoomServiceImplTest {
     void testFindRoomShouldReturnSzobaWhenInputRoomNameIsSzoba() {
         //Given
         when(roomRepository.findByName("szoba")).thenReturn(Optional.of(ENTITY));
-        Optional<Room> expected = Optional.of(ENTITY);
+        Optional<RoomDto> expected = Optional.of(new RoomDto(ENTITY));
 
         //When
-        Optional<Room> actual = underTest.findRoom("szoba");
+        Optional<RoomDto> actual = underTest.findRoom("szoba");
 
         //Then
         assertEquals(expected,actual);
@@ -36,10 +37,10 @@ public class RoomServiceImplTest {
     void testFindRoomShouldReturnOptionalEmptyWhenInputRoomNameDoesNotExist() {
         // Given
         when(roomRepository.findByName("dummy")).thenReturn(Optional.empty());
-        Optional<Room> expected = Optional.empty();
+        Optional<RoomDto> expected = Optional.empty();
 
         // When
-        Optional<Room> actual = underTest.findRoom("dummy");
+        Optional<RoomDto> actual = underTest.findRoom("dummy");
 
         // Then
         assertTrue(actual.isEmpty());
@@ -51,10 +52,10 @@ public class RoomServiceImplTest {
     void testGetProductByNameShouldReturnOptionalEmptyWhenInputProductNameIsNull() {
         // Given
         when(roomRepository.findByName(null)).thenReturn(Optional.empty());
-        Optional<Room> expected = Optional.empty();
+        Optional<RoomDto> expected = Optional.empty();
 
         // When
-        Optional<Room> actual = underTest.findRoom(null);
+        Optional<RoomDto> actual = underTest.findRoom(null);
 
         // Then
         assertTrue(actual.isEmpty());
@@ -80,7 +81,7 @@ public class RoomServiceImplTest {
         when(roomRepository.findAll()).thenReturn(List.of(ENTITY));
 
         //When
-        List<Room> actual = underTest.listRoom();
+        List<RoomDto> actual = underTest.listRoom();
 
         //Then
         verify(roomRepository).findAll();

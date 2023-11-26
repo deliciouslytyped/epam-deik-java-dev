@@ -56,11 +56,11 @@ public class ScreeningCommand {
             return "There are no screenings"; //at the moment
         } else {
             return screeningService.listScreening().stream().map(screening ->
-                    screening.getMovieName() + " ("
-                            + movieService.findMovie(screening.getMovieName()).get().genre()
-                            + ", " + movieService.findMovie(screening.getMovieName()).get().length()
-                            + " minutes), screened in room " + screening.getRoomName()
-                            + ", at " + screening.getFormattedDate())
+                    screening.movieName() + " ("
+                            + movieService.findMovie(screening.movieName()).get().genre()
+                            + ", " + movieService.findMovie(screening.movieName()).get().length()
+                            + " minutes), screened in room " + screening.roomName()
+                            + ", at " + screening.date())
                     .collect(Collectors.joining("\n"));
         }
     }

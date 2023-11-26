@@ -5,6 +5,7 @@ import com.epam.training.ticketservice.core.movie.persistence.MovieRepository;
 import com.epam.training.ticketservice.core.room.persistence.Room;
 import com.epam.training.ticketservice.core.room.persistence.RoomRepository;
 import com.epam.training.ticketservice.core.room.service.RoomService;
+import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.core.screening.persistence.Screening;
 import com.epam.training.ticketservice.core.screening.persistence.ScreeningRepository;
 import com.epam.training.ticketservice.core.screening.service.ScreeningServiceImpl;
@@ -33,36 +34,15 @@ public class ScreeningServiceImplTest {
     private final ScreeningRepository screeningRepository = mock(ScreeningRepository.class);
     private final ScreeningServiceImpl underTest = new ScreeningServiceImpl(screeningRepository, roomRepository, movieRepository);
 
-    private static Screening screening;
-    private static Room room;
-    private static Movie movie;
-    private static String date;
 
-    @BeforeEach
-    void init() {
-        movie = new Movie("movie", "genre", 30);
-        room = new Room("room", 10, 10);
-        date = "2000-01-01 12:00";
-        screening = new Screening(movie.getTitle(), room.getName(), date);
-        screeningRepository.save(screening);
-        roomRepository.save(room);
-        movieRepository.save(movie);
-    }
-
-    @AfterEach
-    void del() {
-        screeningRepository.delete(screening);
-        movieRepository.deleteByTitle(movie.getTitle());
-        roomRepository.deleteByName(room.getName());
-    }
 
     @Test
     void testFindScreeningShouldReturnMovieNameRoomNameAndDateWhenInputScreeningIsEntity() {
         //Given
         when(screeningRepository.findByMovieNameAndRoomNameAndDate("It", "szoba", LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))).thenReturn(Optional.of(ENTITY));
-        Optional<Screening> expected = Optional.of(ENTITY);
+        Optional<ScreeningDto> expected = Optional.of(new ScreeningDto(ENTITY));
         //When
-        Optional<Screening> actual = underTest.findScreening("It", "szoba", "2001-01-01 10:00");
+        Optional<ScreeningDto> actual = underTest.findScreening("It", "szoba", "2001-01-01 10:00");
 
         //Then
         assertEquals(expected, actual);
@@ -74,10 +54,10 @@ public class ScreeningServiceImplTest {
         // Given
         when(screeningRepository.findByMovieNameAndRoomNameAndDate("dummy", "dummy", LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
                 .thenReturn(Optional.empty());
-        Optional<Screening> expected = Optional.empty();
+        Optional<ScreeningDto> expected = Optional.empty();
 
         // When
-        Optional<Screening> actual = underTest.findScreening("dummy", "dummy", "2001-01-01 10:00");
+        Optional<ScreeningDto> actual = underTest.findScreening("dummy", "dummy", "2001-01-01 10:00");
 
         // Then
         assertTrue(actual.isEmpty());
@@ -90,10 +70,10 @@ public class ScreeningServiceImplTest {
         // Given
         when(screeningRepository.findByMovieNameAndRoomNameAndDate(null, null, LocalDateTime.parse("2001-01-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
                 .thenReturn(Optional.empty());
-        Optional<Screening> expected = Optional.empty();
+        Optional<ScreeningDto> expected = Optional.empty();
 
         // When
-        Optional<Screening> actual = underTest.findScreening(null, null, "2001-01-01 10:00");
+        Optional<ScreeningDto> actual = underTest.findScreening(null, null, "2001-01-01 10:00");
 
         // Then
         assertTrue(actual.isEmpty());
@@ -108,7 +88,7 @@ public class ScreeningServiceImplTest {
         when(screeningRepository.findAll()).thenReturn(List.of(ENTITY));
 
         // When
-        List<Screening> actual = underTest.listScreening();
+        List<ScreeningDto> actual = underTest.listScreening();
 
         // Then
         verify(screeningRepository).findAll();

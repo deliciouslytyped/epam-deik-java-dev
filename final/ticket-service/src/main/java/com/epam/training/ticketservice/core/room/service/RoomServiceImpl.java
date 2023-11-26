@@ -1,5 +1,8 @@
 package com.epam.training.ticketservice.core.room.service;
 
+import com.epam.training.ticketservice.core.movie.model.MovieDto;
+import com.epam.training.ticketservice.core.movie.persistence.Movie;
+import com.epam.training.ticketservice.core.room.model.RoomDto;
 import com.epam.training.ticketservice.core.room.persistence.Room;
 import com.epam.training.ticketservice.core.room.persistence.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,12 +38,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Optional<Room> findRoom(String name) {
-        return roomRepository.findByName(name);
+    public Optional<RoomDto> findRoom(String name) {
+        Optional<Room> room = roomRepository.findByName(name);
+        return room.map(value -> new RoomDto(value.getName(),value.getRows(),value.getCols()));
     }
 
     @Override
-    public List<Room> listRoom() {
-        return roomRepository.findAll();
+    public List<RoomDto> listRoom() {
+        return roomRepository.findAll().stream()
+                .map(room -> new RoomDto(room.getName(), room.getRows(), room.getCols()))
+                .toList();
     }
 }
