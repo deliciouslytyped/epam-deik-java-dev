@@ -2,12 +2,14 @@ package com.epam.training.ticketservice.dto;
 
 import com.epam.training.ticketservice.model.Booking;
 import com.epam.training.ticketservice.model.Seat;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@EqualsAndHashCode
 public class BookingDto {
     private final ScreeningDto screening;
     private final List<Seat> seats;
