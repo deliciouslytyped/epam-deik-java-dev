@@ -55,6 +55,11 @@
    - [ ] constraints (nullability, unique constraints, relationships, data types), normalization (anomalies)
    - [ ] It would have helped to know how to use the ORM properly https://www.baeldung.com/jpa-many-to-many
 - [ ] Code organization
+    - [ ] layers
+      - [ ] database access layer (Entities)
+      - [ ] service layer (Repositories, used by Services)
+      - [ ] shell
+      - [ ] tests / mocking
     - [ ] The basic admin commands seem to follow the same scheme; create an AdminCRUD class or such
         - Movies, rooms, screenings | create, update, delete, list <>s
     - [ ] Sign up, sign in, describe behavior depends on user type

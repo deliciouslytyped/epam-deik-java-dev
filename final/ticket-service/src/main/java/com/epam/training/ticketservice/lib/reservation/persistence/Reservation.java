@@ -25,15 +25,6 @@ import java.io.Serializable;
 //TODO composite key
 //TODO this is a mess right now
 public class Reservation implements Serializable {
-    //TODO Im not sure this constraint is actually constructed correctly, RE: the RESERVATION. qualified names in the end row.
-    @AttributeOverrides({
-        @AttributeOverride(name = "rowIdx", column = @Column(
-            columnDefinition = "integer not null check (\n" +
-                "(0 < COL_IDX) AND ( COL_IDX <= (SELECT R.COL_COUNT FROM RESERVATION RE\n" +
-                " INNER JOIN SCREENING S ON RE.SCREENING_SCREENING_ID = S.SCREENING_ID\n" +
-                " INNER JOIN ROOM R ON S.ROOM_NAME = R.NAME\n" +
-                    " WHERE (RESERVATION.COL_IDX, RESERVATION.ROW_IDX, RESERVATION.SCREENING_SCREENING_ID, RESERVATION.BOOKING_TICKET_ID) = (RE.COL_IDX, RE.ROW_IDX, RE.SCREENING_SCREENING_ID, RE.BOOKING_TICKET_ID))))"))
-    })
     @Id
     public ReservationKey reservationFor;
 

@@ -19,8 +19,14 @@ import com.epam.training.ticketservice.lib.user.persistence.AdminRepository;
 import com.epam.training.ticketservice.lib.user.persistence.User;
 import com.epam.training.ticketservice.lib.user.persistence.UserRepository;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.persistence.EntityManager;
+import org.hibernate.exception.ConstraintViolationException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
@@ -31,6 +37,18 @@ import java.util.Set;
 @DependsOn("entityManagerFactory")
 //@RequiredArgsConstructor //TODO tried to do this with ApplicationRunner but run() wouldnt get called for some reason.
 public class DbInitializer {
+    /*
+    //TODO moving this mess here:
+        //TODO Im not sure this constraint is actually constructed correctly, RE: the RESERVATION. qualified names in the end row.
+    @AttributeOverrides({
+        @AttributeOverride(name = "seat.rowIdx", column = @Column(
+            columnDefinition = "integer check ((0 < COL_IDX) AND (COL_IDX <= " +
+                    "(SELECT R.COL_COUNT FROM SCREENING S INNER JOIN ROOM R ON S.ROOM_NAME = R.NAME WHERE SCREENING_SCREENING_ID = S.SCREENING_ID)))"))
+    })
+    */
+    private EntityManager em;
+    private PlatformTransactionManager tm;
+
     private final RoomRepository ror;
     private final MovieRepository mr;
     private final ScreeningRepository sr;
@@ -45,7 +63,35 @@ public class DbInitializer {
     private final MovieSurchargeRepository msr;
     private final RoomSurchargeRepository rsr;
     private final ScreeningSurchargeRepository ssr;
-    public DbInitializer(RoomRepository ror, MovieRepository mr, ScreeningRepository sr, ReservationRepository rer, BookingRepository br, UserRepository ur, AdminRepository ar, BasePriceRepository bpr, SurchargeRepository sur, MovieSurchargeRepository msr, RoomSurchargeRepository rsr, ScreeningSurchargeRepository ssr) {
+    public DbInitializer(EntityManager em, PlatformTransactionManager tm, RoomRepository ror, MovieRepository mr, ScreeningRepository sr, ReservationRepository rer, BookingRepository br, UserRepository ur, AdminRepository ar, BasePriceRepository bpr, SurchargeRepository sur, MovieSurchargeRepository msr, RoomSurchargeRepository rsr, ScreeningSurchargeRepository ssr) {
+        this.em = em;
+        this.tm = tm;
+        var tt = new TransactionTemplate(tm);
+        tt.executeWithoutResult(transactionStatus -> {
+            em.createNativeQuery("alter table RESERVATION\n" +
+                    "    add constraint CHECK_COL\n" +
+                    "        check (((0 < COL_IDX) AND (COL_IDX <= (SELECT R.COL_COUNT\n" +
+                    "                                               FROM SCREENING S\n" +
+                    "                                                        INNER JOIN ROOM R ON S.ROOM_NAME = R.NAME\n" +
+                    "                                               WHERE SCREENING_SCREENING_ID = S.SCREENING_ID))));").executeUpdate();
+        });
+
+        tt.executeWithoutResult(transactionStatus -> {
+            em.createNativeQuery("alter table RESERVATION\n" +
+                    "    add constraint CHECK_ROW\n" +
+                    "        check (((0 < ROW_IDX) AND (ROW_IDX <= (SELECT R.ROW_COUNT\n" +
+                    "                                               FROM SCREENING S\n" +
+                    "                                                        INNER JOIN ROOM R ON S.ROOM_NAME = R.NAME\n" +
+                    "                                               WHERE SCREENING_SCREENING_ID = S.SCREENING_ID))));").executeUpdate();
+        });
+
+        tt.executeWithoutResult(transactionStatus -> {
+            em.createNativeQuery("alter table ROOM add constraint CHECK_ROW_COUNT check (ROW_COUNT > 0);").executeUpdate();
+        });
+        tt.executeWithoutResult(transactionStatus -> {
+            em.createNativeQuery("alter table ROOM add constraint CHECK_COL_COUNT check (COL_COUNT > 0);").executeUpdate();
+        });
+
         this.ror = ror;
         this.mr = mr;
         this.sr = sr;
@@ -91,11 +137,5 @@ public class DbInitializer {
         msr.save(new MovieSurchargeMap(null, ck, vekt));
         rsr.save(new RoomSurchargeMap(null, ck, beta));
         ssr.save(new ScreeningSurchargeMap(null, ck, sc));
-
-        //Trigger violations , seat does not exist, overlapping screening
-        /*var bk2 = new Booking(null, sc, 1000);
-        br.save(bk2);
-        var res2 = new Reservation(new ReservationKey(bk2, sc, new Seat(2, 3)));
-        rer.save(res2);*/
     }
 }
