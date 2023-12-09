@@ -1,6 +1,9 @@
-package com.epam.training.ticketservice.lib.room;
+package com.epam.training.ticketservice.lib.movie;
 
 import com.epam.training.ticketservice.lib.db.constraints.ConstraintViolationHandler;
+import com.epam.training.ticketservice.lib.movie.model.MovieDto;
+import com.epam.training.ticketservice.lib.movie.persistence.Movie;
+import com.epam.training.ticketservice.lib.movie.persistence.MovieRepository;
 import com.epam.training.ticketservice.lib.room.model.RoomDto;
 import com.epam.training.ticketservice.lib.room.persistence.Room;
 import com.epam.training.ticketservice.lib.room.persistence.RoomRepository;
@@ -22,48 +25,46 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class RoomServiceImpl implements RoomService {
-    protected final RoomRepository repo;
+public class MovieServiceImpl implements MovieService {
+    protected final MovieRepository repo;
     /*
     @PersistenceContext
     protected final EntityManager em;
     */
     //TODO an alternative approach is to return a sum type and/or use checked exceptions which is basically the same thing.
     @Override
-    public void create(@NonNull String name, @NonNull Integer rowCount, @NonNull Integer colCount) {
+    public void create(@NonNull String title, @NonNull String genre, @NonNull int runtime) {
         new ConstraintViolationHandler(() -> { //Not using simple try catch for this because hibernate makes it a pain to access the violation type? so im trying to clean up the business logic like this?
-            repo.save(new Room(name, rowCount, colCount));
+            repo.save(new Movie(title, genre, runtime));
         }).on(ConstraintViolationHandler.ConstraintType.PRIMARY_KEY, ()-> {
-            throw new AlreadyExistsException("Room"); //TODO this results in a string on the terminal, why?
-        }).on(List.of("CHECK_ROW_COUNT", "CHECK_COL_COUNT"), (cname) -> { switch(cname) {
-            case "CHECK_ROW_COUNT" -> throw new ApplicationDomainException("The number of rows in a room should be positive."); //TODO well-typed "return"s
-            case "CHECK_COL_COUNT" -> throw new ApplicationDomainException("The number of columns in a room should be positive.");
-        };}).run();
+            throw new AlreadyExistsException("Movie");
+        }).on("CHECK_RUN_TIME", () -> {
+            //TODO
+        }).run();
     }
 
     //TODO if not exist?
     @Override
-    public void update(@NonNull String name, @NonNull Integer rowCount, @NonNull Integer colCount) {
+    public void update(@NonNull String title, @NonNull String genre, @NonNull int runtime) {
         new ConstraintViolationHandler(() -> {
-            repo.updateRowCountAndColCountByName(rowCount, colCount, name);
-        }).on(List.of("CHECK_ROW", "CHECK_COL"), (cname) -> { switch (cname) {
-            case "CHECK_ROW" -> throw new ApplicationDomainException("Row number falls out of bounds.");
-            case "CHECK_COL" -> throw new ApplicationDomainException("Column number falls out of bounds.");
-        };}).run();
+            repo.updateGenreAndRuntimeByTitle(genre, runtime, title);
+        }).on("CHECK_RUN_TIME", () -> {
+//TODO
+        }).run();
     }
 
     @Override
-    public void delete(@NonNull String name) {
-        repo.deleteById(name); //TODO what happens if empty?
+    public void delete(@NonNull String title) {
+        repo.deleteById(title); //TODO what happens if empty?
     }
 
     @Override
-    public List<RoomDto> list() {
-        return repo.findAll().stream().map(RoomDto::new).toList();
+    public List<MovieDto> list() {
+        return repo.findAll().stream().map(MovieDto::new).toList();
     }
 
     @Override
-    public Optional<RoomDto> get(String name) {
-        return repo.findById(name).map(RoomDto::new);
+    public Optional<MovieDto> get(String title) {
+        return repo.findById(title).map(MovieDto::new);
     }
 }

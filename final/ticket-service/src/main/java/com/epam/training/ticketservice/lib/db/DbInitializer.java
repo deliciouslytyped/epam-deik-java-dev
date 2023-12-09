@@ -18,6 +18,8 @@ import com.epam.training.ticketservice.lib.user.persistence.Admin;
 import com.epam.training.ticketservice.lib.user.persistence.AdminRepository;
 import com.epam.training.ticketservice.lib.user.persistence.User;
 import com.epam.training.ticketservice.lib.user.persistence.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -35,8 +37,9 @@ import java.util.Set;
 
 @Component
 @DependsOn("entityManagerFactory")
+@RequiredArgsConstructor
 //@RequiredArgsConstructor //TODO tried to do this with ApplicationRunner but run() wouldnt get called for some reason.
-public class DbInitializer {
+public class DbInitializer implements InitializingBean {
     /*
     //TODO moving this mess here:
         //TODO Im not sure this constraint is actually constructed correctly, RE: the RESERVATION. qualified names in the end row.
@@ -46,8 +49,8 @@ public class DbInitializer {
                     "(SELECT R.COL_COUNT FROM SCREENING S INNER JOIN ROOM R ON S.ROOM_NAME = R.NAME WHERE SCREENING_SCREENING_ID = S.SCREENING_ID)))"))
     })
     */
-    private EntityManager em;
-    private PlatformTransactionManager tm;
+    private final EntityManager em;
+    private final PlatformTransactionManager tm;
 
     private final RoomRepository ror;
     private final MovieRepository mr;
@@ -63,9 +66,10 @@ public class DbInitializer {
     private final MovieSurchargeRepository msr;
     private final RoomSurchargeRepository rsr;
     private final ScreeningSurchargeRepository ssr;
-    public DbInitializer(EntityManager em, PlatformTransactionManager tm, RoomRepository ror, MovieRepository mr, ScreeningRepository sr, ReservationRepository rer, BookingRepository br, UserRepository ur, AdminRepository ar, BasePriceRepository bpr, SurchargeRepository sur, MovieSurchargeRepository msr, RoomSurchargeRepository rsr, ScreeningSurchargeRepository ssr) {
-        this.em = em;
-        this.tm = tm;
+
+    //TODO this is better (Actually, may be broken) but i still cant actually prove the upper and lower bounds on this
+    @Override
+    public void afterPropertiesSet() throws Exception {
         var tt = new TransactionTemplate(tm);
         tt.executeWithoutResult(transactionStatus -> {
             em.createNativeQuery("alter table RESERVATION\n" +
@@ -92,18 +96,9 @@ public class DbInitializer {
             em.createNativeQuery("alter table ROOM add constraint CHECK_COL_COUNT check (COL_COUNT > 0);").executeUpdate();
         });
 
-        this.ror = ror;
-        this.mr = mr;
-        this.sr = sr;
-        this.rer = rer;
-        this.br = br;
-        this.ur = ur;
-        this.ar = ar;
-        this.bpr = bpr;
-        this.sur = sur;
-        this.msr = msr;
-        this.rsr = rsr;
-        this.ssr = ssr;
+        tt.executeWithoutResult(transactionStatus -> {
+            em.createNativeQuery("alter table MOVIE add constraint CHECK_RUN_TIME check (RUNTIME > 0);").executeUpdate();
+        });
 
         var analf = new Room("Analfa", 5, 5);
         var beta = new Room("Beta", 5, 5);
