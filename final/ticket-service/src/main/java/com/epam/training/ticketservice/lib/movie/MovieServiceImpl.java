@@ -4,11 +4,8 @@ import com.epam.training.ticketservice.lib.db.constraints.ConstraintViolationHan
 import com.epam.training.ticketservice.lib.movie.model.MovieDto;
 import com.epam.training.ticketservice.lib.movie.persistence.Movie;
 import com.epam.training.ticketservice.lib.movie.persistence.MovieRepository;
-import com.epam.training.ticketservice.lib.room.model.RoomDto;
 import com.epam.training.ticketservice.lib.room.persistence.Room;
-import com.epam.training.ticketservice.lib.room.persistence.RoomRepository;
 import com.epam.training.ticketservice.lib.util.exceptions.AlreadyExistsException;
-import com.epam.training.ticketservice.lib.util.exceptions.ApplicationDomainException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -67,4 +64,5 @@ public class MovieServiceImpl implements MovieService {
     public Optional<MovieDto> get(String title) {
         return repo.findById(title).map(MovieDto::new);
     }
+
 }

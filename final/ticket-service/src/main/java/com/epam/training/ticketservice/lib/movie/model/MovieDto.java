@@ -12,6 +12,7 @@ public class MovieDto {
     private final String genre;
     private final int runtime;
 
+    //TODO Is this a layering violation?
     public MovieDto(Movie m){
         title = m.getTitle();
         genre = m.getGenre();

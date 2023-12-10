@@ -1,55 +1,56 @@
 Feature: Movie management in ticket service application
 
-  Rule  I can create movies.
+  Rule: As an Admin (but not as a User), I can create movies.
 
-  Background:
-    Given the "action" movie "MovieA", lasting -60- minutes
-    And the "adventure" movie "MovieB", lasting -70- minutes
-    And the "horror" movie "MovieC", lasting -80- minutes
+#    Background:
+#      Given the "action" movie "MovieA", lasting -60- minutes
+#      And the "adventure" movie "MovieB", lasting -70- minutes
+#      And the "horror" movie "MovieC", lasting -80- minutes
 
-  Scenario Outline: Create a new movie
-    #Do I couple this layer with the database or not?
-    Given the movie "<title>" does not exist
-    When I attempt to create the "<genre>" movie "<title>", lasting -<runtime>- minutes
-    Then the "<genre>" movie "<title>" exists, lasting -<runtime>- minutes
+    Scenario Outline: Create a new movie
+      #Do I couple this layer with the database or not?
+      Given the movie "<title>" does not exist
+      When I attempt to create the "<genre>" movie "<title>", lasting -<runtime>- minutes
+      Then the "<genre>" movie "<title>" exists, lasting -<runtime>- minutes
 
-    Examples:
-      | title | genre  | runtime |
-      | Saw   | horror | 60      |
+      Examples:
+        | title | genre  | runtime |
+        | Saw   | horror | 60      |
 
-#  Scenario Outline: Attempt to create a room with existing name
-#    Given the room "<name>" already exists
-#    When I attempt to create a room with name "<name>", row count "<rowCount>", and column count "<colCount>"
-#    Then I should receive an "AlreadyExistsException" with the message "<errorMessage>"
-#
-#    Examples:
-#      | name  | rowCount | colCount | errorMessage              |
-#      | RoomA | 10       | 15       | Room Room already exists. |
-#
-#  Scenario Outline: Attempt to create a room with invalid parameters
-#    #Doesn't deal with multiple constraint failures at once.
-#    #TODO specific exception type
-#    Given the room "<name>" does not exist
-#    When I attempt to create a room with name "<name>", row count "<rowCount>", and column count "<colCount>"
-#    Then I should receive an "<exception>" with the message "<errorMessage>"
-#
-#    Examples:
-#      | name  | rowCount | colCount | exception                  | errorMessage                                         |
-#      | RoomA | -5       | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
-#      | RoomA | 0        | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
-#      | RoomA | 10       | -5       | ApplicationDomainException | "The number of columns in a room should be positive" |
-#      | RoomA | 10       | 0        | ApplicationDomainException | "The number of columns in a room should be positive" |
+    Scenario Outline: Attempt to create a movie with existing name
+      Given the "action" movie "MovieA", lasting -60- minutes
+      And this is an exception test
+      When I attempt to create the "<genre>" movie "<title>", lasting -<runtime>- minutes
+      Then I should receive an "AlreadyExistsException" with the message "<errorMessage>"
+
+      Examples:
+        | title  | genre  | runtime | errorMessage                 |
+        | MovieA | action | 15      | Movie MovieA already exists. |
+
+    Scenario Outline: Attempt to create a movie with invalid parameters
+      #TODO specific exception type
+      Given the movie "<title>" does not exist
+      When I attempt to create the "<genre>" movie "<title>", lasting -<runtime>- minutes
+      Then I should receive an "<exception>" with the message "<errorMessage>"
+
+      Examples:
+        | name  | rowCount | colCount | exception                  | errorMessage                                         |
+        | RoomA | -5       | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
+        | RoomA | 0        | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
+        | RoomA | 10       | -5       | ApplicationDomainException | "The number of columns in a room should be positive" |
+        | RoomA | 10       | 0        | ApplicationDomainException | "The number of columns in a room should be positive" |
 #
 #  # Update
-#
-#  Scenario Outline: Update an existing room
-#    Given the room "<name>" with row count 10 and column count 15 already exists
-#    When I update the room "<name>" with row count "<newRowCount>" and column count "<newColCount>"
-#    Then the room "<name>" should be updated with row count "<newRowCount>" and column count "<newColCount>"
-#
-#    Examples:
-#      | name  | newRowCount | newColCount |
-#      | RoomA | 20          | 25          |
+  Rule: As an Admin (but not as a User), I can update movies.
+
+    Scenario Outline: Update an existing movie
+      Given the "<genre>" movie "<title>", lasting -<runtime>- minutes
+      When I attempt to update the movie "<title>" to "<newGenre>" with a runtime of -<newRuntime>- minutes
+      Then the "<newGenre>" movie "<title>" exists, lasting -<newRuntime>- minutes
+
+      Examples:
+        | title  | genre  | runtime | newGenre  | newRuntime |
+        | MovieA | action | 60      | adventure | 70         |
 #
 #  Scenario Outline: Update a non-existing room
 #    Given the room "<name>" does not exist

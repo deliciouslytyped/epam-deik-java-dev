@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.lib.movie.persistence;
 
+import com.epam.training.ticketservice.lib.db.UpdateByEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

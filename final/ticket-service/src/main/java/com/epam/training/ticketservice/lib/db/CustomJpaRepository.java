@@ -2,15 +2,17 @@ package com.epam.training.ticketservice.lib.db;
 
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
-public class CustomJpaRepository<T, ID> extends SimpleJpaRepository<T,ID> {
+public class CustomJpaRepository<T,ID> extends SimpleJpaRepository<T,ID> {
     private final EntityManager em;
-    
-    public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+    private final JpaEntityInformation<T,ID> entityInformation;
+    public CustomJpaRepository(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         em = entityManager;
+        this.entityInformation = entityInformation;
     }
 
     // Not doing merge will will probably break stuff that expects save() to handle updates but it might just work for us.
