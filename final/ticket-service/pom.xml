@@ -14,7 +14,7 @@
 
     <properties>
         <checkstyle-config-dir>checkstyle</checkstyle-config-dir>
-        <cucumber.version>6.9.1</cucumber.version>
+        <cucumber.version>6.9.1</cucumber.version><!--TODO should be using dependencymanagement from parent-->
         <!-- DO NOT MODIFY THESE VERSIONS! -->
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
         <checkstyle-maven-plugin.version>3.3.0</checkstyle-maven-plugin.version>

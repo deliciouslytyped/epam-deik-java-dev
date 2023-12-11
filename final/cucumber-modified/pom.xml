@@ -4,6 +4,7 @@
         <groupId>io.cucumber</groupId>
         <artifactId>cucumber-parent</artifactId>
         <version>2.1.1</version>
+        <relativePath>../cucumber-parent/pom.xml</relativePath>
     </parent>
     <artifactId>cucumber-jvm</artifactId>
     <version>6.9.1</version>
@@ -16,8 +17,8 @@
         <!-- Tool chains, ect -->
         <base.java.version>1.8</base.java.version>
         <javadoc.java.version>8</javadoc.java.version>
-        <toolchain.vendor>openjdk</toolchain.vendor>
-        <toolchain.java.version>11</toolchain.java.version>
+        <toolchain.vendor>jdk</toolchain.vendor>
+        <toolchain.java.version>21</toolchain.java.version>
 
         <!--Semantic version -->
         <apiguardian-api.version>1.1.0</apiguardian-api.version>
@@ -39,7 +40,7 @@
         <hamcrest.version>2.2</hamcrest.version>
         <mockito.version>3.6.28</mockito.version>
         <!--Maven plugins-->
-        <groovy.version>2.5.14</groovy.version>
+        <groovy.version>2.5.22</groovy.version>
     </properties>
     <scm>
         <connection>scm:git:git://github.com/cucumber/cucumber-jvm.git</connection>
@@ -130,11 +131,11 @@
                 <artifactId>cucumber-picocontainer</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-kotlin-java8</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-gherkin</artifactId>
@@ -329,10 +330,6 @@
                 </executions>
                 <configuration>
                     <toolchains>
-                        <jdk>
-                            <version>${toolchain.java.version}</version>
-                            <vendor>${toolchain.vendor}</vendor>
-                        </jdk>
                     </toolchains>
                 </configuration>
             </plugin>
@@ -343,15 +340,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>java9</id>
-                        <phase>compile</phase>
-                    </execution>
-                    <execution>
-                        <id>java10</id>
-                        <phase>compile</phase>
-                    </execution>
-                    <execution>
-                        <id>java11</id>
+                        <id>java21</id>
                         <phase>compile</phase>
                     </execution>
                 </executions>
@@ -499,6 +488,25 @@
                                 <multiReleaseOutput>true</multiReleaseOutput>
                             </configuration>
                         </execution>
+
+                        <!-- for Java 11 -->
+                        <execution>
+                            <id>java21</id>
+                            <phase>none</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <configuration>
+                                <release>21</release>
+                                <jdkToolchain>
+                                    <version>20</version>
+                                </jdkToolchain>
+                                <compileSourceRoots>
+                                    <compileSourceRoot>${project.basedir}/src/main/java21</compileSourceRoot>
+                                </compileSourceRoots>
+                                <multiReleaseOutput>true</multiReleaseOutput>
+                            </configuration>
+                        </execution>
                     </executions>
                 </plugin>
 
@@ -573,12 +581,6 @@
                     <artifactId>spotless-maven-plugin</artifactId>
                     <configuration>
                         <java>
-                            <eclipse>
-                                <file>${main.basedir}/.spotless/eclipse-formatter-settings.xml</file>
-                            </eclipse>
-                            <importOrder>
-                                <file>${main.basedir}/.spotless/intelij-idea.importorder</file>
-                            </importOrder>
                         </java>
                     </configuration>
                 </plugin>

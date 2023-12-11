@@ -19,7 +19,6 @@ Feature: Movie management in ticket service application
 
     Scenario Outline: Attempt to create a movie with existing name
       Given the "action" movie "MovieA", lasting -60- minutes
-      And this is an exception test
       When I attempt to create the "<genre>" movie "<title>", lasting -<runtime>- minutes
       Then I should receive an "AlreadyExistsException" with the message "<errorMessage>"
 
@@ -27,18 +26,18 @@ Feature: Movie management in ticket service application
         | title  | genre  | runtime | errorMessage                 |
         | MovieA | action | 15      | Movie MovieA already exists. |
 
-    Scenario Outline: Attempt to create a movie with invalid parameters
-      #TODO specific exception type
-      Given the movie "<title>" does not exist
-      When I attempt to create the "<genre>" movie "<title>", lasting -<runtime>- minutes
-      Then I should receive an "<exception>" with the message "<errorMessage>"
-
-      Examples:
-        | name  | rowCount | colCount | exception                  | errorMessage                                         |
-        | RoomA | -5       | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
-        | RoomA | 0        | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
-        | RoomA | 10       | -5       | ApplicationDomainException | "The number of columns in a room should be positive" |
-        | RoomA | 10       | 0        | ApplicationDomainException | "The number of columns in a room should be positive" |
+#    Scenario Outline: Attempt to create a movie with invalid parameters
+#      #TODO specific exception type
+#      Given the movie "<title>" does not exist
+#      When I attempt to create the "<genre>" movie "<title>", lasting -<runtime>- minutes
+#      Then I should receive an "<exception>" with the message "<errorMessage>"
+#
+#      Examples:
+#        | name  | rowCount | colCount | exception                  | errorMessage                                         |
+#        | RoomA | -5       | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
+#        | RoomA | 0        | 15       | ApplicationDomainException | "The number of rows in a room should be positive"    |
+#        | RoomA | 10       | -5       | ApplicationDomainException | "The number of columns in a room should be positive" |
+#        | RoomA | 10       | 0        | ApplicationDomainException | "The number of columns in a room should be positive" |
 #
 #  # Update
   Rule: As an Admin (but not as a User), I can update movies.

@@ -23,6 +23,8 @@
     <modules>
         <module>ticket-service</module>
         <module>ticket-service-acceptance-tests</module>
+        <module>cucumber-modified</module>
+        <module>cucumber-parent</module>
     </modules>
 
     <profiles>

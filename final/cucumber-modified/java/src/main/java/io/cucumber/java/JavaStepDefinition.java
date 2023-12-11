@@ -26,7 +26,7 @@ final class JavaStepDefinition extends AbstractGlueDefinition implements StepDef
 
     @Override
     public void execute(Object[] args) {
-        invokeMethod(args);
+        invokeExceptionWatcherMethod(args);
     }
 
     @Override

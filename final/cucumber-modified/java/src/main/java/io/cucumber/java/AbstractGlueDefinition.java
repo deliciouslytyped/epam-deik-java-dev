@@ -3,6 +3,7 @@ package io.cucumber.java;
 import io.cucumber.core.backend.Located;
 import io.cucumber.core.backend.Lookup;
 import io.cucumber.core.backend.SourceReference;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -45,6 +46,13 @@ abstract class AbstractGlueDefinition implements Located {
             return Invoker.invokeStatic(this, method, args);
         }
         return Invoker.invoke(this, lookup.getInstance(method.getDeclaringClass()), method, args);
+    }
+
+    final Object invokeExceptionWatcherMethod(Object... args) {
+        if (Modifier.isStatic(method.getModifiers())) {
+            throw new UnsupportedOperationException("Cant watch for exceptions on static methods because we use the StepDefs object to store caught exceptions.");
+        }
+        return ExceptionWatchingInvoker.invoke(this, lookup.getInstance(method.getDeclaringClass()), method, args);
     }
 
     @Override
