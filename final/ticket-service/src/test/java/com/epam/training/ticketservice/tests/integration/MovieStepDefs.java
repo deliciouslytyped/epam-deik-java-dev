@@ -3,6 +3,7 @@ package com.epam.training.ticketservice.tests.integration;
 import com.epam.training.ticketservice.lib.movie.MovieCrudService;
 import com.epam.training.ticketservice.lib.movie.model.MovieDto;
 import com.epam.training.ticketservice.lib.util.exceptions.AlreadyExistsException;
+import io.cucumber.java.ExceptionHolder;
 import io.cucumber.java.ExceptionWatchingStepDefs;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
@@ -21,12 +22,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RequiredArgsConstructor
 //TODO composition over inheritance
-public class MovieStepDefs extends ExceptionWatchingStepDefs {
+public class MovieStepDefs implements ExceptionWatchingStepDefs {
     private final MovieCrudService ms; //TODO is this the correct place for this?
+    private final ExceptionHolderImpl eh;
 
-    @ParameterType(".*")
-    public String exceptionName(String exceptionName){ //TODO could do exception type but string is easier given the ambiguity
-        return exceptionName;
+    @Override
+    public ExceptionHolder getExceptionHolder() {
+        return eh;
     }
 
     public void assertMovie(String movie, String genre, int runtime){
@@ -64,19 +66,11 @@ public class MovieStepDefs extends ExceptionWatchingStepDefs {
 
     @When("I attempt to update the movie {string} to {string} with a runtime of -{int}- minutes")
     public void iAttemptToUpdateTheMovieToWithARuntimeOfRuntimeMinutes(String movie, String newGenre, int newRuntime) {
-             ms.update(new MovieDto(movie, newGenre, newRuntime));
+         ms.update(new MovieDto(movie, newGenre, newRuntime));
     }
 
-    @Then("I should receive an {exceptionName} with the message {string}")
-    public void iShouldReceiveAnWithTheMessage(String exceptionName, String message) {
-        assertThrown(exceptionName, message);
-    }
-
-    @SneakyThrows
-    private void assertThrown(String exceptionName, @Nullable String message){
-        assert getPreviousException() != null;
-        assertThat(getPreviousException().getClass().getName()).isEqualTo(exceptionName);
-        assertThat(getPreviousException().getMessage()).isEqualTo(message);
-        clearException();
+    @When("I attempt to delete the movie {string}")
+    public void iAttemptToDeleteTheMovie(String movie) {
+        ms.delete(movie);
     }
 }

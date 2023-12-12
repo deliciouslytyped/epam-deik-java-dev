@@ -68,14 +68,17 @@ final class ExceptionWatchingInvoker {
                 //NOTE the placement of this is a bit interesting; it's suposed to fire after the stepdef following the exception causing stepdef; i.e. it should fire after the stepdef that checks and clears the exception
                 // This clause does not run when the exception is thrown, and then is run on the next step if the exception isnt cleared
                 if (target instanceof ExceptionWatchingStepDefs t) { // TODO these changes need tests
-                    if (t.getPreviousException() != null) {
-                        throw new IllegalStateException("ExceptionWatcher protocol violated, exception needs to be cleared before another exception.", t.getPreviousException());
+                    if (t.getExceptionHolder().getPreviousException() != null) {
+                        throw new IllegalStateException("ExceptionWatcher protocol violated, exception needs to be cleared before another exception.", t.getExceptionHolder().getPreviousException());
                     }
                 }
                 return result;
             } catch (InvocationTargetException e) {
                 if (target instanceof ExceptionWatchingStepDefs t) {
-                    t.setPreviousException(e.getCause());
+                    if(t.getExceptionHolder().shouldPassThrough(e)){ //TODO not sure this doesnt have issues, but we need to at least pass assertion failures through somehow
+                        throw e;
+                    }
+                    t.getExceptionHolder().setPreviousException(e.getCause());
                     return null; //TODO kinda iffy?
                 } else {
                     throw e;

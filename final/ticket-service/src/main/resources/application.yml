@@ -15,9 +15,13 @@ spring:
         - h2db-dev
         - debug
       ci:
+        # postgres  #TODO somethings funky with overriding the ddl-auto type
         - integration-tests
-        - h2db-dev # Spec says use in-memory db, so we use it.
+        - h2db-dev # Spec says use in-memory db, so we use h2, but default to file-backed so we can inspect the database with tooling.
+        #- h2db-mem
         #- debug-sql
+        #- parallel-tests # pointless, the test are a trivial amount of time to run. its bloody spring startup that takes 30 seconds to start
+        #- lazy-init  # doesnt improve startup at all (expected since most of it seems to be db related)
       debug:
         - debug-sql
       debug-max:
@@ -65,3 +69,20 @@ spring:
     properties.hibernate.format_sql: true #TODO check this works
 # Enable showing bound parameters
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: trace
+---
+#TODO spring hella slw but its probablz mz machine being overloaded
+spring:
+  config.activate.on-profile: parallel-test
+cucumber.execution.parallel.enabled: true
+#hibernate.temp.use_jdbc_metadata_defaults: false
+#spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: false
+# spring.data.jpa.repositories.bootstrap-mode: DEFERRED
+---
+spring:
+  config.activate.on-profile: lazy-init
+  main.lazy-initialization: true
+---
+spring:
+  config.activate.on-profile: h2db-mem
+  datasource:
+    url: jdbc:h2:mem:cinema

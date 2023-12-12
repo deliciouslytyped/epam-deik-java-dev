@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.tests.integration;
 
+import io.cucumber.java.ParameterType;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -13,5 +14,4 @@ import org.springframework.context.annotation.Profile;
 @CucumberContextConfiguration
 @CucumberOptions(features = {"src/test/resources/serviceimpl/",})
 public class TestExecutor {
-
 }

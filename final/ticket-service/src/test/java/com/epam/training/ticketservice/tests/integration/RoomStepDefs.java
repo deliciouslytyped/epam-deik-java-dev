@@ -3,16 +3,21 @@ package com.epam.training.ticketservice.tests.integration;
 import com.epam.training.ticketservice.lib.room.RoomService;
 import com.epam.training.ticketservice.lib.room.model.RoomDto;
 import com.epam.training.ticketservice.lib.util.exceptions.AlreadyExistsException;
+import io.cucumber.java.ExceptionHolder;
+import io.cucumber.java.ExceptionWatchingStepDefs;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RequiredArgsConstructor
-public class RoomStepDefs {
-    public final RoomService rs;
+public class RoomStepDefs implements ExceptionWatchingStepDefs {
+    private final RoomService rs;
+    private final ExceptionHolderImpl eh;
 
     public void assertRoom(String room, int rows, int cols){
         assertThat(rs.get(room).get())
@@ -44,4 +49,8 @@ public class RoomStepDefs {
         assertRoom(room, rows, cols);
     }
 
+    @Override
+    public ExceptionHolder getExceptionHolder() {
+        return eh;
+    }
 }
