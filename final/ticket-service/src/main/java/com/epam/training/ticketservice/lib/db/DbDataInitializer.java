@@ -3,7 +3,7 @@ package com.epam.training.ticketservice.lib.db;
 import com.epam.training.ticketservice.lib.booking.persistence.Booking;
 import com.epam.training.ticketservice.lib.booking.persistence.BookingRepository;
 import com.epam.training.ticketservice.lib.movie.persistence.Movie;
-import com.epam.training.ticketservice.lib.movie.persistence.MovieRepository;
+import com.epam.training.ticketservice.lib.movie.persistence.MovieCrudRepository;
 import com.epam.training.ticketservice.lib.pricing.persistence.*;
 import com.epam.training.ticketservice.lib.reservation.persistence.Reservation;
 import com.epam.training.ticketservice.lib.reservation.persistence.ReservationKey;
@@ -23,10 +23,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
@@ -40,7 +37,7 @@ import java.util.Set;
 @Profile("testdata")
 public class DbDataInitializer implements InitializingBean {
     private final RoomRepository ror;
-    private final MovieRepository mr;
+    private final MovieCrudRepository mr;
     private final ScreeningRepository sr;
     private final ReservationRepository rer;
     private final BookingRepository br;

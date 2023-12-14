@@ -1,39 +1,13 @@
 package com.epam.training.ticketservice.lib.db;
 
-import com.epam.training.ticketservice.lib.booking.persistence.Booking;
-import com.epam.training.ticketservice.lib.booking.persistence.BookingRepository;
-import com.epam.training.ticketservice.lib.movie.persistence.Movie;
-import com.epam.training.ticketservice.lib.movie.persistence.MovieRepository;
-import com.epam.training.ticketservice.lib.pricing.persistence.*;
-import com.epam.training.ticketservice.lib.reservation.persistence.Reservation;
-import com.epam.training.ticketservice.lib.reservation.persistence.ReservationKey;
-import com.epam.training.ticketservice.lib.reservation.persistence.ReservationRepository;
-import com.epam.training.ticketservice.lib.room.persistence.Room;
-import com.epam.training.ticketservice.lib.room.persistence.RoomRepository;
-import com.epam.training.ticketservice.lib.screening.persistence.BaseScreening;
-import com.epam.training.ticketservice.lib.screening.persistence.Screening;
-import com.epam.training.ticketservice.lib.screening.persistence.ScreeningRepository;
-import com.epam.training.ticketservice.lib.seat.persistence.Seat;
-import com.epam.training.ticketservice.lib.user.persistence.Admin;
-import com.epam.training.ticketservice.lib.user.persistence.AdminRepository;
-import com.epam.training.ticketservice.lib.user.persistence.User;
-import com.epam.training.ticketservice.lib.user.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
-import org.hibernate.exception.ConstraintViolationException;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Set;
 
 // TODO https://github.com/spring-projects/spring-framework/issues/31756
 

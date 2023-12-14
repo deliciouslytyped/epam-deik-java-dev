@@ -1,14 +1,5 @@
 package com.epam.training.ticketservice.lib.db;
 
-import com.epam.training.ticketservice.lib.booking.persistence.BookingRepository;
-import com.epam.training.ticketservice.lib.movie.persistence.MovieRepository;
-import com.epam.training.ticketservice.lib.pricing.persistence.*;
-import com.epam.training.ticketservice.lib.reservation.persistence.ReservationRepository;
-import com.epam.training.ticketservice.lib.room.persistence.Room;
-import com.epam.training.ticketservice.lib.room.persistence.RoomRepository;
-import com.epam.training.ticketservice.lib.screening.persistence.ScreeningRepository;
-import com.epam.training.ticketservice.lib.user.persistence.AdminRepository;
-import com.epam.training.ticketservice.lib.user.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,7 +9,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
-import java.util.Arrays;
 
 @Component
 @DependsOn("entityManagerFactory")
