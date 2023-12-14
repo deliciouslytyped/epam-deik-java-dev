@@ -1,6 +1,4 @@
-package com.epam.training.ticketservice.lib.db;
-
-import org.springframework.data.jpa.repository.Modifying;
+package com.epam.training.ticketservice.lib.lib;
 
 import javax.transaction.Transactional;
 

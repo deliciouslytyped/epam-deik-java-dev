@@ -1,8 +1,7 @@
-package com.epam.training.ticketservice.lib.db;
+package com.epam.training.ticketservice.lib.lib;
 
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 // Lacking a more thorough implementation, we override individual methods we use to expose db constraint violations to reduce unnecessary db calls for initial lookup, etc (should we just be using raw-er db access at that point?)

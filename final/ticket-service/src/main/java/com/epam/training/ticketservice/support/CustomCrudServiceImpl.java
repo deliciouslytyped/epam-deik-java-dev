@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.db;
+package com.epam.training.ticketservice.lib.lib;
 
 import com.epam.training.ticketservice.lib.db.constraints.ConstraintHandlerHolder;
 import com.epam.training.ticketservice.lib.db.constraints.ConstraintViolationHandler;

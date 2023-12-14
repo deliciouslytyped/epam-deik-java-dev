@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.db;
+package com.epam.training.ticketservice.lib.lib;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

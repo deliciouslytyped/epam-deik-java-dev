@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.db;
+package com.epam.training.ticketservice.lib.lib;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
