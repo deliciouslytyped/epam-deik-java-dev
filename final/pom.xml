@@ -25,6 +25,7 @@
         <module>ticket-service-acceptance-tests</module>
         <module>cucumber-modified</module>
         <module>cucumber-parent</module>
+        <module>h2db/h2</module>
     </modules>
 
     <profiles>

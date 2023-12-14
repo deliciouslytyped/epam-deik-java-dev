@@ -10,10 +10,12 @@ spring:
         - prod
       prod:
         - postgres
+        - testdata # Runs DbInitializer conditionally
       dev:
         # TODO TBH you should be developing as close to prod as possible so this should also be postgres?
         - h2db-dev
         - debug
+        - testdata # Runs DbInitializer conditionally
       ci:
         # postgres  #TODO somethings funky with overriding the ddl-auto type
         - integration-tests

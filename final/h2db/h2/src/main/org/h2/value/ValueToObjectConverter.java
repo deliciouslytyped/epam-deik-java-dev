@@ -353,9 +353,26 @@ public final class ValueToObjectConverter extends TraceObject {
 
     private static Object valueToOther(Class<?> type, Value value, JdbcConnection conn) {
         if (type == Object.class) {
-            return JdbcUtils.deserialize(
-                    value.convertToJavaObject(TypeInfo.TYPE_JAVA_OBJECT, Value.CONVERT_TO, null).getBytesNoCopy(),
-                    conn.getJavaObjectSerializer());
+            if (value instanceof ValueVarchar){
+                return value.getString();
+            } else if (value instanceof ValueInteger){
+                return value.getInt();
+            } else {
+                throw DbException.getUnsupportedException("converting Object");
+            }
+            /*if (RegisteredObjectConverterSingleton.isSet()){
+                return RegisteredObjectConverterSingleton.convert(value);
+            } else {
+                try {
+                    return value.getClass().getField("value").get(value);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new IllegalStateException("pls", e);
+                }
+                //return value.convertToJavaObject(TypeInfo.TYPE_JAVA_OBJECT, Value.CONVERT_TO, null);
+                return JdbcUtils.deserialize(
+                        value.convertToJavaObject(TypeInfo.TYPE_JAVA_OBJECT, Value.CONVERT_TO, null).getBytesNoCopy(),
+                        conn.getJavaObjectSerializer());
+            }*/
         } else if (type == InputStream.class) {
             return value.getInputStream();
         } else if (type == Reader.class) {

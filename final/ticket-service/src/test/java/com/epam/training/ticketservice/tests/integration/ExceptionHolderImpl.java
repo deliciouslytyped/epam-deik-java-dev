@@ -46,6 +46,6 @@ public class ExceptionHolderImpl implements ExceptionHolder {
 
     @Override
     public boolean shouldPassThrough(InvocationTargetException e) {
-        return e.getCause() instanceof AssertionFailedError;
+        return e.getCause() instanceof AssertionFailedError || e.getCause() instanceof AssertionError; //TODO not sure why we are getting assertionerrors instead of AssertionFailedErrors now
     }
 }

@@ -37,8 +37,8 @@ Feature: Movie management in ticket service application
 
       Examples:
         | title     | genre  | runtime | exception                  | errorMessage                            |
-        | Kung Fury | action | 0       | ApplicationDomainException | The movie's run time should be positive |
-        | Hank      | action | -1      | ApplicationDomainException | The movie's run time should be positive |
+        | Kung Fury | action | 0       | ApplicationDomainException | The run time of the movie should be positive. |
+        | Hank      | action | -1      | ApplicationDomainException | The run time of the movie should be positive. |
 
   Rule: As an Admin (but not as a User), I can update movies.
 
@@ -56,7 +56,7 @@ Feature: Movie management in ticket service application
     Scenario Outline: Update a non-existing movie
       Given the movie "<title>" does not exist
       When I attempt to update the movie "<title>" to "<newGenre>" with a runtime of -<newRuntime>- minutes
-      Then I should receive an "<exception>" with the message "<errorMessage>"
+      Then I should receive an <exception> with the message "<errorMessage>"
 
       Examples:
         | title     | newGenre | newRuntime | exception                  | errorMessage                        |
@@ -79,7 +79,7 @@ Feature: Movie management in ticket service application
     Scenario Outline: Delete an existing movie
       Given the "<genre>" movie "<title>", lasting -<runtime>- minutes
       When I attempt to delete the movie "<title>"
-    #TODO should I have these @spy instead?
+      #TODO should I have these @spy instead?
       Then the movie "<title>" does not exist
 
       Examples:
@@ -87,25 +87,26 @@ Feature: Movie management in ticket service application
         | Hank  | action | 15      |
 
     @txn
-    Scenario Outline: Attempt to delete a non-existing room
+    Scenario Outline: Attempt to delete a non-existing movie
       Given the movie "<title>" does not exist
       When I attempt to delete the movie "<title>"
       Then I should receive an <exception> with the message "<errorMessage>"
 
       Examples:
-        | name  | exception                  | errorMessage                   |
-        | Hank | ApplicationDomainException | The room RoomA does not exist. |
+        | title  | exception                  | errorMessage                   |
+        | Hank | ApplicationDomainException | The movie Hank does not exist. |
 
-#  # List
-#
-#  Scenario: List all rooms
-#    Given the room "RoomA" with row count "10" and column count "25" already exists
-#    And the room "RoomB" with row count "15" and column count "30" already exists
-#    And the room "RoomC" with row count "20" and column count "35" already exists
-#    When I request a list of all rooms
-#    Then I should receive a list containing all the rooms with the names "[RoomA, RoomB, RoomC]"
-#
-#  Scenario: List rooms when no rooms exist
-#    Given no rooms are created in the system
-#    When I request a list of all rooms
-#    Then I should receive an empty list
+  Rule: As a any kind of user, I can list movies.
+
+    @txn
+    Scenario: List all movies
+      Given the "action" movie "MovieA", lasting -60- minutes
+      And the "adventure" movie "MovieB", lasting -70- minutes
+      When I request a list of all movies
+      Then I should receive a list of all the movies with the titles "MovieA, MovieB"
+
+    @txn
+    Scenario: List movies when no movies exist
+      Given there are no movies in the system
+      When I request a list of all movies
+      Then I should receive an empty movie list

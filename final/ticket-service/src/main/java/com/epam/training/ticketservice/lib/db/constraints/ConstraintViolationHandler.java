@@ -48,7 +48,10 @@ public class ConstraintViolationHandler implements Runnable {
 
     //TODO i.e. does this make sense?
     //TODO are these unique per table such that they warrant an enum or do I always need to use named constraints?
-    public enum ConstraintType { ANY, PRIMARY_KEY };
+    public enum ConstraintType { //TODO replace this with passing the exception types
+        ANY, //Not used right now
+        PRIMARY_KEY
+    };
 
     private final Runnable callback;
 
@@ -67,7 +70,7 @@ public class ConstraintViolationHandler implements Runnable {
             try {
                 callback.run();
             // TODO so...the CVE gets wrapped and becomes a DIVE, so we cant catch the CVE? Does the CVE ever come directly here or do I not need that branch?
-            } catch (ConstraintViolationException | DataIntegrityViolationException e) {
+            } catch (ConstraintViolationException | DataIntegrityViolationException e) { //TODO there are multiple places that interact with this sum type, consolidate somehow
                 if (!handledException(t, constraintName, e, handler)) {
                     throw e;
                 }
