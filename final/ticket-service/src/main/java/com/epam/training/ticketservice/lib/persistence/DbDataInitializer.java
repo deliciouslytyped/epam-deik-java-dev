@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.db;
+package com.epam.training.ticketservice.lib.persistence;
 
 import com.epam.training.ticketservice.lib.booking.persistence.Booking;
 import com.epam.training.ticketservice.lib.booking.persistence.BookingRepository;
@@ -9,7 +9,7 @@ import com.epam.training.ticketservice.lib.reservation.persistence.Reservation;
 import com.epam.training.ticketservice.lib.reservation.persistence.ReservationKey;
 import com.epam.training.ticketservice.lib.reservation.persistence.ReservationRepository;
 import com.epam.training.ticketservice.lib.room.persistence.Room;
-import com.epam.training.ticketservice.lib.room.persistence.RoomRepository;
+import com.epam.training.ticketservice.lib.room.persistence.RoomCrudRepository;
 import com.epam.training.ticketservice.lib.screening.persistence.BaseScreening;
 import com.epam.training.ticketservice.lib.screening.persistence.Screening;
 import com.epam.training.ticketservice.lib.screening.persistence.ScreeningRepository;
@@ -31,12 +31,15 @@ import java.util.Set;
 // TODO https://github.com/spring-projects/spring-framework/issues/31756
 
 @Component
-@DependsOn({"entityManagerFactory", "dbInitializer"})
+// DependsOn seems to work by causing invocation of dependent beans, so it should work to try to invoke
+// the various db init beans that then decide whether they should run or not
+//TODO needs a dependency on the database specific db initializers
+@DependsOn({"entityManagerFactory"})
 @RequiredArgsConstructor
 //@RequiredArgsConstructor //TODO tried to do this with ApplicationRunner but run() wouldnt get called for some reason.
 @Profile("testdata")
 public class DbDataInitializer implements InitializingBean {
-    private final RoomRepository ror;
+    private final RoomCrudRepository ror;
     private final MovieCrudRepository mr;
     private final ScreeningRepository sr;
     private final ReservationRepository rer;

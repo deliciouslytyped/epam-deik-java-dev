@@ -1,7 +1,6 @@
 package com.epam.training.ticketservice.lib.pricing.persistence;
 
-import com.epam.training.ticketservice.lib.db.base.SingletonEntity;
-import lombok.AllArgsConstructor;
+import com.epam.training.ticketservice.support.db.base.SingletonEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import java.util.Currency;
 
 /**
  * This stores a singleton entity value for the base price.

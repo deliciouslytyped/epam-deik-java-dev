@@ -1,52 +1,22 @@
-package com.epam.training.ticketservice.lib.db;
-//This is unnecessary but I wanted to try stored procedures
+package com.epam.training.ticketservice.support.db.storedprocedures;
 
-
-import lombok.RequiredArgsConstructor;
+import com.epam.training.ticketservice.lib.persistence.H2DbInitializer;
 import org.h2.api.ErrorCode;
-import org.h2.message.DbException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.EntityManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static org.h2.message.DbException.getJdbcSQLException;
 
-@Component
-@DependsOn("entityManagerFactory")
-@RequiredArgsConstructor
-@ConditionalOnProperty(prefix="spring.jpa", name="database-platform", havingValue="org.hibernate.dialect.H2Dialect") //TODO check at least one of these isloaded
-public class H2DbInitializer implements InitializingBean {
-    private final EntityManager em;
-    private final PlatformTransactionManager tm;
-
+public class H2StoredProcedures {
     private static final Logger logger = LoggerFactory.getLogger(H2DbInitializer.class);
 
-    //TODO this is better (Actually, may be broken) but i still cant actually prove the upper and lower bounds on this
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        var tt = new TransactionTemplate(tm);
-
-        //Create stored procedure for updates that throw exceptions
-        tt.executeWithoutResult(transactionStatus -> {
-            // probably ran into this https://github.com/h2database/h2database/issues/2529
-            em.createNativeQuery("DROP ALIAS IF EXISTS nonempty_update_by_key").executeUpdate();
-            em.createNativeQuery("CREATE ALIAS nonempty_update_by_key FOR '"+ H2DbInitializer.class.getCanonicalName() +".nonempty_update_by_key'").executeUpdate();
-        });
-    }
+    //Stored procedure for updates that throw exceptions
+    // probably ran into this https://github.com/h2database/h2database/issues/2529
 
     //https://www.h2database.com/html/commands.html#create_alias
     // nonempty_update_by_key(tablename,key,keyval,...value pairs...)

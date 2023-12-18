@@ -6,16 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class MovieDto {
     private final String title;
     private final String genre;
     private final int runtime;
-
-    //TODO Is this a layering violation?
-    public MovieDto(Movie m){
-        title = m.getTitle();
-        genre = m.getGenre();
-        runtime = m.getRuntime();
-    }
 }

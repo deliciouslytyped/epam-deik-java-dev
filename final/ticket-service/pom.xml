@@ -15,6 +15,7 @@
     <properties>
         <checkstyle-config-dir>checkstyle</checkstyle-config-dir>
         <cucumber.version>6.9.1</cucumber.version><!--TODO should be using dependencymanagement from parent-->
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <!-- DO NOT MODIFY THESE VERSIONS! -->
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
         <checkstyle-maven-plugin.version>3.3.0</checkstyle-maven-plugin.version>
@@ -63,6 +64,13 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <!-- TODO https://stackoverflow.com/questions/71081353/mapstruct-dependency-scope-in-a-maven-project -->
+            <version>${org.mapstruct.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
@@ -96,6 +104,39 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId> <!-- TODO does lombok not use this?, how is lombok hooked in? -->
+                <version>3.8.1</version> <!--TODO just picked the given version -->
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <arg>
+                            -Amapstruct.verbose=true
+                        </arg>
+                        <arg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </arg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

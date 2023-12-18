@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.tests.integration;
+package com.epam.training.ticketservice.tests.support;
 
 import io.cucumber.java.ExceptionHolder;
 import io.cucumber.java.ExceptionWatchingStepDefs;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ScenarioScope
 public class ExceptionHolderImpl implements ExceptionHolder {
     @SneakyThrows
-    static void assertThrown(ExceptionHolder o, String exceptionName, @Nullable String message){
+    public static void assertThrown(ExceptionHolder o, String exceptionName, @Nullable String message){
         var e = o.getPreviousException();
         assertThat(e).isNotNull();
         var shortname = e.getClass().getSimpleName();

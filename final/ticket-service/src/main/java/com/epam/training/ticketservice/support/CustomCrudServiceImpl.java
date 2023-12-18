@@ -1,28 +1,27 @@
-package com.epam.training.ticketservice.lib.lib;
+package com.epam.training.ticketservice.support;
 
-import com.epam.training.ticketservice.lib.db.constraints.ConstraintHandlerHolder;
-import com.epam.training.ticketservice.lib.db.constraints.ConstraintViolationHandler;
+import com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder;
+import com.epam.training.ticketservice.support.db.constraints.ConstraintViolationHandler;
+import com.epam.training.ticketservice.support.exceptions.ApplicationDomainException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+public abstract class CustomCrudServiceImpl<T,U,ID,M extends CustomMapper<T,U>,R extends JpaRepository<U,ID> & UpdateByEntityFragment<U>> implements CustomCrudService<T, ID> {
+    protected final R repo;
+    protected final M mapper;
 
-public abstract class CustomCrudServiceImpl<T,U,ID,R extends JpaRepository<U,ID> & UpdateByEntity<U>> implements CustomCrudService<T, U,ID, R> {
-    protected @NonNull R repo; //TODO No final because abstract, need to force init somehow?
-
-    protected abstract U DTOtoEntity(T entityDto); //TODO bijection object //TODO? out of the two operations this is bijectionally unsafe
-    protected abstract T EntityToDto(U entity);
-    //TODO these are too flexible or something and their overrides get some kind of unchecked type warning
-    protected <Z> ConstraintHandlerHolder<Z> getCreateHandler() { return new ConstraintHandlerHolder<Z>(); };
-    protected <Z> ConstraintHandlerHolder<Z> getGetHandler() { return new ConstraintHandlerHolder<Z>(); };
-    protected <Z> ConstraintHandlerHolder<Z> getUpdateHandler() { return new ConstraintHandlerHolder<Z>(); };
-    protected <Z> ConstraintHandlerHolder<Z> getDeleteHandler() { return new ConstraintHandlerHolder<Z>(); };
-    protected <Z> ConstraintHandlerHolder<Z> getListHandler() { return new ConstraintHandlerHolder<Z>(); };
+    protected ConstraintHandlerHolder<T> getCreateHandler() { return new ConstraintHandlerHolder<T>(); };
+    protected ConstraintHandlerHolder<T> getUpdateHandler() { return new ConstraintHandlerHolder<T>(); };
+    protected ConstraintHandlerHolder<ID> getDeleteHandler() { return new ConstraintHandlerHolder<ID>(); };
 
     protected <Z> void useHandler(Supplier<ConstraintHandlerHolder<Z>> getHH, Z arg, Runnable r) {
         var handler = getHH.get();
@@ -31,7 +30,7 @@ public abstract class CustomCrudServiceImpl<T,U,ID,R extends JpaRepository<U,ID>
     @Override
     public void create(@NonNull T entityDto) {
         useHandler(this::getCreateHandler, entityDto, () -> { //Not using simple try catch for this because hibernate makes it a pain to access the violation type? so im trying to clean up the business logic like this?
-            repo.save(DTOtoEntity(entityDto));
+            repo.save(mapper.dtoToEntity(entityDto));
         });
     }
 
@@ -40,24 +39,38 @@ public abstract class CustomCrudServiceImpl<T,U,ID,R extends JpaRepository<U,ID>
     @Override
     public void update(@NonNull T entityDto) {
         useHandler(this::getUpdateHandler, entityDto, () -> {
-            repo.update(DTOtoEntity(entityDto));
+            repo.update(mapper.dtoToEntity(entityDto));
         });
     }
 
+    //TODO arguably these should take the entire DTO so they can be passed to the handlers,
+    // but the reflection to get the ID attribute is messy so instead we have the caller get the ID and pass it instead, for now.
     @Override
     public void delete(@NonNull ID id) {
-        useHandler(this::getUpdateHandler, id, () -> {
+        useHandler(this::getDeleteHandler, id, () -> { //TODO I really hope using the wrong handler here by copy-paste accident wasnt the problem
             repo.deleteById(id);
         });
     }
 
+    //TODO we dont get the exception for trying to delete a missing item because hibernate does a lookup first and its too difficult to override, so just use the exception hibernate returns
+    //TODO I'm putting this here so subclasses can override delete and call it
+    protected void rawDelete(@NonNull ID s, BiConsumer<ID,Exception> exHandler) { //The second parameter here is a bit of a hack
+        try {
+            repo.deleteById(s);
+        } catch (EmptyResultDataAccessException e) {
+            exHandler.accept(s, e);
+        }
+    }
+
+    //These are just queries, so there shouldn't be any constraint violatin going on here, and we don't need the handlers?
     @Override
     public Optional<T> get(@NonNull ID id) {
-        return repo.findById(id).map(this::EntityToDto);
+        return repo.findById(id).map(mapper::entityToDto);
     }
 
     @Override
     public List<T> list() {
-        return repo.findAll().stream().map(this::EntityToDto).toList();
+        return repo.findAll().stream().map(mapper::entityToDto).toList();
     }
+
 }

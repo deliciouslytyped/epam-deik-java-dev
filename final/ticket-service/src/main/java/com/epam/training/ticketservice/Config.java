@@ -1,6 +1,6 @@
-package com.epam.training.ticketservice.lib;
+package com.epam.training.ticketservice;
 
-import com.epam.training.ticketservice.lib.db.CustomJpaRepository;
+import com.epam.training.ticketservice.support.CustomJpaRepository;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 

@@ -2,6 +2,13 @@
 - [Requirements](docs/README-REQUIREMENTS.md)
 - [Plan](docs/Plan.md)
 
+### Building
+- I've only gotten builds to work with the IntelliJ IDEA build system and it requries some fiddling.
+  - Accidentally did a maven clean and couldnt remember how to rebuild
+  - The correct subset of cucumber needs to be manually built for some reason or something
+    - IDK why I didnt need to rebuild mockito after the clean
+  - After refreshing maven, the h2 needs to be removed from the ticket-service library list and the module added so that the version built from source is used
+
 ### ER Diagram
 ![](docs/er.png)
 - the core is the movie-screening-room axis the way I put it together

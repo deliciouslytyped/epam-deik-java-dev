@@ -1,5 +1,8 @@
 package com.epam.training.ticketservice.lib.movie.persistence;
 
+import com.epam.training.ticketservice.lib.room.persistence.Room;
+import com.epam.training.ticketservice.support.CheckConstraint;
+import com.epam.training.ticketservice.support.GenUpdateByEntityFragment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,17 +12,9 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@GenUpdateByEntityFragment
 @Entity
-//@NamedQuery(name="Movie.update", query="UPDATE Movie m SET m.genre = :genre, m.runtime = :runtime WHERE m.title = :title")
-@NamedStoredProcedureQuery(name="Movie.update", procedureName="nonempty_update_by_key", parameters = {
-        @StoredProcedureParameter(mode=ParameterMode.IN, name = "tablename", type = String.class), //TODO is there a decent solution to this? this is  hack for the varargs and relative const params
-        @StoredProcedureParameter(mode=ParameterMode.IN, name = "titlename", type = String.class), //TODO is there a decent solution to this? this is  hack for the varargs and relative const params
-        @StoredProcedureParameter(mode=ParameterMode.IN, name = "title", type = String.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name = "genrename", type = String.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name = "genre", type = String.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name = "runtimename", type = String.class),
-        @StoredProcedureParameter(mode=ParameterMode.IN, name = "runtime", type = Integer.class),
-})
+@CheckConstraint(name="CHECK_RUN_TIME", check="RUNTIME > 0")
 @Table(name = "movie")
 public class Movie {
     @Id

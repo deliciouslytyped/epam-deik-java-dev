@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.db.constraints;
+package com.epam.training.ticketservice.support.db.constraints;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;

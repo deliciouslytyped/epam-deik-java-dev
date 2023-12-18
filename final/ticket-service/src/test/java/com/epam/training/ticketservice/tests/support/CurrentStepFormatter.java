@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.tests.integration;
+package com.epam.training.ticketservice.tests.support;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;

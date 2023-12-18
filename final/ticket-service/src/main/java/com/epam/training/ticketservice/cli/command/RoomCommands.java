@@ -1,9 +1,8 @@
 package com.epam.training.ticketservice.cli.command;
 
-import com.epam.training.ticketservice.lib.room.RoomService;
+import com.epam.training.ticketservice.lib.room.RoomCrudService;
 import com.epam.training.ticketservice.lib.room.model.RoomDto;
-import com.epam.training.ticketservice.lib.room.persistence.Room;
-import com.epam.training.ticketservice.lib.util.exceptions.ApplicationDomainException;
+import com.epam.training.ticketservice.support.exceptions.ApplicationDomainException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -13,12 +12,12 @@ import java.util.stream.Collectors;
 @ShellComponent
 @RequiredArgsConstructor
 public class RoomCommands {
-    private final RoomService service;
+    private final RoomCrudService service;
 
     @ShellMethod(key = "create room")
     public String create(String name, Integer rows, Integer columns) {
         try {
-            service.create(name, rows, columns);
+            service.create(new RoomDto(name, rows, columns));
             return "Successfully created room";
         } catch (ApplicationDomainException e) {
             return e.getMessage();
@@ -28,7 +27,7 @@ public class RoomCommands {
     @ShellMethod(key = "update room")
     public String update(String name, Integer rows, Integer columns) {
         try {
-            service.update(name, rows, columns);
+            service.update(new RoomDto(name, rows, columns));
             return "Successfully updated room";
         } catch (ApplicationDomainException e) {
             return e.getMessage();

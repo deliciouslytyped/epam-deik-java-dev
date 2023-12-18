@@ -2,17 +2,15 @@ package com.epam.training.ticketservice.tests.integration;
 
 import com.epam.training.ticketservice.lib.movie.MovieCrudService;
 import com.epam.training.ticketservice.lib.movie.model.MovieDto;
-import com.epam.training.ticketservice.lib.util.exceptions.AlreadyExistsException;
+import com.epam.training.ticketservice.support.exceptions.AlreadyExistsException;
+import com.epam.training.ticketservice.tests.support.ExceptionHolderImpl;
 import io.cucumber.java.After;
 import io.cucumber.java.ExceptionHolder;
 import io.cucumber.java.ExceptionWatchingStepDefs;
-import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 

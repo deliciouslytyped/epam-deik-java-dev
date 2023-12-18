@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.db.constraints;
+package com.epam.training.ticketservice.support.db.constraints;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class ConstraintViolationHandler implements Runnable {
     protected static final HibernateConstraintMatcher matcher = new HibernateConstraintMatcher();
+
+    private final Runnable callback;
 
     // Yes you can use it even without any handlers set.
     @Override
@@ -52,8 +54,6 @@ public class ConstraintViolationHandler implements Runnable {
         ANY, //Not used right now
         PRIMARY_KEY
     };
-
-    private final Runnable callback;
 
     //Technically you can specify both constrainttype and constraintname but the public interface doesn't do it right now.
     protected <T> boolean handledException(ConstraintType t, String constraintName, Exception e, Runnable r){

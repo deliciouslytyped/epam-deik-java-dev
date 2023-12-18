@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.lib.util.exceptions;
+package com.epam.training.ticketservice.support.exceptions;
 
 import lombok.NoArgsConstructor;
 

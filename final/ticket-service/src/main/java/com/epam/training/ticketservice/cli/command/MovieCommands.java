@@ -1,10 +1,8 @@
 package com.epam.training.ticketservice.cli.command;
 
-import com.epam.training.ticketservice.lib.movie.MovieCrudService;
 import com.epam.training.ticketservice.lib.movie.MovieCrudServiceImpl;
 import com.epam.training.ticketservice.lib.movie.model.MovieDto;
-import com.epam.training.ticketservice.lib.room.RoomService;
-import com.epam.training.ticketservice.lib.util.exceptions.ApplicationDomainException;
+import com.epam.training.ticketservice.support.exceptions.ApplicationDomainException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;

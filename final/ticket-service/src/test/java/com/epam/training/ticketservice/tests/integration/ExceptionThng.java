@@ -1,9 +1,9 @@
 package com.epam.training.ticketservice.tests.integration;
 
+import com.epam.training.ticketservice.tests.support.ExceptionHolderImpl;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @ScenarioScope
 @RequiredArgsConstructor
