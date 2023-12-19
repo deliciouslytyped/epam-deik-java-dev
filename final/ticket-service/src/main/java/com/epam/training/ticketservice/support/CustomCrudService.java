@@ -14,6 +14,12 @@ import java.util.Optional;
  */
 
 //The type parameters aren't used here but they are used in the Impl //TODO arguably that means they shouldnt be used here
+
+/**
+ * See also ServiceByAlternateKey
+ * @param <T>
+ * @param <ID>
+ */
 public interface CustomCrudService<T,ID> {
     void create(T entityDto);
     Optional<T> get(ID id);

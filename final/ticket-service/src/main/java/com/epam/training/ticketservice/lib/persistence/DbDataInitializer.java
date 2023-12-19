@@ -12,7 +12,7 @@ import com.epam.training.ticketservice.lib.room.persistence.Room;
 import com.epam.training.ticketservice.lib.room.persistence.RoomCrudRepository;
 import com.epam.training.ticketservice.lib.screening.persistence.BaseScreening;
 import com.epam.training.ticketservice.lib.screening.persistence.Screening;
-import com.epam.training.ticketservice.lib.screening.persistence.ScreeningRepository;
+import com.epam.training.ticketservice.lib.screening.persistence.ScreeningCrudRepository;
 import com.epam.training.ticketservice.lib.seat.persistence.Seat;
 import com.epam.training.ticketservice.lib.user.persistence.Admin;
 import com.epam.training.ticketservice.lib.user.persistence.AdminRepository;
@@ -41,7 +41,7 @@ import java.util.Set;
 public class DbDataInitializer implements InitializingBean {
     private final RoomCrudRepository ror;
     private final MovieCrudRepository mr;
-    private final ScreeningRepository sr;
+    private final ScreeningCrudRepository sr;
     private final ReservationRepository rer;
     private final BookingRepository br;
     private final UserRepository ur;

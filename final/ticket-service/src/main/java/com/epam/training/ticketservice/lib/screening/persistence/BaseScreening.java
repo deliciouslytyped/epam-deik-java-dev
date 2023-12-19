@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.time.Instant;
@@ -18,10 +20,13 @@ import java.time.Instant;
 public class BaseScreening implements Serializable {
 
     @OneToOne
+    @JoinColumn(nullable = false)
     public Room room;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     public Movie movie;
 
+    @Column(nullable = false)
     public Instant startTime;
 }

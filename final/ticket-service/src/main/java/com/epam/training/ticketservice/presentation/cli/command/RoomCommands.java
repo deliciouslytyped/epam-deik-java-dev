@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.cli.command;
+package com.epam.training.ticketservice.presentation.cli.command;
 
 import com.epam.training.ticketservice.lib.room.RoomCrudService;
 import com.epam.training.ticketservice.lib.room.model.RoomDto;

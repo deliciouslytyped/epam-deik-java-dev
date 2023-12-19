@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.cli.command;
+package com.epam.training.ticketservice.presentation.cli.command;
 
 import com.epam.training.ticketservice.lib.movie.MovieCrudServiceImpl;
 import com.epam.training.ticketservice.lib.movie.model.MovieDto;

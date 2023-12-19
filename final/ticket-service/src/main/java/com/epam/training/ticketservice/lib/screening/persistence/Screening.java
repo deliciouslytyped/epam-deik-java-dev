@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.UniqueConstraint;
 
+// The leaky abstraction is quite visible here
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +21,8 @@ import javax.persistence.UniqueConstraint;
 @Table(
         name = "screening",
         uniqueConstraints = {
+                // The naming is kind of funky; the columns joined/used from other tables use the database
+                // naming strategy but the columns used from this entity use the java-side names
                 @UniqueConstraint(name = "alternate_pk", columnNames = {"MOVIE_TITLE", "startTime", "ROOM_NAME"})
         })
 public class Screening {
@@ -31,8 +34,9 @@ public class Screening {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    public Long screeningId;
+    public Long screeningId; // We consider this a database internal field and it isnt exposed paste the data access layer; i.e. not in the DTO
 
-    @Column(nullable = false)
+    //TODO it would probably simplify things a lot to make this the primary key instead, but I guess doing this might make the code more flexible down the line? (but at what cost)
+    @Column(nullable = false) //TODO does column even make sense here? This is an embeded...?
     public BaseScreening screening;
 }

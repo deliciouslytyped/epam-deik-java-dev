@@ -145,7 +145,7 @@ public class CustomJpaRepository<T,ID> extends SimpleJpaRepository<T,ID> {
         }
     }
 
-    private String getDbName(String name) {
+    private static String getDbName(String name) {
         return (new CamelCaseToUnderscoresNamingStrategy())
                 .toPhysicalColumnName(new Identifier(name, false), null)
                 .getCanonicalName(); //Probably the wrong method but close enough
