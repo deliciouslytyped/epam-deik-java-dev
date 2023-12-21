@@ -5,13 +5,12 @@
   <groupId>com.h2database</groupId>
   <artifactId>h2</artifactId>
 
-  <!-- TODO why did I remove this
   <parent>
     <groupId>com.epam.training.ticketservice</groupId>
     <artifactId>ticket-service-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
-  </parent>-->
+  </parent>
 
   <version>2.2.214</version> <!--wth-->
   <packaging>jar</packaging>
