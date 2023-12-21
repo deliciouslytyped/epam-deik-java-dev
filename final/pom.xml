@@ -79,7 +79,14 @@
     </profiles>
 
     <dependencyManagement>
+        <!--apparently I need to add things here if I want the vendored version to be used?-->
+        <!-- TODO I dont understand why I dont need to do it with cucumber--> <!--probably because the version for those is specifid in the receiving pom-->
         <dependencies>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>2.2.214</version>
+            </dependency>
             <dependency> <!--TODO split test, parent, web, into separate modules, create uberapplication in parent?-->
                 <groupId>com.epam.training.ticketservice</groupId>
                 <artifactId>ticket-service-web</artifactId>

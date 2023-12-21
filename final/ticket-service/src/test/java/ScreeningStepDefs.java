@@ -1,4 +1,5 @@
-import com.epam.training.ticketservice.lib.room.model.RoomDto;
+package com.epam.training.ticketservice.tests.integration;
+
 import com.epam.training.ticketservice.lib.screening.ScreeningCrudService;
 import com.epam.training.ticketservice.lib.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.lib.screening.model.ScreeningMapper;
@@ -7,7 +8,6 @@ import com.epam.training.ticketservice.tests.support.ExceptionHolderImpl;
 import io.cucumber.java.After;
 import io.cucumber.java.ExceptionHolder;
 import io.cucumber.java.ExceptionWatchingStepDefs;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
