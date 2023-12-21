@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Profile;
 @SpringBootTest
 @Profile("ci")
 @CucumberContextConfiguration
-@CucumberOptions(features = {"src/test/resources/serviceimpl/",}, plugin = {"com.epam.training.ticketservice.tests.support.CurrentStepFormatter"})
+@CucumberOptions(features = {"classpath:serviceimpl",}, plugin = {"com.epam.training.ticketservice.tests.support.CurrentStepFormatter"})
 public class TestExecutor {
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
@@ -7,6 +8,9 @@
         <option value="$PROJECT_DIR$/final/pom.xml" />
         <option value="$PROJECT_DIR$/money/pom.xml" />
         <option value="$PROJECT_DIR$/final/cucumber-modified/pom.xml" />
+        <option value="$PROJECT_DIR$/ticket-service-application/pom.xml" />
+        <option value="$MAVEN_REPOSITORY$/org/apache/maven/plugins/maven-surefire-plugin/2.22.2/maven-surefire-plugin-2.22.2.pom" />
+        <option value="$MAVEN_REPOSITORY$/org/apache/maven/surefire/surefire-api/2.22.2/surefire-api-2.22.2.pom" />
       </list>
     </option>
   </component>

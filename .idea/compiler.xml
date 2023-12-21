@@ -10,34 +10,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="cucumber-archetype" />
-        <module name="cucumber-deltaspike" />
+        <module name="ticket-service-web" />
+        <module name="ticket-service-integration" />
+        <module name="surefire-api" />
         <module name="java8-calculator" />
-        <module name="cucumber-kotlin-java8" />
         <module name="h2" />
         <module name="cucumber-compatibility" />
         <module name="cucumber-junit" />
-        <module name="cucumber-weld" />
         <module name="ticket-service-acceptance-tests" />
-        <module name="cucumber-needle" />
-        <module name="cucumber-testng" />
-        <module name="java-wicket-test" />
-        <module name="cucumber-guice" />
         <module name="cucumber-java" />
         <module name="java-calculator-junit5" />
         <module name="java-calculator-testng" />
         <module name="cucumber-core" />
-        <module name="cucumber-jakarta-cdi" />
         <module name="java-calculator" />
-        <module name="cucumber-picocontainer" />
+        <module name="maven-surefire-plugin" />
         <module name="cucumber-junit-platform-engine" />
         <module name="taxi" />
-        <module name="cucumber-openejb" />
-        <module name="java-wicket-main" />
-        <module name="cucumber-cdi2" />
         <module name="cucumber-gherkin-messages" />
         <module name="cucumber-plugin" />
-        <module name="cucumber-java8" />
         <module name="spring-txn" />
         <module name="money" />
         <module name="docstring" />
@@ -62,42 +52,32 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="cucumber-archetype" options="-parameters" />
-      <module name="cucumber-cdi2" options="-parameters" />
       <module name="cucumber-compatibility" options="-parameters" />
       <module name="cucumber-core" options="-parameters" />
-      <module name="cucumber-deltaspike" options="-parameters" />
       <module name="cucumber-examples" options="-parameters" />
       <module name="cucumber-gherkin" options="-parameters" />
       <module name="cucumber-gherkin-messages" options="-parameters" />
-      <module name="cucumber-guice" options="-parameters" />
-      <module name="cucumber-jakarta-cdi" options="-parameters" />
       <module name="cucumber-java" options="-parameters" />
-      <module name="cucumber-java8" options="-parameters" />
       <module name="cucumber-junit" options="-parameters" />
       <module name="cucumber-junit-platform-engine" options="-parameters" />
       <module name="cucumber-jvm" options="-parameters" />
-      <module name="cucumber-kotlin-java8" options="-parameters" />
-      <module name="cucumber-needle" options="-parameters" />
-      <module name="cucumber-openejb" options="-parameters" />
       <module name="cucumber-parent" options="-parameters" />
-      <module name="cucumber-picocontainer" options="-parameters" />
       <module name="cucumber-plugin" options="-parameters" />
       <module name="cucumber-spring" options="-parameters" />
-      <module name="cucumber-testng" options="-parameters" />
-      <module name="cucumber-weld" options="-parameters" />
       <module name="docstring" options="-parameters" />
       <module name="java-calculator" options="-parameters" />
       <module name="java-calculator-junit5" options="-parameters" />
       <module name="java-calculator-testng" options="-parameters" />
-      <module name="java-wicket" options="-parameters" />
-      <module name="java-wicket-main" options="-parameters" />
-      <module name="java-wicket-test" options="-parameters" />
       <module name="java8-calculator" options="-parameters" />
+      <module name="maven-surefire-plugin" options="-Xdoclint:all" />
       <module name="money" options="-parameters" />
       <module name="spring-txn" options="-parameters" />
+      <module name="surefire-api" options="-Xdoclint:all" />
       <module name="ticket-service" options="-parameters -Amapstruct.verbose=true -Amapstruct.defaultComponentModel=spring" />
       <module name="ticket-service-acceptance-tests" options="-parameters" />
+      <module name="ticket-service-integration" options="-parameters" />
+      <module name="ticket-service-parent" options="-parameters" />
+      <module name="ticket-service-web" options="-parameters" />
     </option>
   </component>
 </project>

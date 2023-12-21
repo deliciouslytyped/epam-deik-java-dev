@@ -14,8 +14,10 @@
     <url>http://cucumber.io/</url>
 
     <properties>
+        <!--fix spring parent messing wth settings-->
+        <resource.delimiter>${*}</resource.delimiter>
         <!-- Tool chains, ect -->
-        <base.java.version>1.8</base.java.version>
+        <base.java.version>20</base.java.version>
         <javadoc.java.version>8</javadoc.java.version>
         <toolchain.vendor>jdk</toolchain.vendor>
         <toolchain.java.version>21</toolchain.java.version>
@@ -225,27 +227,28 @@
     </dependencyManagement>
 
     <modules>
-        <module>archetype</module>
-        <module>cdi2</module>
+<!--    commented out unneeded deps-->
+<!--        <module>archetype</module>-->
+<!--        <module>cdi2</module>-->
         <module>core</module>
-        <module>deltaspike</module>
+<!--        <module>deltaspike</module>-->
         <module>docstring</module>
         <module>gherkin</module>
         <module>gherkin-messages</module>
-        <module>guice</module>
-        <module>jakarta-cdi</module>
-        <module>java8</module>
+<!--        <module>guice</module>-->
+<!--        <module>jakarta-cdi</module>-->
+<!--        <module>java8</module>-->
         <module>java</module>
         <module>junit</module>
         <module>junit-platform-engine</module>
-        <module>kotlin-java8</module>
-        <module>needle</module>
-        <module>openejb</module>
-        <module>picocontainer</module>
+<!--        <module>kotlin-java8</module>-->
+<!--        <module>needle</module>-->
+<!--        <module>openejb</module>-->
+<!--        <module>picocontainer</module>-->
         <module>plugin</module>
         <module>spring</module>
-        <module>testng</module>
-        <module>weld</module>
+<!--        <module>testng</module>-->
+<!--        <module>weld</module>-->
     </modules>
 
     <profiles>

@@ -9,6 +9,10 @@
     - IDK why I didnt need to rebuild mockito after the clean
   - After refreshing maven, the h2 needs to be removed from the ticket-service library list and the module added so that the version built from source is used
 
+- After somewhat figuring out reactor exists;
+  - `mvn -Dcheckstyle.skip -Dspring.profiles.active=ci -Drequirements.jacoco-branch-coverage=0.0  -Drequirements.jacoco-line-coverage=0.0 -Dmaven.test.failure.ignore=true compile verify test --projects ticket-service --also-make`
+  - `mvn -Dcheckstyle.skip -Dspring.profiles.active=ci -Drequirements.jacoco-branch-coverage=0.0  -Drequirements.jacoco-line-coverage=0.0 -Dmaven.test.failure.ignore=true compile verify test --projects ticket-service`
+
 ### ER Diagram
 ![](docs/er.png)
 - the core is the movie-screening-room axis the way I put it together

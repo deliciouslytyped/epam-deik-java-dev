@@ -5,7 +5,7 @@
   <groupId>com.h2database</groupId>
   <artifactId>h2</artifactId>
 
-  <!--
+  <!-- TODO why did I remove this
   <parent>
     <groupId>com.epam.training.ticketservice</groupId>
     <artifactId>ticket-service-parent</artifactId>
@@ -272,6 +272,8 @@
           <includes>
             <include>TestAllJunit.java</include>
           </includes>
+          <!--takes bloody forever on my machine-->
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
 

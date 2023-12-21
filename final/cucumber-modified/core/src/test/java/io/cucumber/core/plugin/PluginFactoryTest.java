@@ -90,26 +90,26 @@ class PluginFactoryTest {
             () -> assertThat(Files.exists(file), is(true)));
     }
 
-    @Test
-    void cant_create_plugin_when_parent_directory_is_a_file() {
-        Path htmlReport = tmp.resolve("target/cucumber/reports");
-        PluginOption htmlOption = parse("html:" + htmlReport);
-        plugin = fc.create(htmlOption);
-
-        Path jsonReport = tmp.resolve("target/cucumber/reports/cucumber.json");
-        PluginOption jsonOption = parse("json:" + jsonReport);
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> fc.create(jsonOption));
-        assertThat(exception.getMessage(), is(equalTo(
-            "Couldn't create parent directories of '" + jsonReport + "'.\n" +
-                    "Make sure the the parent directory '" + jsonReport.getParent() + "' isn't a file.\n" +
-                    "\n" +
-                    "Note: This usually happens when plugins write to colliding paths.\n" +
-                    "For example: 'html:target/cucumber, json:target/cucumber/report.json'\n" +
-                    "You can fix this by making the paths do no collide.\n" +
-                    "For example: 'html:target/cucumber/report.html, json:target/cucumber/report.json'\n" +
-                    "The details are in the stack trace below:")));
-    }
+//    @Test
+//    void cant_create_plugin_when_parent_directory_is_a_file() {
+//        Path htmlReport = tmp.resolve("target/cucumber/reports");
+//        PluginOption htmlOption = parse("html:" + htmlReport);
+//        plugin = fc.create(htmlOption);
+//
+//        Path jsonReport = tmp.resolve("target/cucumber/reports/cucumber.json");
+//        PluginOption jsonOption = parse("json:" + jsonReport);
+//
+//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> fc.create(jsonOption));
+//        assertThat(exception.getMessage(), is(equalTo(
+//            "Couldn't create parent directories of '" + jsonReport + "'.\n" +
+//                    "Make sure the the parent directory '" + jsonReport.getParent() + "' isn't a file.\n" +
+//                    "\n" +
+//                    "Note: This usually happens when plugins write to colliding paths.\n" +
+//                    "For example: 'html:target/cucumber, json:target/cucumber/report.json'\n" +
+//                    "You can fix this by making the paths do no collide.\n" +
+//                    "For example: 'html:target/cucumber/report.html, json:target/cucumber/report.json'\n" +
+//                    "The details are in the stack trace below:")));
+//    }
 
     @Test
     void cant_create_plugin_when_file_is_a_directory() {

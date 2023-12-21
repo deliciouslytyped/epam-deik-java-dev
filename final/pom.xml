@@ -7,7 +7,7 @@
     <groupId>com.epam.training.ticketservice</groupId>
     <artifactId>ticket-service-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -23,6 +23,8 @@
     <modules>
         <module>ticket-service</module>
         <module>ticket-service-acceptance-tests</module>
+        <module>ticket-service-web</module>
+        <module>ticket-service-integration</module>
         <module>cucumber-modified</module>
         <module>cucumber-parent</module>
         <module>h2db/h2</module>
@@ -75,4 +77,38 @@
             </properties>
         </profile>
     </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency> <!--TODO split test, parent, web, into separate modules, create uberapplication in parent?-->
+                <groupId>com.epam.training.ticketservice</groupId>
+                <artifactId>ticket-service-web</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency> <!--TODO split test, parent, web, into separate modules, create uberapplication in parent?-->
+                <groupId>com.epam.training.ticketservice</groupId>
+                <artifactId>ticket-service</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency> <!--TODO split test, parent, web, into separate modules, create uberapplication in parent?-->
+                <groupId>com.epam.training.ticketservice</groupId>
+                <artifactId>ticket-service-application</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId> <!-- TODO does lombok not use this?, how is lombok hooked in? -->
+                <version>3.8.1</version> <!--TODO just picked the given version -->
+                <configuration>
+                    <source>20</source>
+                    <target>20</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

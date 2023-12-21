@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ticket-service-parent</artifactId>
         <groupId>com.epam.training.ticketservice</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -73,10 +73,30 @@
                 <configuration>
                     <includes>
                         <include>**/TestExecutor.java</include>
+                        <include>**/TestExecutor.class</include>
                     </includes>
                     <systemPropertyVariables>
                         <cucumber.filter.tags>${requirements.cucumber-tags}</cucumber.filter.tags>
                     </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin> <!--since this is a test only package it will cause issus for builds from the top (that we need to do for the reactor), since they wil try to build a jar in whichever phase -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>

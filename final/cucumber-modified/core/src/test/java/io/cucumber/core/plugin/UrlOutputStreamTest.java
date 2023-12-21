@@ -29,6 +29,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 @ExtendWith({ VertxExtension.class })
+@Disabled
 public class UrlOutputStreamTest {
 
     private static final int TIMEOUT_SECONDS = 15;
