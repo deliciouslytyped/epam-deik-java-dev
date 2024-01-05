@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ExcludeFromValidation">
+    <file url="file://$PROJECT_DIR$/final/h2db/h2/src/test/org/h2/test/TestBase.java" />
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">

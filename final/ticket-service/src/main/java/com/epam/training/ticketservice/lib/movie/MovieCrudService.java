@@ -1,11 +1,10 @@
 package com.epam.training.ticketservice.lib.movie;
 
-import com.epam.training.ticketservice.support.CustomCrudService;
 import com.epam.training.ticketservice.lib.movie.model.MovieDto;
-import com.epam.training.ticketservice.lib.movie.persistence.Movie;
-import com.epam.training.ticketservice.lib.movie.persistence.MovieCrudRepository;
+import com.epam.training.ticketservice.lib.movie.model.MovieMapper;
+import com.epam.training.ticketservice.support.CustomCrudService;
 
-public interface MovieCrudService extends CustomCrudService<MovieDto, String> {
-}
+//@DefaultUserPrivileged
+public interface MovieCrudService extends CustomCrudService<MovieDto, String, MovieMapper> {}
 
 

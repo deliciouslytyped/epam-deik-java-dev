@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Theater Manager</title>
+    <th:block data-th-insert="~{fragments :: imports}"></th:block>
+    <th:block data-th-insert="~{fragments :: csrfJs}"></th:block>
+    <th:block data-th-insert="~{fragments :: fkEnums}"></th:block>
+</head>
+<body class="container">
+<h1>Welcome to the Admin Page!</h1>
+<th:block data-th-insert="~{fragments :: logoutBtn}"></th:block>
+<ul class="nav nav-tabs" id="myTab">
+    <li class="nav-item"
+        data-th-each="tab, idx : ${ {'accounts','reservations','movies','screenings','rooms','pricing','data-dump'} }">
+        <!-- TODO bleh -->
+        <button class="nav-link"
+                data-th-attr="id=${tab+'-tab'},data-bs-target=${'#'+tab}"
+                data-th-classappend="${idx.first} ? 'active'"
+                data-th-text="${#strings.capitalize(#strings.replace(tab, '-',' '))}"
+                data-bs-toggle="tab"
+                type="button"></button>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="accounts"> <!-- TODO correct? -->
+        <th:block th:insert="~{fragments :: account-tables}"></th:block>
+        <th:block data-th-insert="~{fragments :: register}"></th:block>
+    </div>
+    <div class="tab-pane fade" id="movies" th:insert="~{fragments :: movie-table}">...Content for Movies...</div>
+    <div class="tab-pane fade" id="reservations" th:insert="~{fragments :: reservation-table}">...Content for Reservations...</div>
+    <div class="tab-pane fade" id="screenings" th:insert="~{fragments :: screening-table}">...Content for Screenings...</div>
+    <div class="tab-pane fade" id="rooms" th:insert="~{fragments :: room-table}">...Content for Rooms...</div>
+    <div class="tab-pane fade" id="pricing">...Content for Pricing...</div>
+    <div class="tab-pane fade" id="data-dump">
+        admins: <br>
+        <div data-th-each="item : ${admins}" data-th-text="${item}"></div>
+        users: <br>
+        <div data-th-each="item : ${users}" data-th-text="${item}"></div>
+        movies: <br>
+        <div data-th-each="item : ${movies}" data-th-text="${item}"></div>
+        rooms: <br>
+        <div data-th-each="item : ${rooms}" data-th-text="${item}"></div>
+        screenings: <br>
+        <div data-th-each="item : ${screenings}" data-th-text="${item}"></div>
+    </div>
+</div>
+
+</body>
+</html>

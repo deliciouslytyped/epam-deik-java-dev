@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.support;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.epam.training.ticketservice.lib.security.aspects.DefaultPrivileged;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +20,14 @@ import java.util.Optional;
  * @param <T>
  * @param <ID>
  */
-public interface CustomCrudService<T,ID> {
+@DefaultPrivileged
+public interface CustomCrudService<T,ID,M extends CustomMapper> {
+    M getMapper(); //TODO should I really have this in here? Needed it for the presentation layer to create dtos, but it pollutes the type signature.
     void create(T entityDto);
     Optional<T> get(ID id);
     //TODO does this interface force PITA behavior? are there any better alternatives?
     void update(T entityDto);
     void delete(ID id);
+
     List<T> list();
 }

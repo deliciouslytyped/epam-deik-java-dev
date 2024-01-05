@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 public class GenericCliProcessStepDefs {
 
     private static final int OUTPUT_TIMEOUT = 30000;
-    private static final String jarFile = "../ticket-service/target/ticket-service-0.0.1-SNAPSHOT.jar";
+    private static final String jarFile = "../ticket-service-cli/target/ticket-service-cli-0.0.1-SNAPSHOT.jar";
 
     private ProcessUnderTest cliProcess;
 
@@ -29,7 +29,11 @@ public class GenericCliProcessStepDefs {
         if (!(new File(jarFile)).isFile()){
             throw new FileNotFoundException("The path " + jarFile + " does not exist. It should be your built JAR file.");
         }
-        cliProcess.run("java -jar -Dspring.profiles.active=ci ../ticket-service/target/ticket-service-0.0.1-SNAPSHOT.jar");
+
+        //TODO for debugging: -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000
+        var command = "java -jar -Dspring.profiles.active=ci " + jarFile;
+        System.out.println("Starting command:" + command);
+        cliProcess.run(command);
     }
 
     @Given("the prompt containing {string} is printed")

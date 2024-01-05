@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home Page</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<h1>Welcome to the Home Page!</h1>
+
+<a href="admin/">Admin</a>
+<a href="user/">User</a>
+
+<th:block data-th-insert="~{fragments :: movie-table}"></th:block>
+<th:block data-th-insert="~{fragments :: screening-table}"></th:block>
+
+
 </body>
 </html>

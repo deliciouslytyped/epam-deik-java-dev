@@ -1,6 +1,7 @@
 package com.epam.training.ticketservice.support.db.storedprocedures;
 
 import com.epam.training.ticketservice.lib.persistence.H2DbInitializer;
+import lombok.extern.slf4j.Slf4j;
 import org.h2.api.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,12 +9,13 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.OffsetDateTime;
 import java.util.LinkedHashMap;
 
 import static org.h2.message.DbException.getJdbcSQLException;
 
+@Slf4j
 public class H2StoredProcedures {
-    private static final Logger logger = LoggerFactory.getLogger(H2DbInitializer.class);
 
     //Stored procedure for updates that throw exceptions
     // probably ran into this https://github.com/h2database/h2database/issues/2529
@@ -37,7 +39,7 @@ public class H2StoredProcedures {
         params.put((String) args[0], args[1]); // the key goes in the where clause at the end
         String searchSpec = args[0] + " = ?";
         var sql = "UPDATE " + tableName + " SET " + colSpec + " WHERE " + searchSpec;
-        logger.debug(sql);
+        log.debug(sql);
         int affectedRows;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) { //TODO needs sanitization
             //Should work though the doc says
@@ -47,7 +49,7 @@ public class H2StoredProcedures {
             // Indexing starts from 1
             for (var par : params.values()) {
                 stmt.setObject(index + 1, par);
-                logger.debug("Binding " + par + " to index " + (index + 1));
+                log.debug("Binding " + par + " to index " + (index + 1));
                 index++;
             }
             affectedRows = stmt.executeUpdate();

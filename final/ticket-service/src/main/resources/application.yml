@@ -12,6 +12,7 @@ spring:
         - postgres
         - testdata # Runs DbInitializer conditionally
       dev:
+        - circular
         # TODO TBH you should be developing as close to prod as possible so this should also be postgres?
         - h2db-dev
         - debug
@@ -20,6 +21,7 @@ spring:
         # postgres  #TODO somethings funky with overriding the ddl-auto type
         - integration-tests
         - h2db-dev # Spec says use in-memory db, so we use h2, but default to file-backed so we can inspect the database with tooling.
+        - h2db-integration
         #- h2db-mem
         #- debug-sql
         #- parallel-tests # pointless, the test are a trivial amount of time to run. its bloody spring startup that takes 30 seconds to start
@@ -38,7 +40,9 @@ spring:
     # TODO the correct way to use a path would be to use a runtime path relative to the JAR or such
     #   (also, this solution ties it strongly to maven?)
     # TODO have it log the URL to the console
-    url: jdbc:h2:file:@project.build.directory@/cinema;AUTO_SERVER=TRUE
+    #TODO we override the builtin alias for time to mock time, there is probably a better way to do this
+    #TODO/security note this leaks data into the product jar
+    url: jdbc:h2:file:@project.build.directory@/cinema;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
   jpa:
     hibernate.ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
@@ -57,10 +61,24 @@ spring:
 spring:
   config.activate.on-profile: integration-tests
   #TODO why do we set this for integration tests?
-  shell.interactive.enabled: false
+  shell.interactive.enabled: true #TODO why the hell do we keep turning this off
+---
+spring:
+  config.activate.on-profile: h2db-integration
+  #Try to make tests a little more robust to accidentally leaving the database on the file path running somewhere
+  # by putting it on a different path
+  datasource:
+    url: jdbc:h2:file:@project.build.directory@/cinema-test;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
 ---
 spring:
   config.activate.on-profile: verbose-max
+logging.level.root: DEBUG
+logging.level.sun.rmi.loader: INFO
+logging.level.sun.rmi.transport.tcp: INFO
+logging.level.javax.management.remote.rmi: INFO
+---
+spring:
+  config.activate.on-profile: verbose-trace # so loud
 logging.level.root: DEBUG
 ---
 spring:
@@ -88,3 +106,13 @@ spring:
   config.activate.on-profile: h2db-mem
   datasource:
     url: jdbc:h2:mem:cinema
+---
+spring:
+  config.activate.on-profile: circular #TODO probably a baaaad idea, couldnt deal with the inter-service object translation dependencies in another way right now
+  main:
+    allow-circular-references: true
+---
+spring:
+  config.activate.on-profile: livereload
+  jpa:
+    hibernate.ddl-auto: update

@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Application web debugmax (update)livereload" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="dev,verbose-max,livereload" />
+    <module name="ticket-service-web" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.epam.training.ticketservice.Application" />
+    <option name="VM_PARAMETERS" value="-Dstartuptypehack=update" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.epam.training.ticketservice.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,9 @@
+<!-- God this sucks. have to go through the maven.config
+hack which only works if you run maven from the project root
+and there doesnt seem to be a way to have maven install "local"
+packages in a local repo and remotes in another one. or at least if there is
+mvn install doesnt obey it.
+-->
+<settings>
+    <localRepository>.m2/repository</localRepository>
+</settings>

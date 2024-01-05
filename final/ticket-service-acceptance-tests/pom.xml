@@ -21,6 +21,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.epam.training.ticketservice</groupId>
+            <artifactId>ticket-service-cli</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>

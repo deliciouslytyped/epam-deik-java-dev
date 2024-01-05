@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<!--TODO I dont understand how this works-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block data-th-fragment="imports">
+        <!-- TODO werent these supposed to resolve the static path?-->
+        <link data-th-href="@{/static/DataTables/DataTables-1.13.8/css/dataTables.bootstrap5.css}" rel="stylesheet">
+        <link data-th-href="@{/static/DataTables/DataTables-1.13.8/css/jquery.dataTables.css}" rel="stylesheet">
+        <link data-th-href="@{/static/DataTables/ColReorder-1.7.0/css/colReorder.dataTables.css}" rel="stylesheet">
+        <link data-th-href="@{/static/DataTables/DateTime-1.5.1/css/dataTables.dateTime.css}" rel="stylesheet">
+        <link data-th-href="@{/static/DataTables/KeyTable-2.11.0/css/keyTable.dataTables.css}" rel="stylesheet">
+        <link data-th-href="@{/static/DataTables/SearchBuilder-1.6.0/css/searchBuilder.dataTables.css}" rel="stylesheet">
+        <link data-th-href="@{/static/DataTables/Buttons-2.4.2/css/buttons.dataTables.css}" rel="stylesheet">
+        <link data-th-href="@{/static/DataTables/Select-1.7.0/css/select.dataTables.css}" rel="stylesheet">
+        <link data-th-href="@{/static/bootstrap-5.3.2-dist/css/bootstrap.css}" rel="stylesheet">
+        <link data-th-href="@{/static/fontawesome-free-6.5.1-web/css/fontawesome.css}" rel="stylesheet">
+        <link data-th-href="@{/static/fontawesome-free-6.5.1-web/css/solid.css}" rel="stylesheet">
+        <link data-th-href="@{/static/select2-4.1.0-rc.0/dist/css/select2.css}" rel="stylesheet" />
+
+        <script data-th-src="@{/static/DataTables/jQuery-3.7.0/jquery-3.7.0.js}"></script>
+        <script data-th-src="@{/static/DataTables/DataTables-1.13.8/js/jquery.dataTables.js}"></script>
+        <script data-th-src="@{/static/DataTables/DataTables-1.13.8/js/dataTables.bootstrap5.js}"></script>
+        <script data-th-src="@{/static/DataTables/ColReorder-1.7.0/js/dataTables.colReorder.js}"></script>
+        <script data-th-src="@{/static/DataTables/DateTime-1.5.1/js/dataTables.dateTime.js}"></script>
+        <script data-th-src="@{/static/DataTables/KeyTable-2.11.0/js/dataTables.keyTable.js}"></script>
+        <script data-th-src="@{/static/DataTables/SearchBuilder-1.6.0/js/dataTables.searchBuilder.js}"></script>
+        <script data-th-src="@{/static/DataTables/Buttons-2.4.2/js/dataTables.buttons.js}"></script>
+        <script data-th-src="@{/static/DataTables/Select-1.7.0/js/dataTables.select.js}"></script>
+        <script data-th-src="@{/static/DataTables/dataTables.altEditor.free.js}"></script>
+        <script data-th-src="@{/static/bootstrap-5.3.2-dist/js/bootstrap.js}"></script>
+        <script data-th-src="@{/static/select2-4.1.0-rc.0/dist/js/select2.js}"></script>
+
+        <script data-th-src="@{/static/mytable.js}"></script>
+    </th:block>
+
+    <th:block data-th-fragment="csrfJs">
+        <script data-th-inline="javascript">
+            var csrfToken = /*[[${_csrf.token}]]*/ 'token';
+            var csrfHeader = /*[[${_csrf.headerName}]]*/ 'header';
+        </script>
+    </th:block>
+
+    <th:block data-th-fragment="fkEnums">
+        <script data-th-inline="javascript">
+            myEnums = {
+                movietitle: /*[[${movieTitleSet}]]*/ null,
+                roomname: /*[[${roomNameSet}]]*/ null
+            };
+        </script>
+    </th:block>
+
+</head>
+<body>
+    <th:block data-th-fragment="account-tables"> <!--TODO figure out how i want to to table identification for the js callbacks-->
+        <!-- generated with chatgpt and then some cleanup -->
+        <table class="table table-striped" data-entity="applicationadmin" data-noadd >
+            <thead>
+            <tr>
+                <th data-colname="id">Admin ID</th>
+                <th data-colname="name">Admin Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="admin : ${admins}">
+                <td data-th-text="${admin.uid}" >Admin ID</td>
+                <td data-th-text="${admin.uname}" >Admin Name</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-striped" data-entity="applicationuser" data-noadd >
+            <thead>
+            <tr>
+                <th data-colname="id">User ID</th>
+                <th data-colname="name">User Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="user : ${users}">
+                <td data-th-text="${user.uid}" >Admin ID</td>
+                <td data-th-text="${user.uname}" >Admin Name</td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+
+    <th:block data-th-fragment="movie-table">
+        <table class="table table-striped" data-entity="movie" >
+            <thead>
+            <tr>
+                <th data-colname="title">Title</th>
+                <th data-colname="genre">Genre</th>
+                <th data-colname="runtime">Runtime</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="movie : ${movies}">
+                <td data-th-text="${movie.title}" >Title</td>
+                <td data-th-text="${movie.genre}">Genre</td>
+                <td data-th-text="${movie.runtime}">Runtime</td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+
+    <th:block data-th-fragment="room-table">
+        <table class="table table-striped" data-entity="room">
+            <thead>
+            <tr>
+                <th data-colname="name">Room Name</th>
+                <th data-colname="rowCount">Row Count</th>
+                <th data-colname="colCount">Column Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="room : ${rooms}">
+                <td data-th-text="${room.name}">Room Name</td>
+                <td data-th-text="${room.rowCount}">Row Count</td>
+                <td data-th-text="${room.colCount}">Column Count</td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+
+    <th:block data-th-fragment="screening-table">
+        <table class="table table-striped" data-entity="screening" >
+            <thead>
+            <tr>
+                <th data-colname="movietitle" data-selecttype="movietitle">Movie Title</th>
+                <th data-colname="roomname" data-selecttype="roomname">Room Name</th>
+                <th data-colname="starttime">Screening Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="screening : ${screenings}">
+                <td data-th-text="${screening.movieTitle}" >Movie Title</td>
+                <td data-th-text="${screening.roomName}" >Room Name</td>
+                <td data-th-text="${screening.time}" >Screening Time</td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+
+    <th:block data-th-fragment="reservation-table">
+        TODO
+        <table data-th-each="userDto : ${users}" class="table table-striped" data-entity="reservation" >
+            <thead>
+            <tr>
+                <th data-colname="uid">User ID</th>
+                <th data-colname="username">User Name</th>
+                <th data-colname="ticketid">Ticket ID</th>
+                <th data-colname="paid">Amount Paid</th>
+                <th data-colname="movietitle">Movie Title</th>
+                <th data-colname="roomname">Room Name</th>
+                <th data-colname="time">Screening Time</th>
+                <th data-colname="reservations">Reservations</th>
+            </tr>
+            </thead>
+            <!-- Iterate over bookings -->
+            <tbody>
+            <tr data-th-each="booking : ${userDto.bookings}">
+                <td data-th-text="${userDto.uid}">User ID</td>
+                <td data-th-text="${userDto.uname}">User Name</td>
+                <td data-th-text="${booking.ticketId}">Ticket ID</td>
+                <td data-th-text="${booking.paid}">Amount Paid</td>
+                <td data-th-text="${booking.screening.movieTitle}">Movie Title</td>
+                <td data-th-text="${booking.screening.roomName}">Room Name</td>
+                <td data-th-text="${booking.screening.time}">Screening Time</td>
+                <!-- Iterate over reservations -->
+                <td>
+                    <table data-entity="seat">
+                        <thead>
+                        <tr>
+                            <th data-colname="row">Row</th>
+                            <th data-colname="col">Column</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-th-each="reservation : ${booking.reservations}">
+                            <td data-th-text="${reservation.seat.rowIdx}"></td>
+                            <td data-th-text="${reservation.seat.colIdx}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+
+    <th:block data-th-fragment="logoutBtn">
+        <form action="logout" method="post"> <!-- https://www.baeldung.com/csrf-thymeleaf-with-spring-security says this is needed here but why...? -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit">Logout</button>
+        </form>
+    </th:block>
+
+    <th:block data-th-fragment="register">
+        Register;
+        <form data-th-action="register" method="post">
+            <label>Username:
+                <input type="text" name="username"/>
+            </label>
+            <label>
+                Password:
+                <input type="password" name="password"/>
+            </label>
+            <button>Submit</button>
+        </form>
+    </th:block>
+</body>
+</html>

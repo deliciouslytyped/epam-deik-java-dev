@@ -2,8 +2,11 @@ package com.epam.training.ticketservice.tests.support;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
+import lombok.SneakyThrows;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 public class CurrentStepFormatter implements ConcurrentEventListener {
     @Override
@@ -11,8 +14,14 @@ public class CurrentStepFormatter implements ConcurrentEventListener {
         publisher.registerHandlerFor(TestCaseStarted.class, this::handleTestCaseStarted);
     }
 
+    @SneakyThrows
+    //TODO fix this so it points at the original source, not the test classes directory
     private String locToStr(URI uri, Integer line){
-        return uri.toString() + ":" + line.toString();
+        // because we are now using classpath:
+        // this is chatgptd. Is there a less messy way to do this?
+        // probably not due to javas ability to load classes from urls etc whatever
+        var path = Paths.get(getClass().getClassLoader().getResource(uri.getSchemeSpecificPart()).toURI()).toString();
+        return path + ":" + line.toString();
     }
 
     private Integer getLine(Step v){

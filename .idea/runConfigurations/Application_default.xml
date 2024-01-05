@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Application default" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="ticket-service" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.epam.training.ticketservice.Application" />
+    <option name="VM_PARAMETERS" value="-Dstartuptypehack=create-drop" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

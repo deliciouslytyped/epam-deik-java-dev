@@ -1,6 +1,8 @@
 package com.epam.training.ticketservice.lib.screening.persistence;
 
-import com.epam.training.ticketservice.support.AlternateKeyFragmentImpl;
+import com.epam.training.ticketservice.support.jparepo.AlternateKeyFragmentImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.core.EntityInformation;
 
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;

@@ -7,8 +7,6 @@ import com.epam.training.ticketservice.lib.movie.persistence.MovieCrudRepository
 import com.epam.training.ticketservice.support.CustomCrudServiceImpl;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintViolationHandler;
-import com.epam.training.ticketservice.support.exceptions.ApplicationDomainException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +16,19 @@ import static com.epam.training.ticketservice.support.db.constraints.ConstraintH
 
 @Service
 public class MovieCrudServiceImpl extends CustomCrudServiceImpl<MovieDto, Movie, String, MovieMapper, MovieCrudRepository> implements MovieCrudService {
+
     MovieCrudServiceImpl(MovieCrudRepository repo, MovieMapper mapper){
         super(repo, mapper);
+    }
+
+    @Override
+    public String keyFromStrings(String... s) {
+        return s[0];
+    }
+
+    @Override
+    public int keyFromStringsSize() {
+        return 1;
     }
 
     @Override

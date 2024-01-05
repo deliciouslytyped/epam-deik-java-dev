@@ -1,26 +1,16 @@
 package com.epam.training.ticketservice.lib.room;
 
-import com.epam.training.ticketservice.lib.movie.MovieCrudService;
-import com.epam.training.ticketservice.lib.movie.model.MovieDto;
-import com.epam.training.ticketservice.lib.movie.persistence.Movie;
-import com.epam.training.ticketservice.lib.movie.persistence.MovieCrudRepository;
-import com.epam.training.ticketservice.lib.room.model.RoomMapper;
-import com.epam.training.ticketservice.support.CustomCrudServiceImpl;
-import com.epam.training.ticketservice.support.db.constraints.ConstraintFilters;
-import com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder;
-import com.epam.training.ticketservice.support.db.constraints.ConstraintViolationHandler;
 import com.epam.training.ticketservice.lib.room.model.RoomDto;
+import com.epam.training.ticketservice.lib.room.model.RoomMapper;
 import com.epam.training.ticketservice.lib.room.persistence.Room;
 import com.epam.training.ticketservice.lib.room.persistence.RoomCrudRepository;
-import com.epam.training.ticketservice.support.exceptions.AlreadyExistsException;
-import com.epam.training.ticketservice.support.exceptions.ApplicationDomainException;
-import lombok.RequiredArgsConstructor;
+import com.epam.training.ticketservice.support.CustomCrudServiceImpl;
+import com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder;
+import com.epam.training.ticketservice.support.db.constraints.ConstraintViolationHandler;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder.createConstraintHandler;
 
@@ -35,6 +25,16 @@ import static com.epam.training.ticketservice.support.db.constraints.ConstraintH
 public class RoomCrudServiceImpl extends CustomCrudServiceImpl<RoomDto, Room, String, RoomMapper, RoomCrudRepository> implements RoomCrudService {
     public RoomCrudServiceImpl(@NonNull RoomCrudRepository repo, @NonNull RoomMapper mapper) {
         super(repo, mapper);
+    }
+
+    @Override
+    public String keyFromStrings(String... s) {
+        return s[0];
+    }
+
+    @Override
+    public int keyFromStringsSize() {
+        return 1;
     }
 
     @Override

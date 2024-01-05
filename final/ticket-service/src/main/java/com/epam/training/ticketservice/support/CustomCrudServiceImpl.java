@@ -1,23 +1,31 @@
 package com.epam.training.ticketservice.support;
 
+import com.epam.training.ticketservice.lib.security.aspects.DefaultPrivileged;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintViolationHandler;
-import com.epam.training.ticketservice.support.exceptions.ApplicationDomainException;
+import com.epam.training.ticketservice.support.jparepo.CustomJpaRepository;
+import com.epam.training.ticketservice.support.jparepo.UpdateByEntityFragment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 @RequiredArgsConstructor
-public abstract class CustomCrudServiceImpl<T,U,ID,M extends CustomMapper<T,U>,R extends JpaRepository<U,ID> & UpdateByEntityFragment<U>> implements CustomCrudService<T, ID> {
+public abstract class CustomCrudServiceImpl<T,U,ID,M extends CustomMapper<T,U,ID>,R extends JpaRepository<U,ID> & UpdateByEntityFragment<U>> implements CustomCrudService<T,ID,M> {
     protected final R repo;
-    protected final M mapper;
+    public final M mapper;
+
+    public M getMapper(){
+        return mapper;
+    }
+
+    public abstract ID keyFromStrings(String... s); //TODO wish I didnt have to override this in every implementor but I couldnt figure out any way to get it to work. it causes implicit type conversion ambiguity errors if i try to do it in the mapstruct / mapping classes, which is where this *should* live...
+    public abstract int keyFromStringsSize();
 
     protected ConstraintHandlerHolder<T> getCreateHandler() { return new ConstraintHandlerHolder<T>(); };
     protected ConstraintHandlerHolder<T> getUpdateHandler() { return new ConstraintHandlerHolder<T>(); };
@@ -27,6 +35,8 @@ public abstract class CustomCrudServiceImpl<T,U,ID,M extends CustomMapper<T,U>,R
         var handler = getHH.get();
         new ConstraintViolationHandler(r).lazyHandlerRun(handler, arg);
     }
+
+    //TODO move to security and inject?
     @Override
     public void create(@NonNull T entityDto) {
         useHandler(this::getCreateHandler, entityDto, () -> { //Not using simple try catch for this because hibernate makes it a pain to access the violation type? so im trying to clean up the business logic like this?

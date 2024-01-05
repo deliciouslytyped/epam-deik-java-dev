@@ -26,6 +26,7 @@ public class ProcessUnderTest implements AutoCloseable {
             return;
         }
         process = Runtime.getRuntime().exec(command);
+        System.out.println("PID is:" + process.pid());
         output = new BufferedReader(new InputStreamReader(process.getInputStream()));
         input = new OutputStreamWriter(process.getOutputStream());
         Thread.sleep(JVM_STARTUP_FAILURE_WAIT_TIME);
@@ -50,7 +51,9 @@ public class ProcessUnderTest implements AutoCloseable {
     public void writeOnInput(String command) throws IOException {
         verifyProcessIsRunning();
         clearOutput(DELAY_BEFORE_CLEANING_PROCESS_OUTPUT);
-        input.write(command + System.lineSeparator());
+        var theInput = command + System.lineSeparator();
+        System.out.println(theInput);
+        input.write(theInput);
         input.flush();
     }
 
@@ -61,7 +64,8 @@ public class ProcessUnderTest implements AutoCloseable {
             e.printStackTrace();
         }
         while (output.ready()) {
-            output.read();
+            int c = output.read();
+            System.out.print((char)c);
         }
     }
 
@@ -69,6 +73,7 @@ public class ProcessUnderTest implements AutoCloseable {
         String actualString = "";
         do {
             int c = output.read();
+            System.out.print((char)c);
             if (c == -1) {
                 throw new IOException("Reached EOF before receiving '" + expectedOutput + "'");
             }

@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.lib.room.persistence;
 
-import com.epam.training.ticketservice.support.CheckConstraint;
-import com.epam.training.ticketservice.support.GenUpdateByEntityFragment;
+import com.epam.training.ticketservice.support.jparepo.CheckConstraint;
+import com.epam.training.ticketservice.support.jparepo.GenUpdateByEntityFragment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,0 +1,14 @@
+package com.epam.training.ticketservice.lib.security.aspects;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * defaults to all methods being checked if no checkedMethods arr is given
+ */
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@DefaultPrivilegedBase("USER")
+public @interface DefaultUserPrivileged {}

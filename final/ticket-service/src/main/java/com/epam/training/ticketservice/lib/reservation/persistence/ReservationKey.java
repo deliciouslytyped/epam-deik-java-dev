@@ -1,8 +1,7 @@
 package com.epam.training.ticketservice.lib.reservation.persistence;
 
-import com.epam.training.ticketservice.lib.booking.persistence.Booking;
+import com.epam.training.ticketservice.lib.ticket.persistence.Ticket;
 import com.epam.training.ticketservice.lib.screening.persistence.Screening;
-import com.epam.training.ticketservice.lib.seat.persistence.Seat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import java.io.Serializable;
 @Embeddable
 public class ReservationKey implements Serializable {
     @ManyToOne
-    public Booking booking;
+    public Ticket booking;
 
     @ManyToOne
     public Screening screening;

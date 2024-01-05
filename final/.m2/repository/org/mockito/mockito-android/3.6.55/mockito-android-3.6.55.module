@@ -1,0 +1,123 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.mockito",
+    "module": "mockito-android",
+    "version": "3.6.55",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.4.1",
+      "buildId": "yfe7liwb2rf2ze6yezxhk6hosm"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.mockito",
+          "module": "mockito-core",
+          "version": {
+            "requires": "3.6.55"
+          },
+          "excludes": [
+            {
+              "group": "org.objenesis",
+              "module": "objenesis"
+            }
+          ]
+        },
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy-android",
+          "version": {
+            "requires": "1.10.18"
+          }
+        },
+        {
+          "group": "org.objenesis",
+          "module": "objenesis",
+          "version": {
+            "strictly": "2.6",
+            "requires": "2.6"
+          },
+          "reason": "\nMOCKITO DEPENDENCY PROBLEM:\n\nMockito core uses Objenesis 3.x and Objenesis 3.x does not work with android api 25 and below.\nIf you have mockito-core dependency with mockito-android, remove mockito-core.\nIf you have mockito-kotlin, exclude mockito-core.\nimplementation(\"com.nhaarman.mockitokotlin2:mockito-kotlin\") {\n    exclude group: \"org.mockito\", module: \"mockito-core\"\n}\nFor more information please check; \n    https://github.com/mockito/mockito/pull/2024\n    https://github.com/mockito/mockito/pull/2007\n"
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-android-3.6.55.jar",
+          "url": "mockito-android-3.6.55.jar",
+          "size": 7297,
+          "sha512": "fffd0a2308410490fe9868cafe879cdfb5fea80b18c1b575ea5051ab7d2568eaa32df33518c57207a8e2e314fe1169735675b9c21f70e45ce7f8448ecaf3072c",
+          "sha256": "e4565bfce0b78fe0b70c8f374c1bb863f4e430a5256c02d98e9042fe4f279a09",
+          "sha1": "f4554154bc9c7404c4290124628320c7fed61758",
+          "md5": "3f4e29c73c6a2faea750f1bf0f1b1b44"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.mockito",
+          "module": "mockito-core",
+          "version": {
+            "requires": "3.6.55"
+          },
+          "excludes": [
+            {
+              "group": "org.objenesis",
+              "module": "objenesis"
+            }
+          ]
+        },
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy-android",
+          "version": {
+            "requires": "1.10.18"
+          }
+        },
+        {
+          "group": "org.objenesis",
+          "module": "objenesis",
+          "version": {
+            "strictly": "2.6",
+            "requires": "2.6"
+          },
+          "reason": "\nMOCKITO DEPENDENCY PROBLEM:\n\nMockito core uses Objenesis 3.x and Objenesis 3.x does not work with android api 25 and below.\nIf you have mockito-core dependency with mockito-android, remove mockito-core.\nIf you have mockito-kotlin, exclude mockito-core.\nimplementation(\"com.nhaarman.mockitokotlin2:mockito-kotlin\") {\n    exclude group: \"org.mockito\", module: \"mockito-core\"\n}\nFor more information please check; \n    https://github.com/mockito/mockito/pull/2024\n    https://github.com/mockito/mockito/pull/2007\n"
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-android-3.6.55.jar",
+          "url": "mockito-android-3.6.55.jar",
+          "size": 7297,
+          "sha512": "fffd0a2308410490fe9868cafe879cdfb5fea80b18c1b575ea5051ab7d2568eaa32df33518c57207a8e2e314fe1169735675b9c21f70e45ce7f8448ecaf3072c",
+          "sha256": "e4565bfce0b78fe0b70c8f374c1bb863f4e430a5256c02d98e9042fe4f279a09",
+          "sha1": "f4554154bc9c7404c4290124628320c7fed61758",
+          "md5": "3f4e29c73c6a2faea750f1bf0f1b1b44"
+        }
+      ]
+    }
+  ]
+}

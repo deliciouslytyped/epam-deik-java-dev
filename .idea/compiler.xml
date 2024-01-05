@@ -21,6 +21,7 @@
         <module name="cucumber-java" />
         <module name="java-calculator-junit5" />
         <module name="java-calculator-testng" />
+        <module name="ticket-service-android-maven-bridge" />
         <module name="cucumber-core" />
         <module name="java-calculator" />
         <module name="maven-surefire-plugin" />
@@ -32,6 +33,7 @@
         <module name="money" />
         <module name="docstring" />
         <module name="cucumber-gherkin" />
+        <module name="ticket-service-cli" />
         <module name="cucumber-spring" />
       </profile>
       <profile name="Annotation profile for ticket-service-parent" enabled="true">
@@ -41,10 +43,10 @@
         <option name="mapstruct.defaultComponentModel" value="spring" />
         <option name="mapstruct.verbose" value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$PROJECT_DIR$/final/.m2/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$PROJECT_DIR$/final/.m2/repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$PROJECT_DIR$/final/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$PROJECT_DIR$/final/.m2/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ticket-service" />
       </profile>
@@ -65,6 +67,7 @@
       <module name="cucumber-plugin" options="-parameters" />
       <module name="cucumber-spring" options="-parameters" />
       <module name="docstring" options="-parameters" />
+      <module name="h2" options="-parameters" />
       <module name="java-calculator" options="-parameters" />
       <module name="java-calculator-junit5" options="-parameters" />
       <module name="java-calculator-testng" options="-parameters" />
@@ -75,6 +78,8 @@
       <module name="surefire-api" options="-Xdoclint:all" />
       <module name="ticket-service" options="-parameters -Amapstruct.verbose=true -Amapstruct.defaultComponentModel=spring" />
       <module name="ticket-service-acceptance-tests" options="-parameters" />
+      <module name="ticket-service-android-maven-bridge" options="-parameters" />
+      <module name="ticket-service-cli" options="-parameters" />
       <module name="ticket-service-integration" options="-parameters" />
       <module name="ticket-service-parent" options="-parameters" />
       <module name="ticket-service-web" options="-parameters" />
