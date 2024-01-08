@@ -11,30 +11,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ticket-service-web" />
+        <module name="ticket-service-acceptance-tests" />
         <module name="ticket-service-integration" />
         <module name="surefire-api" />
-        <module name="java8-calculator" />
-        <module name="h2" />
-        <module name="cucumber-compatibility" />
-        <module name="cucumber-junit" />
-        <module name="ticket-service-acceptance-tests" />
-        <module name="cucumber-java" />
-        <module name="java-calculator-junit5" />
-        <module name="java-calculator-testng" />
-        <module name="ticket-service-android-maven-bridge" />
-        <module name="cucumber-core" />
-        <module name="java-calculator" />
         <module name="maven-surefire-plugin" />
-        <module name="cucumber-junit-platform-engine" />
-        <module name="taxi" />
-        <module name="cucumber-gherkin-messages" />
-        <module name="cucumber-plugin" />
-        <module name="spring-txn" />
         <module name="money" />
-        <module name="docstring" />
-        <module name="cucumber-gherkin" />
+        <module name="taxi" />
+        <module name="ticket-service-android-maven-bridge" />
         <module name="ticket-service-cli" />
-        <module name="cucumber-spring" />
       </profile>
       <profile name="Annotation profile for ticket-service-parent" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -51,6 +35,27 @@
         <module name="ticket-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cucumber-compatibility" target="21" />
+      <module name="cucumber-core" target="21" />
+      <module name="cucumber-examples" target="21" />
+      <module name="cucumber-gherkin" target="21" />
+      <module name="cucumber-gherkin-messages" target="21" />
+      <module name="cucumber-java" target="21" />
+      <module name="cucumber-junit" target="21" />
+      <module name="cucumber-junit-platform-engine" target="21" />
+      <module name="cucumber-jvm" target="21" />
+      <module name="cucumber-parent" target="20" />
+      <module name="cucumber-plugin" target="21" />
+      <module name="cucumber-spring" target="21" />
+      <module name="docstring" target="21" />
+      <module name="h2" target="20" />
+      <module name="java-calculator" target="21" />
+      <module name="java-calculator-junit5" target="21" />
+      <module name="java-calculator-testng" target="21" />
+      <module name="java8-calculator" target="21" />
+      <module name="spring-txn" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
