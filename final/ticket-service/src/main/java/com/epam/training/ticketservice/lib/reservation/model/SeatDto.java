@@ -1,8 +1,6 @@
 package com.epam.training.ticketservice.lib.reservation.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 import java.io.Serializable;
 
@@ -13,4 +11,8 @@ import java.io.Serializable;
 public class SeatDto implements Serializable {
     private final Integer rowIdx;
     private final Integer colIdx;
+
+    public String toPairString() {
+        return "(" + rowIdx.toString() + "," + colIdx.toString() + ")";
+    }
 }

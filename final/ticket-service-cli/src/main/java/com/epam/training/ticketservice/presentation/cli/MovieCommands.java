@@ -9,9 +9,11 @@ import org.springframework.shell.standard.ShellMethod;
 
 import java.util.stream.Collectors;
 
+import static java.util.FormatProcessor.FMT;
+
 @ShellComponent
 @RequiredArgsConstructor
-public class MovieCommands {
+public class MovieCommands implements PrivilegedCommand {
     private final MovieCrudServiceImpl service;
 
     @ShellMethod(key = "create movie")
@@ -41,6 +43,15 @@ public class MovieCommands {
     }
     @ShellMethod(key = "list movies")
     public String list() {
-        return service.list().stream().map(Object::toString).collect(Collectors.joining("\n"));
+        var rooms = service.list();
+        if (rooms.isEmpty()) {
+            return "There are no movies at the moment";
+        } else {
+            return rooms.stream()
+                    .map(m -> {
+                        return FMT."\{m.getTitle()} (\{m.getGenre()}, \{m.getRuntime()} minutes)";
+                    })
+                    .collect(Collectors.joining("\n"));
+        }
     }
 }

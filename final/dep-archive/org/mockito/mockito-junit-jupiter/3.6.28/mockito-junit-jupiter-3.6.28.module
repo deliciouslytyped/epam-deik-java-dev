@@ -1,0 +1,86 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.mockito",
+    "module": "mockito-junit-jupiter",
+    "version": "3.6.28",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.4.1",
+      "buildId": "rppnpyjr5vaqvg75ig5avj6rsy"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.mockito",
+          "module": "mockito-core",
+          "version": {
+            "requires": "3.6.28"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-junit-jupiter-3.6.28.jar",
+          "url": "mockito-junit-jupiter-3.6.28.jar",
+          "size": 4971,
+          "sha512": "4807071a55d31d1654386a69a5c1c76a0211e551631d5c68dd2d30d308bad2057da431746f6869290cf4278a6449c0b5c4458676168a3d936a00e047e5415880",
+          "sha256": "6886f3eb963eb025859aa78fe35705fdabbdc587c0108300be60c926ce961e86",
+          "sha1": "3f0420dd85de367d0a7922a920ab88f231559449",
+          "md5": "f1f010645337d0ded71c426452614e45"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.junit.jupiter",
+          "module": "junit-jupiter-api",
+          "version": {
+            "requires": "5.4.2"
+          }
+        },
+        {
+          "group": "org.mockito",
+          "module": "mockito-core",
+          "version": {
+            "requires": "3.6.28"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-junit-jupiter-3.6.28.jar",
+          "url": "mockito-junit-jupiter-3.6.28.jar",
+          "size": 4971,
+          "sha512": "4807071a55d31d1654386a69a5c1c76a0211e551631d5c68dd2d30d308bad2057da431746f6869290cf4278a6449c0b5c4458676168a3d936a00e047e5415880",
+          "sha256": "6886f3eb963eb025859aa78fe35705fdabbdc587c0108300be60c926ce961e86",
+          "sha1": "3f0420dd85de367d0a7922a920ab88f231559449",
+          "md5": "f1f010645337d0ded71c426452614e45"
+        }
+      ]
+    }
+  ]
+}

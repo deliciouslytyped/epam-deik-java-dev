@@ -12,7 +12,7 @@ public class Exceptions {
     }
 
     public static void throwOverlap(ScreeningDto arg){
-        throw new ApplicationDomainException("You can't create a screening that overaps with another screening in the same room.");
+        throw new ApplicationDomainException("You can't create a screening that overlaps with another screening in the same room.");
     }
 
     public static void throwOverlapBreak(ScreeningDto arg){

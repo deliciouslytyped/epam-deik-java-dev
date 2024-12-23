@@ -5,7 +5,8 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "classpath:features")
+//TODO shouldnt need to specify the glue path explicitly
+@CucumberOptions(features = "classpath:features", glue="com.training.epam.ticketservice.at")
 public class TestExecutor {
 
 }

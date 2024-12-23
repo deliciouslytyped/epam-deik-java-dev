@@ -3,6 +3,8 @@ package com.epam.training.ticketservice.lib.screening.model;
 import com.epam.training.ticketservice.lib.movie.MovieCrudService;
 import com.epam.training.ticketservice.lib.movie.model.MovieMapper;
 import com.epam.training.ticketservice.lib.movie.persistence.MovieCrudRepository;
+import com.epam.training.ticketservice.lib.reservation.model.ReservationDto;
+import com.epam.training.ticketservice.lib.reservation.persistence.Reservation;
 import com.epam.training.ticketservice.lib.room.RoomCrudService;
 import com.epam.training.ticketservice.lib.room.model.RoomDto;
 import com.epam.training.ticketservice.lib.room.model.RoomMapper;
@@ -40,14 +42,27 @@ public abstract class ScreeningMapper extends CustomMapper<ScreeningDto, Screeni
     //TODO do I really need to override all these?
     //TODO I need to figure out if this is supposed to be retrieving or creating, and if its only one of the two, what do you do for the other case?
     // I guess dtos created from entities would need to have a backreference to their entity (basically caching?) and dtos created out of thin-air need this lookup
+    /*TODO why did this look like this?
     @SneakyThrows
     @Override
     public Screening dtoToEntity(@NonNull ScreeningDto entityDto){
         return sr.getByAlternateKey(Screening.class, dtoToAlternateKey(entityDto)).orElseThrow(() -> new NoSuchRecordException(entityDto.toString()));
     };
+    */
+    //public Screening dtoToEntity(@NonNull ScreeningDto entityDto){}
+    @Override
+    @Mappings({
+            @Mapping(target = "screeningId", source = "id"),
+            @Mapping(target = "screening.movie.title", source = "movieTitle"),
+            @Mapping(target = "screening.room.name", source = "roomName"),
+            @Mapping(target = "screening.startTime", source = "time"),
+    })
+    public abstract Screening dtoToEntity(@NonNull ScreeningDto entityDto);
+
 
     @Override
     @Mappings({
+            @Mapping(source = "screeningId", target = "id"),
             @Mapping(source = "screening.movie.title", target = "movieTitle"),
             @Mapping(source = "screening.room.name", target = "roomName"),
             @Mapping(source = "screening.startTime", target = "time"),
@@ -62,12 +77,13 @@ public abstract class ScreeningMapper extends CustomMapper<ScreeningDto, Screeni
 
     @Override
     public ScreeningDto dtoFromStrings(@NonNull String... strings) {
-        return new ScreeningDto(strings[0], strings[1], Instant.parse(strings[2]));
+        return new ScreeningDto(Long.parseLong(strings[0]), strings[1], strings[2], Instant.parse(strings[3]));
     }
 
     @Override
     public ScreeningDto dtoFromJSON(@NonNull JsonNode attrs) {
         return dtoFromStrings(
+                Objects.requireNonNull(attrs.get("id").textValue()),
                 Objects.requireNonNull(attrs.get("movietitle").textValue()),
                 Objects.requireNonNull(attrs.get("roomname").textValue()),
                 Objects.requireNonNull(attrs.get("time").textValue())

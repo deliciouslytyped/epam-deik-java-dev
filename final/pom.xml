@@ -23,14 +23,14 @@
     <distributionManagement>
         <repository>
             <id>local-repo</id>
-            <url>file://${project.basedir}/.m2/repository</url>
+            <url>file://${projectroot}/.m2/repository</url>
         </repository>
     </distributionManagement>
 
     <repositories>
         <repository>
             <id>local-repo</id>
-            <url>file://${project.basedir}/.m2/repository</url>
+            <url>file://${projectroot}/.m2/repository</url>
         </repository>
     </repositories>
 
@@ -90,6 +90,12 @@
                 <requirements.cucumber-tags>@grade2-requirement or @grade3-requirement or @grade4-requirement or
                     @grade5-requirement
                 </requirements.cucumber-tags>
+            </properties>
+        </profile>
+        <profile>
+            <id>cucumber-isolate</id>
+            <properties>
+                <requirements.cucumber-tags>@cucumber-isolate</requirements.cucumber-tags>
             </properties>
         </profile>
 
@@ -178,6 +184,7 @@
                                 <failOnViolation>${requirements.fail-build-on-checkstyle-error}</failOnViolation>
                                 <violationSeverity>warning</violationSeverity>
                                 <linkXRef>false</linkXRef>
+                                <includes>**/ticket-service*/**/*.java</includes>
                             </configuration>
                             <executions>
                                 <execution>

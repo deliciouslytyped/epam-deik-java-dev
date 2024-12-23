@@ -1,0 +1,107 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.mockito",
+    "module": "mockito-core",
+    "version": "3.6.55",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.4.1",
+      "buildId": "yfe7liwb2rf2ze6yezxhk6hosm"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy",
+          "version": {
+            "requires": "1.10.18"
+          }
+        },
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy-agent",
+          "version": {
+            "requires": "1.10.18"
+          }
+        },
+        {
+          "group": "org.objenesis",
+          "module": "objenesis",
+          "version": {
+            "requires": "3.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-core-3.6.55.jar",
+          "url": "mockito-core-3.6.55.jar",
+          "size": 668618,
+          "sha512": "6ee17ad5387beddafcda1ef7f7f0a05784e456848e4044ddce3805153738fb7caa8e2b3ed6f76c087e212de9b8b9e75d6a0c2548fdc0be0ce99045ea61c9b02d",
+          "sha256": "2fbf0de6e17284f3811649215622335a0ffa3b265852be0625c86d0aba4b8351",
+          "sha1": "e1d48cefea711f255c1cff570391753ef5c6285a",
+          "md5": "0371fe696e3916dae8b48b6e57b715b7"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy",
+          "version": {
+            "requires": "1.10.18"
+          }
+        },
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy-agent",
+          "version": {
+            "requires": "1.10.18"
+          }
+        },
+        {
+          "group": "org.objenesis",
+          "module": "objenesis",
+          "version": {
+            "requires": "3.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-core-3.6.55.jar",
+          "url": "mockito-core-3.6.55.jar",
+          "size": 668618,
+          "sha512": "6ee17ad5387beddafcda1ef7f7f0a05784e456848e4044ddce3805153738fb7caa8e2b3ed6f76c087e212de9b8b9e75d6a0c2548fdc0be0ce99045ea61c9b02d",
+          "sha256": "2fbf0de6e17284f3811649215622335a0ffa3b265852be0625c86d0aba4b8351",
+          "sha1": "e1d48cefea711f255c1cff570391753ef5c6285a",
+          "md5": "0371fe696e3916dae8b48b6e57b715b7"
+        }
+      ]
+    }
+  ]
+}

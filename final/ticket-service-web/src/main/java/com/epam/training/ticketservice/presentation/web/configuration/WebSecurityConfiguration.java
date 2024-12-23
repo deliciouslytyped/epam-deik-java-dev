@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 //TODO fix logout url
@@ -36,11 +37,23 @@ public class WebSecurityConfiguration {
     }
 
 
+    //TODO from sonnet
+    @Bean
+    @Order(1)
+    public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .antMatcher("/h2-console/**")
+                .authorizeRequests(auth -> auth.anyRequest().permitAll())
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions().disable());
+        return http.build();
+    }
+
     // 1. auth admin area
     // 2. auth user area
     // 3. allow everything else
     @Bean
-    @Order(1)//TODO wrong?
+    @Order(2)//TODO wrong?
     //TODO check if this even works / like i want it to
     public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception { //TODO does this override the default filter chain?
         http
@@ -59,7 +72,7 @@ public class WebSecurityConfiguration {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception { //TODO does this override the default filter chain?
         http
             .antMatcher("/user/**")

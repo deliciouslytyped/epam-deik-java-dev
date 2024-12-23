@@ -18,4 +18,8 @@ public class Exceptions {
     public static void throwNotExistWithContext(ReservationKey id, Exception e) {
         throw new ApplicationDomainException("The reservation " + id + " does not exist.", e);
     }
+
+    public static void throwSeatReserved(ReservationDto arg) {
+        throw new SeatAlreadyReserved();
+    }
 }

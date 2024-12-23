@@ -13,5 +13,5 @@ import java.util.List;
 public interface ReservationCrudService extends CustomCrudService<ReservationDto, ReservationKey, ReservationMapper> {
     List<ReservationDto> findAllByTicketId(Long ticketId);
 
-    void addSeat(@NonNull TicketDto t, @NonNull ScreeningDto s, int row, int col);
+    ReservationDto addSeat(@NonNull TicketDto t, @NonNull ScreeningDto s, int row, int col);
 }

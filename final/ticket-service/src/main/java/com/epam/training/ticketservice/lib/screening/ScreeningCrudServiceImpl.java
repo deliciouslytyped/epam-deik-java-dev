@@ -41,7 +41,7 @@ public class ScreeningCrudServiceImpl extends CustomCrudServiceImpl<ScreeningDto
                 Map.of(ConstraintViolationHandler.ConstraintType.PRIMARY_KEY, Exceptions::throwExists), //TODO nonexistent FK violations
                 Map.of(
                     "NO_OVERLAP", Exceptions::throwOverlap,
-                    "NO_OVERLAP_BREAK", Exceptions::throwOverlapBreak,
+                    "NO__OVERLAP_BREAK", Exceptions::throwOverlapBreak, //TODO prefix cant overlap because of funky name matching
                     "FUTURE_ONLY", Exceptions::throwPast)
         );
     }

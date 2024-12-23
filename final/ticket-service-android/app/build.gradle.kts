@@ -1,17 +1,17 @@
 plugins {
     //id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
-    id("com.android.application") version "8.2.0"
+    id("com.android.application") version "8.2.1"
     id("org.jetbrains.kotlin.android") version "1.9.22"
 }
 
 android {
     namespace = "com.example.ticket_service_app"
-    compileSdk = 30
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.ticket_service_app"
-        minSdk = 30
-        targetSdk = 30
+        minSdk = 28
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 

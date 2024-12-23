@@ -43,21 +43,22 @@ public class ScreeningStepDefs implements ExceptionWatchingStepDefs {
     //NOTE since this is against the service layer, we use Instants internally. ZonedDateTime is for user facing code to then translate into the interal implementation or something?
     // On one hand thats lossy, because we lose the users timezone, on the other hand the frontend should be handling conersions to-from.
     public void assertScreening(String title, String room, Instant time){
-        var key = mapper.dtoToAlternateKey(new ScreeningDto(title, room, time));
+        var key = mapper.dtoToAlternateKey(new ScreeningDto(null, title, room, time));
         assertThat(ss.getByAlternateKey(key).get())
                 .usingRecursiveComparison()
-                .isEqualTo(new ScreeningDto(title, room, time));
+                .ignoringFields("id") //TODO HACK didnt check where we need to actually pay attention to this, ignoring the ID field after we added it to the dto.
+                .isEqualTo(new ScreeningDto(null, title, room, time));
     }
 
     @When("I attempt to create a screening of {string} in {string} at {instant}")
     public void iAttemptToCreateAScreeningOfInAtLocalstarttime(String movie, String room, Instant time) {
-        ss.create(new ScreeningDto(movie, room, time));
+        ss.create(new ScreeningDto(null, movie, room, time));
     }
 
     @Then("the screening for {string} in {string} at {instant} exists")
     public void theScreeningForInAtExists(String movie, String room, Instant time) {
         try {
-            ss.create(new ScreeningDto(movie, room, time));
+            ss.create(new ScreeningDto(null, movie, room, time));
         } catch (AlreadyExistsException ignored) {} // Don't need to do anything special
         assertScreening(movie, room, time);
     }

@@ -15,6 +15,7 @@ import com.epam.training.ticketservice.lib.screening.persistence.Screening;
 import com.epam.training.ticketservice.lib.screening.persistence.ScreeningCrudRepository;
 import com.epam.training.ticketservice.lib.reservation.persistence.Seat;
 import com.epam.training.ticketservice.lib.user.persistence.AdminRepository;
+import com.epam.training.ticketservice.lib.user.persistence.ApplicationAdmin;
 import com.epam.training.ticketservice.lib.user.persistence.ApplicationUserCrudRepository;
 import com.epam.training.ticketservice.lib.user.persistence.ApplicationUser;
 import lombok.RequiredArgsConstructor;
@@ -88,13 +89,14 @@ public class DbDataInitializer implements InitializingBean {
         var us = new ApplicationUser(null, "user", dpe.encode("pw"), Set.of(bk));
         ur.save(us);
 
-        /*var adm = new Admin(null, "admin", "admin");
-        ar.save(adm);*/
+        //var adm = new ApplicationAdmin(null, "admin", dpe.encode("admin"));
+        //ar.save(adm);
         var usr = new ApplicationUser(null, "steve", dpe.encode("pls"), null);
         ur.save(usr);
 
-        var bp = new BasePrice(1000);
-        bpr.save(bp);
+        /*var bp = new BasePrice(1500);
+        bpr.save(bp);*/
+        bpr.updateBasePriceBy(1500); //TODO is this idempotent? (i.e. if doesnt exist yet?)
 
         var ck = new Surcharge("cake", 100);
         sur.saveAll(Set.of(ck, new Surcharge("and eat it too", 1000)));

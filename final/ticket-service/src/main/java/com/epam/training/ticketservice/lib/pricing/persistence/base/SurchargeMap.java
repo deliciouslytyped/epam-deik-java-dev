@@ -25,6 +25,6 @@ public class SurchargeMap {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
 
-    @ManyToOne
+    @ManyToOne //TODO should be onetomany?
     public Surcharge surcharge;
 }

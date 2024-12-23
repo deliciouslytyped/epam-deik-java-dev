@@ -79,7 +79,7 @@ public class HibernateConstraintMatcher {
 
     public boolean isNamedCVE(ConstraintViolationException e, String constraintName){
         //eg (spring): "CHECK_NAME: "; SQL statement: insert into room (col_count, row_count, name) values (?, ?, ?) [23513-214]
-        if (e.getConstraintName().startsWith("\"" + constraintName)){
+        if (e.getConstraintName().startsWith("\"" + constraintName)){ //TODO overlapping prefixes issue
             return true;
         }
         return false; //TODO

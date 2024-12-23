@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity //TODO needs this, but creates extraneous parent table?
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(
-        uniqueConstraints = {
+        uniqueConstraints = { //TODO is this unique constraint actually working? register the same user multiple times and get an error on sign in?
                 // The naming is kind of funky; the columns joined/used from other tables use the database
                 // naming strategy but the columns used from this entity use the java-side names
                 @UniqueConstraint(name = "unique_uname", columnNames = {"username"})

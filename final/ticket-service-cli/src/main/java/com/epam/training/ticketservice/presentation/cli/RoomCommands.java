@@ -9,9 +9,11 @@ import org.springframework.shell.standard.ShellMethod;
 
 import java.util.stream.Collectors;
 
+import static java.util.FormatProcessor.FMT;
+
 @ShellComponent
 @RequiredArgsConstructor
-public class RoomCommands {
+public class RoomCommands implements PrivilegedCommand {
     private final RoomCrudService service;
 
     @ShellMethod(key = "create room")
@@ -41,6 +43,15 @@ public class RoomCommands {
     }
     @ShellMethod(key = "list rooms")
     public String list() {
-        return service.list().stream().map(Object::toString).collect(Collectors.joining("\n"));
+        var rooms = service.list();
+        if (rooms.isEmpty()) {
+            return "There are no rooms at the moment";
+        } else {
+            return rooms.stream()
+                    .map(r -> {
+                        return FMT."Room \{r.getName()} with \{r.getColCount()*r.getRowCount()} seats, \{r.getRowCount()} rows and \{r.getColCount()} columns";
+                    })
+                    .collect(Collectors.joining("\n"));
+        }
     }
 }

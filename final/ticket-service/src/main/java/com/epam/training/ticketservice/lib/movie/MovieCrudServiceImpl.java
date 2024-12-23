@@ -11,14 +11,19 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder.createConstraintHandler;
 
 @Service
 public class MovieCrudServiceImpl extends CustomCrudServiceImpl<MovieDto, Movie, String, MovieMapper, MovieCrudRepository> implements MovieCrudService {
 
-    MovieCrudServiceImpl(MovieCrudRepository repo, MovieMapper mapper){
+    private final MovieCrudRepository movieCrudRepository;
+
+    MovieCrudServiceImpl(MovieCrudRepository repo, MovieMapper mapper,
+                         MovieCrudRepository movieCrudRepository){
         super(repo, mapper);
+        this.movieCrudRepository = movieCrudRepository;
     }
 
     @Override
@@ -50,6 +55,10 @@ public class MovieCrudServiceImpl extends CustomCrudServiceImpl<MovieDto, Movie,
     @Override
     public void delete(@NonNull String s) { //TODO see base class
         super.rawDelete(s, Exceptions::throwNotExistWithContext);
+    }
+
+    public Optional<MovieDto> getByTitle(String title) {
+        return movieCrudRepository.findByTitle(title).map(mapper::entityToDto);
     }
 }
 

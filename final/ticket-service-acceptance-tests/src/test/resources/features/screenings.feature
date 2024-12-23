@@ -27,6 +27,7 @@ Feature: allows creating, deleting and listing screenings
     When the user types the "list screenings" command
     Then the next line of the output is "Sátántangó (drama, 450 minutes), screened in room Pedersoli, at 2021-03-15 10:45"
 
+  @cucumber-isolate
   @grade2-requirement
   Scenario: The admin can create overlapping screenings in different rooms
     Given the user types the "sign in privileged admin admin" command
@@ -36,6 +37,7 @@ Feature: allows creating, deleting and listing screenings
     Then the next line of the output is "Sátántangó (drama, 450 minutes), screened in room Pedersoli, at 2021-03-15 10:45"
     And the next line of the output is "Spirited Away (animation, 125 minutes), screened in room Girotti, at 2021-03-15 10:50"
 
+  @cucumber-isolate
   @grade2-requirement
   Scenario: The admin can not create screenings during a 10 minute long breaks after another screening in the same room
     Given the user types the "sign in privileged admin admin" command
@@ -45,6 +47,7 @@ Feature: allows creating, deleting and listing screenings
     When the user types the "list screenings" command
     Then the next line of the output is "Sátántangó (drama, 450 minutes), screened in room Pedersoli, at 2021-03-15 11:00"
 
+  @cucumber-isolate
   @grade2-requirement
   Scenario: The admin can create screenings even if there is a break after a screening in a different room
     Given the user types the "sign in privileged admin admin" command

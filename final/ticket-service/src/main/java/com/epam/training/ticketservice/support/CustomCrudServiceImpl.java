@@ -1,9 +1,7 @@
 package com.epam.training.ticketservice.support;
 
-import com.epam.training.ticketservice.lib.security.aspects.DefaultPrivileged;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintViolationHandler;
-import com.epam.training.ticketservice.support.jparepo.CustomJpaRepository;
 import com.epam.training.ticketservice.support.jparepo.UpdateByEntityFragment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,6 +10,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -33,24 +32,32 @@ public abstract class CustomCrudServiceImpl<T,U,ID,M extends CustomMapper<T,U,ID
 
     protected <Z> void useHandler(Supplier<ConstraintHandlerHolder<Z>> getHH, Z arg, Runnable r) {
         var handler = getHH.get();
-        new ConstraintViolationHandler(r).lazyHandlerRun(handler, arg);
+        (new ConstraintViolationHandler(r)).lazyHandlerRun(handler, arg);
     }
 
     //TODO move to security and inject?
     @Override
-    public void create(@NonNull T entityDto) {
+    public T create(@NonNull T entityDto) {
+        AtomicReference<T> result = new AtomicReference<>(); //TODO this is a hack to avoid refactoring a bunch of the constraint handler stuff to use a Supplier right now.
         useHandler(this::getCreateHandler, entityDto, () -> { //Not using simple try catch for this because hibernate makes it a pain to access the violation type? so im trying to clean up the business logic like this?
-            repo.save(mapper.dtoToEntity(entityDto));
+             result.set(mapper.entityToDto(
+                     repo.save(mapper.dtoToEntity(entityDto))
+             ));
         });
+        return result.get();
     }
 
     //TODO if not exist?
     //TODO default implementation is same as create...? / note! we use a modified hibernate context such that save doesnt update, only create
     @Override
     public void update(@NonNull T entityDto) {
+        //TODO hack
+        //AtomicReference<T> ref = new AtomicReference<>();
         useHandler(this::getUpdateHandler, entityDto, () -> {
-            repo.update(mapper.dtoToEntity(entityDto));
+            repo.update(mapper.dtoToEntity(entityDto)); //TODO this should maybe return a value but that seems to conflict with jpa interfaces?
+            //ref.set(mapper.entityToDto(repo.getReferenceById(entityDto.))); //TODO hack?
         });
+        //return ref.get();
     }
 
     //TODO arguably these should take the entire DTO so they can be passed to the handlers,

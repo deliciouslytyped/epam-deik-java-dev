@@ -1,0 +1,93 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.mockito",
+    "module": "mockito-errorprone",
+    "version": "3.6.55",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.4.1",
+      "buildId": "yfe7liwb2rf2ze6yezxhk6hosm"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.mockito",
+          "module": "mockito-core",
+          "version": {
+            "requires": "3.6.55"
+          }
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_core",
+          "version": {
+            "requires": "2.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-errorprone-3.6.55.jar",
+          "url": "mockito-errorprone-3.6.55.jar",
+          "size": 11565,
+          "sha512": "997ab9f886898954f776e813c54d96f225ce8b3efd6b6a7e10d660519af3bb31c256173bdf31462b78d10f2cd17500c9a77b7323fe9b5022cf9fdcb91d1440f5",
+          "sha256": "308ee0810c62c16742a2699e5ac016be2577436810b4c8cf3810556e72533f76",
+          "sha1": "be77b9d3991a85383d4efb7ed21b57774309b509",
+          "md5": "07cc2a2b1fe5ea2c7264b66f9ae94392"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.mockito",
+          "module": "mockito-core",
+          "version": {
+            "requires": "3.6.55"
+          }
+        },
+        {
+          "group": "com.google.errorprone",
+          "module": "error_prone_core",
+          "version": {
+            "requires": "2.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mockito-errorprone-3.6.55.jar",
+          "url": "mockito-errorprone-3.6.55.jar",
+          "size": 11565,
+          "sha512": "997ab9f886898954f776e813c54d96f225ce8b3efd6b6a7e10d660519af3bb31c256173bdf31462b78d10f2cd17500c9a77b7323fe9b5022cf9fdcb91d1440f5",
+          "sha256": "308ee0810c62c16742a2699e5ac016be2577436810b4c8cf3810556e72533f76",
+          "sha1": "be77b9d3991a85383d4efb7ed21b57774309b509",
+          "md5": "07cc2a2b1fe5ea2c7264b66f9ae94392"
+        }
+      ]
+    }
+  ]
+}

@@ -10,12 +10,14 @@ import io.cucumber.java.en.When;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
 public class GenericCliProcessStepDefs {
+    private static Boolean debugEnabled = Boolean.getBoolean("testExecutorDebug");
 
-    private static final int OUTPUT_TIMEOUT = 30000;
+    private static final int OUTPUT_TIMEOUT = debugEnabled ? 300000 : 30000; //TODO attaching and running via the debugger is excruciatingly slow for some reason
     private static final String jarFile = "../ticket-service-cli/target/ticket-service-cli-0.0.1-SNAPSHOT.jar";
 
     private ProcessUnderTest cliProcess;
@@ -31,7 +33,15 @@ public class GenericCliProcessStepDefs {
         }
 
         //TODO for debugging: -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000
-        var command = "java -jar -Dspring.profiles.active=ci " + jarFile;
+        String basePath = new File("../ticket-service/target").getAbsolutePath();
+        String dbPath = basePath + "/cinema-test-" + UUID.randomUUID();
+        var debugConfig = debugEnabled ? "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8899" : "";
+        var command = String.format("java" +
+                " --enable-preview" +
+                " -jar" +
+                " %s" +
+                " -Dspring.datasource.url=jdbc:h2:file:%s;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE -Dspring.profiles.active=ci,circular %s",
+                debugConfig, dbPath, jarFile);
         System.out.println("Starting command:" + command);
         cliProcess.run(command);
     }

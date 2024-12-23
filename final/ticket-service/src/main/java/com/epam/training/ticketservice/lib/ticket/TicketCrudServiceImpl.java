@@ -1,10 +1,6 @@
 package com.epam.training.ticketservice.lib.ticket;
 
-import com.epam.training.ticketservice.lib.reservation.ReservationCrudService;
 import com.epam.training.ticketservice.lib.reservation.ReservationCrudServiceImpl;
-import com.epam.training.ticketservice.lib.reservation.model.ReservationDto;
-import com.epam.training.ticketservice.lib.reservation.model.SeatDto;
-import com.epam.training.ticketservice.lib.screening.model.ScreeningDto;
 import com.epam.training.ticketservice.lib.ticket.model.TicketDto;
 import com.epam.training.ticketservice.lib.ticket.model.TicketMapper;
 import com.epam.training.ticketservice.lib.ticket.persistence.Ticket;
@@ -13,14 +9,15 @@ import com.epam.training.ticketservice.support.CustomCrudServiceImpl;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder;
 import com.epam.training.ticketservice.support.db.constraints.ConstraintViolationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.epam.training.ticketservice.support.db.constraints.ConstraintHandlerHolder.createConstraintHandler;
 
@@ -28,8 +25,10 @@ import static com.epam.training.ticketservice.support.db.constraints.ConstraintH
 public class TicketCrudServiceImpl extends CustomCrudServiceImpl<TicketDto, Ticket, Long, TicketMapper, TicketCrudRepository> implements TicketCrudService {
     @Autowired // circular dep
     protected ReservationCrudServiceImpl rs;
+    @Autowired
+    private TicketCrudRepository ticketCrudRepository;
 
-    public TicketCrudServiceImpl(TicketCrudRepository repo, TicketMapper mapper) {
+    public TicketCrudServiceImpl(@NonNull TicketCrudRepository repo, @NonNull TicketMapper mapper) {
         super(repo, mapper);
     }
 
@@ -85,4 +84,14 @@ public class TicketCrudServiceImpl extends CustomCrudServiceImpl<TicketDto, Tick
             fillReservation(ticketDto, mapper.dtoToEntity(ticketDto).getTicketId()); //TODO probably doing unnecessary work here
         }).toList();
     }
+
+    /*
+    //TODO this feels like a hack
+    @Transactional
+    public void setPrice(TicketDto t, Integer price) {
+        var e = repo.findById(t.getTicketId()).get();
+        e.setPaid(price);
+        repo.save(e);
+    }
+    */
 }

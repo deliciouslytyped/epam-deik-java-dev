@@ -22,6 +22,7 @@ spring:
         - integration-tests
         - h2db-dev # Spec says use in-memory db, so we use h2, but default to file-backed so we can inspect the database with tooling.
         - h2db-integration
+        - file-logging
         #- h2db-mem
         #- debug-sql
         #- parallel-tests # pointless, the test are a trivial amount of time to run. its bloody spring startup that takes 30 seconds to start
@@ -42,10 +43,13 @@ spring:
     # TODO have it log the URL to the console
     #TODO we override the builtin alias for time to mock time, there is probably a better way to do this
     #TODO/security note this leaks data into the product jar
-    url: jdbc:h2:file:@project.build.directory@/cinema;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
+    #TODO hack
+    #url: jdbc:h2:file:@project.build.directory@/cinema;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
+    url: jdbc:h2:file:D:/proj/epam-deik-java-dev/final/ticket-service/target/cinema;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
   jpa:
     hibernate.ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
+  #TODO cant get login to work?
   h2.console.enabled: true
 ---
 spring:
@@ -68,7 +72,9 @@ spring:
   #Try to make tests a little more robust to accidentally leaving the database on the file path running somewhere
   # by putting it on a different path
   datasource:
-    url: jdbc:h2:file:@project.build.directory@/cinema-test;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
+    # TODO HACK
+    #url: jdbc:h2:file:@project.build.directory@/cinema-test;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
+    url: jdbc:h2:file:D:/proj/epam-deik-java-dev/final/ticket-service/target/cinema-test;AUTO_SERVER=TRUE;BUILTIN_ALIAS_OVERRIDE=TRUE
 ---
 spring:
   config.activate.on-profile: verbose-max
@@ -77,9 +83,27 @@ logging.level.sun.rmi.loader: INFO
 logging.level.sun.rmi.transport.tcp: INFO
 logging.level.javax.management.remote.rmi: INFO
 ---
+# we need to log somewhere other than stdout so that the acceptance tests executor can process the appropriate stdout output
+spring:
+  config.activate.on-profile: file-logging
+logging:
+  file.name: target/acc-test.log
+  pattern.console: ""
+---
 spring:
   config.activate.on-profile: verbose-trace # so loud
 logging.level.root: DEBUG
+---
+spring:
+  config.activate.on-profile: debug-transaction
+logging:
+  level: #TODO according to sonnet anyway
+    org.h2.engine.Session: DEBUG
+    org.springframework.transaction: TRACE
+
+    org.springframework.orm.jpa: TRACE
+    org.hibernate.engine.transaction: TRACE
+    org.hibernate.event.internal: TRACE
 ---
 spring:
   config.activate.on-profile: debug-sql

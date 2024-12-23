@@ -72,7 +72,10 @@ public class ReservationCrudServiceImpl extends CustomCrudServiceImpl<Reservatio
     protected ConstraintHandlerHolder<ReservationDto> getCreateHandler() {
         return createConstraintHandler(
                 Map.of(ConstraintViolationHandler.ConstraintType.PRIMARY_KEY, Exceptions::throwAlreadyExists),
-                null);
+                //NOTE: `"PUBLIC.NO_SEAT_COLLISION_INDEX_2 ON PUBLIC.RESERVATION(ROW_IDX NULLS FIRST, COL_IDX NULLS FIRST, SCREENING_SCREENING_ID NULLS FIRST) VALUES ( /* key:2 */ 5, 5, CAST(7 AS BIGINT))"; SQL statement:
+                //  insert into reservation (booking_ticket_id, screening_screening_id, col_idx, row_idx) values (?, ?, ?, ?) [23505-214]`
+                Map.of("PUBLIC.NO_SEAT_COLLISION", Exceptions::throwSeatReserved)
+                ); //TODO this is implementation dependent
     }
 
     @Override
@@ -93,8 +96,9 @@ public class ReservationCrudServiceImpl extends CustomCrudServiceImpl<Reservatio
         return repo.findByReservationFor_Booking_TicketId(ticketId).stream().map(reservationMapper::entityToDto).collect(Collectors.toList());
     }
 
-    public void addSeat(@NonNull TicketDto t, @NonNull ScreeningDto s, int row, int col){
-        create(new ReservationDto(t.getTicketId(), s, new SeatDto(row, col)));
+    public ReservationDto  addSeat(@NonNull TicketDto t, @NonNull ScreeningDto s, int row, int col){
+        return create(new ReservationDto(t.getTicketId(), s, new SeatDto(row, col)));
+
     }
 
 }

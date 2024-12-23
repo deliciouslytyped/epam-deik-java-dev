@@ -1,0 +1,93 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.mockito",
+    "module": "mockito-bom",
+    "version": "3.6.28",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.4.1",
+      "buildId": "rppnpyjr5vaqvg75ig5avj6rsy"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "platform",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencyConstraints": [
+        {
+          "group": "org.mockito",
+          "module": "mockito-android",
+          "version": {
+            "requires": "3.6.28"
+          }
+        },
+        {
+          "group": "org.mockito",
+          "module": "mockito-errorprone",
+          "version": {
+            "requires": "3.6.28"
+          }
+        },
+        {
+          "group": "org.mockito",
+          "module": "mockito-inline",
+          "version": {
+            "requires": "3.6.28"
+          }
+        },
+        {
+          "group": "org.mockito",
+          "module": "mockito-junit-jupiter",
+          "version": {
+            "requires": "3.6.28"
+          }
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "platform",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencyConstraints": [
+        {
+          "group": "org.mockito",
+          "module": "mockito-android",
+          "version": {
+            "requires": "3.6.28"
+          }
+        },
+        {
+          "group": "org.mockito",
+          "module": "mockito-errorprone",
+          "version": {
+            "requires": "3.6.28"
+          }
+        },
+        {
+          "group": "org.mockito",
+          "module": "mockito-inline",
+          "version": {
+            "requires": "3.6.28"
+          }
+        },
+        {
+          "group": "org.mockito",
+          "module": "mockito-junit-jupiter",
+          "version": {
+            "requires": "3.6.28"
+          }
+        }
+      ]
+    }
+  ]
+}

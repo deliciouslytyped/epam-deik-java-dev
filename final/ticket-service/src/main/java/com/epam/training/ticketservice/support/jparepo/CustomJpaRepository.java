@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import java.util.*;
 import java.util.stream.Collectors;
+
+//TODO https://stackoverflow.com/questions/69885782/spring-opens-a-new-transaction-for-each-jparepository-method-that-is-called-with
 
 // Lacking a more thorough implementation, we override individual methods we use to expose db constraint violations to reduce unnecessary db calls for initial lookup, etc (should we just be using raw-er db access at that point?)
 //TODO replace the injection stuff here with a custom repositoryfactorybean class? https://stackoverflow.com/questions/45462613/how-to-inject-configuration-in-a-custom-spring-data-jpa-repository
@@ -41,10 +44,16 @@ public class CustomJpaRepository<T,ID> extends SimpleJpaRepository<T,ID> {
     // (So don't do this in a larger application.)
     //  ... except we dont do it for delete because hibernate seems to do a bunch of object management work, making it ineffective to override, and doesnt propagate the db exception afaict?
     @Override
-    @Transactional //Is this needed given that the parent has it? presumably yes
+    @Transactional(propagation = Propagation.REQUIRED) //TODO HACK? //Is this needed given that the parent has it? presumably yes
     public <S extends T> S save(S entity) {
-        this.em.persist(entity);
+        this.em.persist(entity); //TODO why did I do this
         this.em.flush(); //TODO does this need to be here?
+        return entity;
+    }
+
+    public <S extends T> S merge(S entity) {
+        this.em.merge(entity);
+        this.em.flush();
         return entity;
     }
 
@@ -177,4 +186,6 @@ public class CustomJpaRepository<T,ID> extends SimpleJpaRepository<T,ID> {
                 .toPhysicalColumnName(new Identifier(name, false), null)
                 .getCanonicalName(); //Probably the wrong method but close enough
     }
+
+
 }

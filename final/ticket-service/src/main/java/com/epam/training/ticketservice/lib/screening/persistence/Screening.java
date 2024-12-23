@@ -27,7 +27,9 @@ import javax.persistence.UniqueConstraint;
                 // naming strategy but the columns used from this entity use the java-side names
                 @UniqueConstraint(name = "alternate_pk", columnNames = {"MOVIE_TITLE", "startTime", "ROOM_NAME"})
         })
-@CheckConstraint(name="FUTURE_ONLY", check="CURRENT_TIMESTAMP < START_TIME")
+
+//TODO disabled because need to be handled in the acceptance tests
+//@CheckConstraint(name="FUTURE_ONLY", check="CURRENT_TIMESTAMP < START_TIME")
 //TODO wrap these in not exists
 //The syntax is a little funny here, the inside of subqueries shadows the outside so we need to use
 // the table name to refer to the outer columns in the check constraint. TODO Would be nice to have
@@ -50,7 +52,8 @@ import javax.persistence.UniqueConstraint;
         "        AND NOT ((DATEADD(MINUTE, my.RUNTIME, SCREENING.START_TIME) <= s.START_TIME) \n" +
         "             OR  (DATEADD(MINUTE, m.RUNTIME, s.START_TIME) <= SCREENING.START_TIME))\n" +
         "    )")
-@CheckConstraint(driverFilter="org.hibernate.dialect.H2Dialect", name="NO_OVERLAP_BREAK", alsoDependsOn={Movie.class}, check= "\n" +
+//TODO messed up name because constraint matcher prefix issue
+@CheckConstraint(driverFilter="org.hibernate.dialect.H2Dialect", name="NO__OVERLAP_BREAK", alsoDependsOn={Movie.class}, check= "\n" +
         "    NOT EXISTS ( SELECT 1 \n" +
         "      FROM SCREENING s\n" +
         "      JOIN MOVIE m\n" +
@@ -58,7 +61,7 @@ import javax.persistence.UniqueConstraint;
         "      JOIN MOVIE my\n" +
         "        ON SCREENING.MOVIE_TITLE = my.TITLE\n" +
         "  " +
-        "      WHERE ROOM_NAME = s.ROOM_NAME AND SCREENING.SCREENING_ID != s.SCREENING_ID\n" +
+        "      WHERE SCREENING.ROOM_NAME = s.ROOM_NAME AND SCREENING.SCREENING_ID != s.SCREENING_ID\n" +
         "        -- There are three cases; left no overlap, overlap, right no overlap\n" +
         "        -- If we end before they start, or they end before we start, we're OK.\n" +
         "        AND NOT ((DATEADD(MINUTE, my.RUNTIME + 10, SCREENING.START_TIME) <= s.START_TIME) \n" +

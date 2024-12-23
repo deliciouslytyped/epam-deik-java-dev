@@ -6,4 +6,16 @@ mvn install doesnt obey it.
 -->
 <settings>
     <localRepository>.m2/repository</localRepository>
+    <profiles>
+        <profile>
+            <id>custom-repo</id>
+            <properties>
+                <projectroot>${env.MY_PROJECT_ROOT}</projectroot>
+            </properties>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>custom-repo</activeProfile>
+    </activeProfiles>
 </settings>

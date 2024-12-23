@@ -14,7 +14,7 @@ public class TicketDto {
     private final Long ticketId;
     private final Integer paid;
     private final ScreeningDto screening;
-    private List<ReservationDto> reservations; // null if created in the presentation layer, initialized if enity from service layer
+    private List<ReservationDto> reservations; // null if created in the presentation layer, initialized if enity from service layer //TODO ugh?
 }
 
 

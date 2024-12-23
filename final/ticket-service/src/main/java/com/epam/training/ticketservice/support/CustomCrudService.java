@@ -23,7 +23,7 @@ import java.util.Optional;
 @DefaultPrivileged
 public interface CustomCrudService<T,ID,M extends CustomMapper> {
     M getMapper(); //TODO should I really have this in here? Needed it for the presentation layer to create dtos, but it pollutes the type signature.
-    void create(T entityDto);
+    T create(T entityDto);
     Optional<T> get(ID id);
     //TODO does this interface force PITA behavior? are there any better alternatives?
     void update(T entityDto);
